@@ -1,29 +1,61 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 
 const Formulario = () => {
     return(
-        <Form>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
-  
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+     <Form >
+        <div className='App'>
+          <h3>Datos Personales</h3>
+        </div>
+        <Row>
+          <Form.Group className='mb-2' >
+            <Form.Label className='padding-left'>Cedula de Identidad</Form.Label> 
+            <Form.Control/>
+          </Form.Group>
+          <Form.Group className='mb-2'>
+            <Form.Label>Nombres y Apellidos</Form.Label> 
+            <Form.Control  />
+          </Form.Group>
+          <Form.Group className='mb-2'>
+            <Form.Label>Barrio</Form.Label> 
+            <Form.Control  />
+          </Form.Group>
+          <Form.Group className='mb-2'>
+            <Form.Label>Direccion</Form.Label> 
+            <Form.Control  />
+          </Form.Group>
+          <Form.Group className='mb-2'>
+            <Form.Label>Estado Civil</Form.Label> 
+            <Form.Control  />
+          </Form.Group>
+          <Form.Group className='mb-2'>
+            <Form.Label>Sexo</Form.Label> 
+            <Form.Control  />
+          </Form.Group>
+          <Form.Group className='mb-2'>
+            <Form.Label>Fecha Nacimiento</Form.Label> 
+            <Form.Control  />
+          </Form.Group>
+          <Form.Group className='mb-2'>
+            <Form.Label>Telefono</Form.Label> 
+            <Form.Control  />
+          </Form.Group>
+          <Form.Group className='mb-2'>
+            <Form.Label>Correo</Form.Label>
+            <Form.Control type="email"  />
+          </Form.Group>
+          <Form.Group className='mb-2'>
+            <Form.Label>Observacion</Form.Label> 
+            <Form.Control
+              as="textarea"
+              style={{ height: '100px' }}
+            />
+          </Form.Group>
+        </Row>
       </Form>
         
     )
