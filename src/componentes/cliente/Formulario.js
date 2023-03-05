@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react'
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 
 const Formulario = () => {
@@ -13,7 +11,7 @@ const Formulario = () => {
         </div>
         <Row>
           <Form.Group className='mb-2' >
-            <Form.Label className='padding-left'>Cedula de Identidad</Form.Label> 
+            <Form.Label className='padding-left'>Documento</Form.Label> 
             <Form.Control/>
           </Form.Group>
           <Form.Group className='mb-2'>
