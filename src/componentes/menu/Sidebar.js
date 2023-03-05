@@ -13,7 +13,7 @@ import { CgFileDocument, CgUserList, CgCreditCard, CgCalendarDates, CgReadme, Cg
 
 const Sidebar = () => {
     return (
-        <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' , position: "absolute"}}>
+        <div style={{ display: 'flex', overflow: 'scroll initial'}}>
           <CDBSidebar textColor="#fff" backgroundColor="#154360">
             <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
             <em className="text-decoration-none" style={{ color: 'inherit' }}>Sistema de Gestión</em>
@@ -23,7 +23,7 @@ const Sidebar = () => {
                 <NavLink exact to="/" activeClassName="activeClicked">
                   <CDBSidebarMenuItem><CgFileDocument className='m-2 item'/>Documentos</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="/clientes" activeClassName="activeClicked">
+                <NavLink exact to="/home/clientes" activeClassName="activeClicked">
                   <CDBSidebarMenuItem ><CgUserList className='m-2 item'/>Cliente</CDBSidebarMenuItem>
                 </NavLink>
                 <NavLink exact to="/profile" activeClassName="activeClicked">
