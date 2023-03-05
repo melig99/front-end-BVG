@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react'
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
+import {Form,Row} from 'react-bootstrap';
 
 
-const Formulario = () => {
+export const Formulario = () => {
     return(
      <Form >
         <div className='App'>
@@ -59,4 +58,4 @@ const Formulario = () => {
     )
 }
 
-export default Formulario
+

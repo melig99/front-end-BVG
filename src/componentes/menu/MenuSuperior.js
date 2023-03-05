@@ -5,21 +5,23 @@ import Navbar from 'react-bootstrap/Navbar';
 
 const  MenuSuperior = () => {
   return (
-    <Navbar bg="dark" variant="dark">
-      <Container>
-        <Navbar.Brand href="#home">
-          {/* <img 
-            alt=""
-            src="/log.svg"
-            width="30"
-            height="30"
-            className="d-inline-block align-top"
-          />{' '}*/}
-          <abbr><strong>B-VG </strong></abbr>
-          <em>Book of Valdez Gimenez</em> 
-        </Navbar.Brand>
-      </Container>
-    </Navbar>
+    <div style={{position: "absolute", width: "100%", backgroundColor: "#154360"}}>
+      <Navbar >
+        <Container>
+          <Navbar.Brand href="#home">
+            {/* <img 
+              alt=""
+              src="/log.svg"
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+            />{' '}*/}
+
+          </Navbar.Brand>
+        </Container>
+      </Navbar>
+
+    </div>
   );
 }
 

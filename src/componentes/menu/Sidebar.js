@@ -6,48 +6,48 @@ import {
   CDBSidebarHeader,
   CDBSidebarMenu,
   CDBSidebarMenuItem,
+  CDBIcon,
 } from 'cdbreact';
 import { NavLink } from 'react-router-dom';
-
+import { CgFileDocument, CgUserList, CgCreditCard, CgCalendarDates, CgReadme, CgLock } from "react-icons/cg";
 
 const Sidebar = () => {
     return (
-        <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}>
-          <CDBSidebar textColor="#fff" backgroundColor="#333">
+        <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' , position: "absolute"}}>
+          <CDBSidebar textColor="#fff" backgroundColor="#154360">
             <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
-              <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
-                Sidebar
-              </a>
+            <em className="text-decoration-none" style={{ color: 'inherit' }}>Sistema de Gestión</em>
             </CDBSidebarHeader>
-    
             <CDBSidebarContent className="sidebar-content">
               <CDBSidebarMenu>
                 <NavLink exact to="/" activeClassName="activeClicked">
-                  <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
+                  <CDBSidebarMenuItem><CgFileDocument className='m-2 item'/>Documentos</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="/tables" activeClassName="activeClicked">
-                  <CDBSidebarMenuItem icon="table">Tables</CDBSidebarMenuItem>
+                <NavLink exact to="/clientes" activeClassName="activeClicked">
+                  <CDBSidebarMenuItem ><CgUserList className='m-2 item'/>Cliente</CDBSidebarMenuItem>
                 </NavLink>
                 <NavLink exact to="/profile" activeClassName="activeClicked">
-                  <CDBSidebarMenuItem icon="user">Profile page</CDBSidebarMenuItem>
+                  <CDBSidebarMenuItem ><CgCreditCard className='m-2 item'/>Credito</CDBSidebarMenuItem>
                 </NavLink>
                 <NavLink exact to="/analytics" activeClassName="activeClicked">
-                  <CDBSidebarMenuItem icon="chart-line">Analytics</CDBSidebarMenuItem>
+                  <CDBSidebarMenuItem ><CgCalendarDates className='m-2 item'/>Caja</CDBSidebarMenuItem>
                 </NavLink>
-    
                 <NavLink exact to="/hero404" target="_blank" activeClassName="activeClicked">
-                  <CDBSidebarMenuItem icon="exclamation-circle">404 page</CDBSidebarMenuItem>
+                  <CDBSidebarMenuItem ><CgReadme className='m-2 item' />Reportes</CDBSidebarMenuItem>
+                </NavLink>
+                <NavLink exact to="/hero404" target="_blank" activeClassName="activeClicked">
+                  <CDBSidebarMenuItem ><CgLock className='m-2 item'/>Seguridad</CDBSidebarMenuItem>
                 </NavLink>
               </CDBSidebarMenu>
             </CDBSidebarContent>
-    
             <CDBSidebarFooter style={{ textAlign: 'center' }}>
               <div
                 style={{
                   padding: '20px 5px',
                 }}
               >
-                Sidebar Footer
+              <em>Book of Valdez Gimenez</em> 
+              <p><abbr><strong>B-VG</strong></abbr></p>
               </div>
             </CDBSidebarFooter>
           </CDBSidebar>
