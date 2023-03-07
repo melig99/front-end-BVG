@@ -78,7 +78,7 @@ export const Panel = () => {
             </Container>
             <Modal show={estadoForm}  animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
             <Modal.Header closeButton>
-            <Modal.Title>Cliente </Modal.Title>
+            {/* <Modal.Title>Cliente </Modal.Title> */}
             </Modal.Header>
             <Modal.Body>
             <FormCliente almacenDatos = {guardarDatos}/>
