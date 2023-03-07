@@ -16,7 +16,7 @@ root.render(
     <Routes>
       <Route path='/' element={<App/>}>
         <Route index element={<Login />} />
-        <Route  path='Login' element={<Login/>} />
+        <Route  path='login' element={<Login/>} />
         <Route  path='home' element={<Home/>} >
           <Route index element={<Principal />} />
           <Route  path='clientes' element={<PanelCliente/>} />
