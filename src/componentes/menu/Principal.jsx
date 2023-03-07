@@ -6,7 +6,7 @@ const Principal = () => {
             <div className='Container '>
                 <h1>PROYECTO II</h1>
                 <br/>
-                <h2>Trabajo Practico de Fidelizacion de Clientes</h2>
+                <h2>Trabajo Final de Grado (TFG)</h2>
                 <section>
                     <hr/>
                     <h3>Desarrollado por: </h3>
