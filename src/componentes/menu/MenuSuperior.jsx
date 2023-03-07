@@ -49,7 +49,7 @@ const  MenuSuperior = () => {
                 <Dropdown.Divider />
                 <Dropdown.Item style={{ color: "#154360", textDecoration: "none"}} href="/home"><CgKey className='m-1 item' />Configuracion</Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item style={{ color: "#154360", textDecoration: "none"}} href="/home"><CgLogOff className='m-1 item'/>Salir</Dropdown.Item>
+                <Dropdown.Item style={{ color: "#154360", textDecoration: "none"}} href="/login"><CgLogOff className='m-1 item'/>Salir</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Nav>
