@@ -8,6 +8,7 @@ import Home from './componentes/menu/Home'
 import Login from './componentes/menu/Login'
 import Principal from './componentes/menu/Principal'
 import {Formulario as Cliente}  from './componentes/cliente/Formulario'
+import {Panel as PanelCliente}  from './componentes/cliente/Panel'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,7 +19,7 @@ root.render(
         <Route  path='Login' element={<Login/>} />
         <Route  path='home' element={<Home/>} >
           <Route index element={<Principal />} />
-          <Route  path='clientes' element={<Cliente/>} />
+          <Route  path='clientes' element={<PanelCliente/>} />
         </Route>
       </Route>
     </Routes>

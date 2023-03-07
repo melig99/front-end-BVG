@@ -8,12 +8,12 @@ const Home = () => {
     return (
         <>
             <Container fluid={true} className="d-flex p-0 m-0">
-                <Sidebar/>  
-                <Container fluid={true}>
+                <Sidebar/>
+                <Container fluid={true} style={{height:"100vh"}}>
                     <Row>
-                        <MenuSuperior/> 
+                        <MenuSuperior/>
                     </Row>
-                    <Row >
+                    <Row style={{overflow:"auto",height:"93%"}}>
                         <Outlet/>
                     </Row>
                 </Container>
