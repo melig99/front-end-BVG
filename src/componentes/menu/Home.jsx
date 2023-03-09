@@ -13,7 +13,7 @@ const Home = () => {
                     <Row>
                         <MenuSuperior/>
                     </Row>
-                    <Row style={{overflow:"auto",height:"93%"}}>
+                    <Row style={{overflow:"auto",height:"93%", paddingTop: "10px", paddingLeft: "10px", paddingRight: "10px"}} >
                         <Outlet/>
                     </Row>
                 </Container>
