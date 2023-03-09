@@ -23,7 +23,7 @@ const Sidebar = () => {
                 <NavLink exact to="/" activeClassName="activeClicked">
                   <CDBSidebarMenuItem><CgFileDocument className='m-2 item'/>Documentos</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="/home/clientes" activeClassName="activeClicked">
+                <NavLink exact to="/home/menu" activeClassName="activeClicked">
                   <CDBSidebarMenuItem ><CgUserList className='m-2 item'/>Cliente</CDBSidebarMenuItem>
                 </NavLink>
                 <NavLink exact to="/profile" activeClassName="activeClicked">
