@@ -40,7 +40,7 @@ export const Panel = () => {
 
     }
     useEffect(()=>{
-        obtenerPanel("listar/cliente",setDatos)
+        obtenerPanel("api/cliente",setDatos)
     },[]);
 
     return (
@@ -76,17 +76,17 @@ export const Panel = () => {
                 </Row>
 
             </Container>
-            <Modal show={estadoForm}  animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
-            <Modal.Header closeButton>
-            {/* <Modal.Title>Cliente </Modal.Title> */}
-            </Modal.Header>
-            <Modal.Body>
-            <FormCliente almacenDatos = {guardarDatos}/>
-            </Modal.Body>
-            <Modal.Footer>
-            <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-            <Button variant="success" onClick={()=>{enviarForm();setEstadoForm(!estadoForm)}} >Guardar</Button>
-            </Modal.Footer>
+            <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
+                <Modal.Header closeButton>
+                {/* <Modal.Title>Cliente </Modal.Title> */}
+                </Modal.Header>
+                <Modal.Body>
+                    <FormCliente almacenDatos = {guardarDatos}/>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
+                    <Button variant="success" onClick={()=>{enviarForm();setEstadoForm(!estadoForm)}} >Guardar</Button>
+                </Modal.Footer>
             </Modal>
 
         </>

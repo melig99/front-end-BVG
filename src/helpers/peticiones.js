@@ -1,10 +1,12 @@
 import React,{useEffect,useState} from 'react'
+import env from "react-dotenv";
 
 const Peticiones = () => {
+  console.log(process.env)
   //DATOS A UTILIZAR EN EL OBJETO CARDS
     const [imagenes,setImagenes] = useState([])
     const [buscador,setBuscador] = useState("")
-    const base = "http://localhost:8000/"
+    const base = process.env.REACT_APP_URL_BACKEND_BASE // "http://localhost:8000/"
     // const [carga,setCarga] = useState(true)
     //FUNCIONES A UTILIZAR
     const obtenerPanel = async (modulo,setState,pagina=0,buscar="",filtros=[]) =>{

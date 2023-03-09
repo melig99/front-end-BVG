@@ -7,9 +7,9 @@ const  Fila = (prop) => {
         <tr>
             <td>{dato.nombre}</td>
             <td>{dato.apellido}</td>
-            <td>{dato.nro_doc}</td>
-            <td>{dato.telefono}</td>
-            <td>{dato.nacionalidad}</td>
+            <td>{dato.documento}</td>
+            <td>{dato.correo}</td>
+            <td>{dato.f_nacimiento}</td>
             { (prop.eliminar && <td><button onClick={()=>{eliminar(dato.id)}} style={{backgroundColor: "red", border: "solid 1px white"}}><i className="bi bi-trash" style={{color: "white"}}></i></button></td>) }
         </tr>
 
