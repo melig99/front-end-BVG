@@ -1,18 +1,18 @@
-import React,{useEffect,useState} from 'react'
-import env from "react-dotenv";
+// import useState from 'react'
+// import env from "react-dotenv";
 
 const Peticiones = () => {
   console.log(process.env)
   //DATOS A UTILIZAR EN EL OBJETO CARDS
-    const [imagenes,setImagenes] = useState([])
-    const [buscador,setBuscador] = useState("")
+    // const [imagenes,setImagenes] = useState([])
+    // const [buscador,setBuscador] = useState("")
     const base = process.env.REACT_APP_URL_BACKEND_BASE // "http://localhost:8000/"
     // const [carga,setCarga] = useState(true)
     //FUNCIONES A UTILIZAR
     const obtenerPanel = async (modulo,setState,pagina=0,buscar="",filtros=[]) =>{
         // setCarga(true)
         // IDEA: Cambiar por constante de ambiente
-        const url = base + modulo + "/"+pagina+"/"+((buscar!="")?buscar : "")
+        const url = base + modulo + "/"+pagina+"/"+((buscar!=="")?buscar : "")
         const temp = await fetch(url)
         const data = await temp.json();
         console.log(url,"testting");
@@ -65,8 +65,9 @@ const Peticiones = () => {
             "body": form
             }
         });
-        const res = await fetch(url)
-        const data = await res.json();
+        const data = await temp.json();
+        console.log(data);
+        return data;
 
     }
 

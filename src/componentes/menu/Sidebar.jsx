@@ -6,7 +6,6 @@ import {
   CDBSidebarHeader,
   CDBSidebarMenu,
   CDBSidebarMenuItem,
-  CDBIcon,
 } from 'cdbreact';
 import { NavLink } from 'react-router-dom';
 import { CgFileDocument, CgUserList, CgCreditCard, CgCalendarDates, CgReadme, CgLock } from "react-icons/cg";
@@ -46,7 +45,7 @@ const Sidebar = () => {
                   padding: '20px 5px',
                 }}
               >
-              <em>Book of Valdez Gimenez</em> 
+              <em>Book of Valdez Gimenez</em>
               <p><abbr><strong>B-VG</strong></abbr></p>
               </div>
             </CDBSidebarFooter>

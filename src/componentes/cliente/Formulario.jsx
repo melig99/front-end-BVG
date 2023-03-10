@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {Form,Row, Col} from 'react-bootstrap';
 
 
 export const Formulario = () => {
-  const [value, onChange] = useState(new Date());
+
 
   return(
     <Form >

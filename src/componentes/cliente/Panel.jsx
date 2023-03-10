@@ -8,7 +8,7 @@ export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
     const [datosForm,setDatosForm] = useState({});
-    const [obtenerPanel,guardarNuevoJson,obtenerUnicoRegistro,eliminarRegistro,endpointLibre] = Peticiones();
+    const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
 
     const eliminarFila = async (id)=>{
         let temp = await eliminarRegistro('eliminar/cliente',id)
@@ -29,7 +29,6 @@ export const Panel = () => {
             'mail':datosForm.mail,
             'nro_doc':datosForm.nro_doc,
             'telefono':datosForm.telefono,
-            'fecha_nacimiento':datosForm.nombre,
             'id_tipo_doc':datosForm.tipo_doc,
             'id_nacionalidad':datosForm.nacionalidad,
             'fecha_nacimiento':datosForm.f_nac,
