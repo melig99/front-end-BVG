@@ -45,5 +45,8 @@
     "whitelist": [
       "API_URL"
     ]
+  },
+  "devDependencies": {
+    "focus-trap-react": "^7.0.1"
   }
 }

@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react'
+import { useState} from 'react'
 import { Form, Button, Card, Container } from 'react-bootstrap'
 import { Navigate  } from "react-router-dom";
 
@@ -29,7 +29,7 @@ const Login = () => {
                                 <Form.Control type="password" placeholder="Password" />
                             </Form.Group>
                             <br/>
-                            <Form.Group className="d-flex" > 
+                            <Form.Group className="d-flex" >
                                 <Button onClick={()=>cambiarUsuarioValido(true)} className="w-100" type="button" style={{backgroundColor: "#01569a",borderColor: "#01569a"}}> Iniciar</Button>
                                 {usuarioValido && (
                                     <Navigate to="/home" replace={true} />
