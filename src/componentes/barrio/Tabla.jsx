@@ -6,7 +6,7 @@ import Table from 'react-bootstrap/Table';
 const  Tabla = ({datos,eliminar}) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
-    const cabecera=["Barrio"];
+    const cabecera=["Barrio",""];
     console.log(datos)
   return (
     <>

@@ -23,7 +23,7 @@ const Menu = () => {
             {
                 "titulo":"Barrio", // TITULO DE TARJETA
                 "imagen":"4.jpeg", //URL
-                "direccion":"test3"
+                "direccion":"barrios"
             },
         ]
     }

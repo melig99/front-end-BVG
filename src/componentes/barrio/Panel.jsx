@@ -5,8 +5,43 @@ import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
 
 export const Panel = () => {
+    const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
+    const [datosForm,setDatosForm] = useState({});
+    const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
 
+
+    const eliminarFila = async (id)=>{
+        let temp = await eliminarRegistro('eliminar/cliente',id)
+        console.log(temp)
+    }
+
+    const guardarDatos=(objeto)=>{
+        let temp = {...datosForm};
+        temp[objeto.target.id]=objeto.target.value;
+        setDatosForm(temp);
+
+    }
+    const enviarForm = ()=>{
+        console.log(guardarNuevoJson)
+        const form = {
+            'nombre':datosForm.nombre,
+            'apellido':datosForm.apellido,
+            'mail':datosForm.mail,
+            'nro_doc':datosForm.nro_doc,
+            'telefono':datosForm.telefono,
+            'id_tipo_doc':datosForm.tipo_doc,
+            'id_nacionalidad':datosForm.nacionalidad,
+            'fecha_nacimiento':datosForm.f_nac,
+        }
+        console.log(form);
+        guardarNuevoJson('nuevo/barrio',form)
+        setEstadoForm(false)
+
+    }
+    useEffect(()=>{
+        obtenerPanel("api/barrio",setDatos)
+    },[]);
     return (
         <>
             <Container>
@@ -33,7 +68,7 @@ export const Panel = () => {
                     <Container fluid={true}>
                         <Row>
                             <br/>
-                            <Tabla />
+                            <Tabla datos={datos}  eliminar = {eliminarFila}/>
                         </Row>
 
                     </Container>
