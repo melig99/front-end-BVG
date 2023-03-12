@@ -19,22 +19,22 @@ const Sidebar = () => {
             </CDBSidebarHeader>
             <CDBSidebarContent className="sidebar-content">
               <CDBSidebarMenu>
-                <NavLink exact to="/" activeClassName="activeClicked">
+                <NavLink to="/" activeClassName="activeClicked">
                   <CDBSidebarMenuItem><CgFileDocument className='m-2 item'/>Documentos</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="/home/menu" activeClassName="activeClicked">
+                <NavLink to="/home/menu" activeClassName="activeClicked">
                   <CDBSidebarMenuItem ><CgUserList className='m-2 item'/>Cliente</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="/profile" activeClassName="activeClicked">
+                <NavLink to="/profile" activeClassName="activeClicked">
                   <CDBSidebarMenuItem ><CgCreditCard className='m-2 item'/>Credito</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="/analytics" activeClassName="activeClicked">
+                <NavLink to="/analytics" activeClassName="activeClicked">
                   <CDBSidebarMenuItem ><CgCalendarDates className='m-2 item'/>Caja</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="/hero404" target="_blank" activeClassName="activeClicked">
+                <NavLink to="/hero404" target="_blank" activeClassName="activeClicked">
                   <CDBSidebarMenuItem ><CgReadme className='m-2 item' />Reportes</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink exact to="/hero404" target="_blank" activeClassName="activeClicked">
+                <NavLink to="/hero404" target="_blank" activeClassName="activeClicked">
                   <CDBSidebarMenuItem ><CgLock className='m-2 item'/>Seguridad</CDBSidebarMenuItem>
                 </NavLink>
               </CDBSidebarMenu>
