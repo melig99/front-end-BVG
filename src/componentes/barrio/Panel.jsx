@@ -12,7 +12,7 @@ export const Panel = () => {
 
 
     const eliminarFila = async (id)=>{
-        let temp = await eliminarRegistro('eliminar/cliente',id)
+        let temp = await eliminarRegistro('api/barrio',id)
         console.log(temp)
     }
 
@@ -26,16 +26,10 @@ export const Panel = () => {
         console.log(guardarNuevoJson)
         const form = {
             'nombre':datosForm.nombre,
-            'apellido':datosForm.apellido,
-            'mail':datosForm.mail,
-            'nro_doc':datosForm.nro_doc,
-            'telefono':datosForm.telefono,
-            'id_tipo_doc':datosForm.tipo_doc,
-            'id_nacionalidad':datosForm.nacionalidad,
-            'fecha_nacimiento':datosForm.f_nac,
+            'observacion':datosForm.observacion,
         }
         console.log(form);
-        guardarNuevoJson('nuevo/barrio',form)
+        guardarNuevoJson('api/barrio',form)
         setEstadoForm(false)
 
     }
@@ -84,7 +78,7 @@ export const Panel = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-                    <Button variant="success"  >Guardar</Button>
+                    <Button variant="success" onClick={()=>{enviarForm();setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
 
