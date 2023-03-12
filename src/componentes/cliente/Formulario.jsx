@@ -7,9 +7,6 @@ export const Formulario = () => {
 
   return(
     <Form >
-      <div className='App'>
-        <h3>Datos Personales</h3>
-      </div>
       <Row className="g-2">
         <Col md>
         <Form.Group className='mb-2'>

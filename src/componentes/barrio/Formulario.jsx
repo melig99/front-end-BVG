@@ -7,9 +7,6 @@ export const Formulario = () => {
 
   return(
     <Form >
-      <div className='App'>
-        <h3>Datos Barriales</h3>
-      </div>
       <Row className="g-2">
         <Form.Group className='mb-2'>
           <Form.Label>Barrio</Form.Label>
