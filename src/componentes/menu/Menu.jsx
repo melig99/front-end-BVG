@@ -1,31 +1,51 @@
-import React, { useState }  from 'react'
+import React, { useState, useEffect }  from 'react'
 import Card from 'react-bootstrap/Card'
 import {Col,Container,Row} from 'react-bootstrap';
+import OpcionMenu from './OpcionMenu'
 
 
 const Menu = () => {
-    // const [datos,setDatos] = useState({"datos":[]});
+    //CONSTANTE PARA MENU DE CLIENTES
+    let tempCliente = {
+        "cod":"00",
+        "msg":"aprobado",
+        "datos":[
+            {
+                "titulo":"Clientes", // TITULO DE TARJETA
+                "imagen":"4.jpeg", //URL
+                "direccion":"clientes"
+            },
+            {
+                "titulo":"Perfil Cliente", // TITULO DE TARJETA
+                "imagen":"4.jpeg", //URL
+                "direccion":"test2"
+            },
+            {
+                "titulo":"Barrio", // TITULO DE TARJETA
+                "imagen":"4.jpeg", //URL
+                "direccion":"barrios"
+            },
+        ]
+    }
+    const [listaOpciones,setListaOpciones] = useState(tempCliente);
+
+    useEffect(()=>{
+        setListaOpciones(tempCliente);
+        console.log(listaOpciones)
+    },[]);
 
     return (
         <>
             <Container>
                 <Row>
-                    <Col lg={2}>
-                        <Card style={{ width: '10rem' }}>
-                            <Card.Img variant="top" src="./componentes/imagen/4.jpeg" />
-                            <Card.Body>
-                                <Card.Title>Clientes</Card.Title>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col lg="2">
-                        <Card style={{ width: '10rem' }}>
-                            <Card.Img variant="top" src="./componentes/imagen/4.jpeg" />
-                            <Card.Body>
-                                <Card.Title>Perfil Cliente</Card.Title>
-                            </Card.Body>
-                        </Card>
-                    </Col>
+                    {
+                        listaOpciones.datos.map((valor,i)=>{
+                            return(
+                            <Col lg={2}>
+                                <OpcionMenu titulo={valor.titulo} imagen={valor.imagen} direccion={valor.direccion}/>
+                            </Col>)
+                        })
+                    }
                 </Row>
             </Container>
 

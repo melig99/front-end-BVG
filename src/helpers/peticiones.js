@@ -2,7 +2,6 @@
 // import env from "react-dotenv";
 
 const Peticiones = () => {
-  console.log(process.env)
   //DATOS A UTILIZAR EN EL OBJETO CARDS
     // const [imagenes,setImagenes] = useState([])
     // const [buscador,setBuscador] = useState("")

@@ -10,8 +10,9 @@ export const Panel = () => {
     const [datosForm,setDatosForm] = useState({});
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
 
+
     const eliminarFila = async (id)=>{
-        let temp = await eliminarRegistro('eliminar/cliente',id)
+        let temp = await eliminarRegistro('api/barrio',id)
         console.log(temp)
     }
 
@@ -25,23 +26,16 @@ export const Panel = () => {
         console.log(guardarNuevoJson)
         const form = {
             'nombre':datosForm.nombre,
-            'apellido':datosForm.apellido,
-            'mail':datosForm.mail,
-            'nro_doc':datosForm.nro_doc,
-            'telefono':datosForm.telefono,
-            'id_tipo_doc':datosForm.tipo_doc,
-            'id_nacionalidad':datosForm.nacionalidad,
-            'fecha_nacimiento':datosForm.f_nac,
+            'observacion':datosForm.observacion,
         }
         console.log(form);
-        guardarNuevoJson('nuevo/cliente',form)
+        guardarNuevoJson('api/barrio',form)
         setEstadoForm(false)
 
     }
     useEffect(()=>{
-        obtenerPanel("api/cliente",setDatos)
+        obtenerPanel("api/barrio",setDatos)
     },[]);
-
     return (
         <>
             <Container>
@@ -49,14 +43,14 @@ export const Panel = () => {
                     <Col>
                         <Container fluid={true} id="acciones">
                             <Row>
-                                <h1>Clientes</h1>
+                                <h1>Barrios</h1>
                             </Row>
                             <Row>
                                 <Col sm={4}>
 
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Cliente</Button>
+                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Barrio</Button>
                                 </Col>
                             </Row>
                             <hr/>
@@ -77,7 +71,7 @@ export const Panel = () => {
             </Container>
             <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
                 <Modal.Header closeButton>
-                <Modal.Title>Datos Personales </Modal.Title>
+                <Modal.Title>Datos Barrios</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <FormCliente almacenDatos = {guardarDatos}/>
