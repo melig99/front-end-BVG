@@ -47,7 +47,7 @@ const Menu = () => {
                         "direccion":"test2"
                     },
                     {
-                        "titulo":"Solicitud Angente", // TITULO DE TARJETA
+                        "titulo":"Solicitud Agente", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"barrios"
                     },
