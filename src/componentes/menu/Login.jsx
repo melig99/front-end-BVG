@@ -26,7 +26,7 @@ const Login = () => {
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label className="d-flex justify-content-start">Contraseña</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
+                                <Form.Control type="password" />
                             </Form.Group>
                             <br/>
                             <Form.Group className="d-flex" >

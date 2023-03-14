@@ -22,10 +22,10 @@ const Sidebar = () => {
                 <NavLink to="/" activeClassName="activeClicked">
                   <CDBSidebarMenuItem><CgFileDocument className='m-2 item'/>Documentos</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/home/menu" activeClassName="activeClicked">
+                <NavLink to="/home/menu/1" activeClassName="activeClicked">
                   <CDBSidebarMenuItem ><CgUserList className='m-2 item'/>Cliente</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/profile" activeClassName="activeClicked">
+                <NavLink to="/home/menu/2" activeClassName="activeClicked">
                   <CDBSidebarMenuItem ><CgCreditCard className='m-2 item'/>Credito</CDBSidebarMenuItem>
                 </NavLink>
                 <NavLink to="/analytics" activeClassName="activeClicked">
