@@ -42,7 +42,7 @@ const Menu = () => {
                         "direccion":"tipoPlazo"
                     },
                     {
-                        "titulo":"Solitud Analasis", // TITULO DE TARJETA
+                        "titulo":"Solitud Analisis", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"test2"
                     },
