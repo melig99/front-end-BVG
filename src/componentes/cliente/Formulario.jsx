@@ -10,32 +10,35 @@ export const Formulario = ({almacenDatos}) => {
   const [listaCivil,setListaCivil] = useState({})
   const [selectedOption, setSelectedOption] = useState(null);
   const [,,,,endpointLibre] = Peticiones();
-  
 
-  useEffect(async ()=>{
-    let variable = []
-    let options =  await endpointLibre("api/barrio","GET")
-    for (let i of options.datos){
-      variable.push({'label':i.nombre,'value':i.id})
-    }
-    console.log(variable)
-    setListaBarrio (variable)
-    variable = [];
-    options =  await endpointLibre("api/barrio","GET")
-    for (let i of options.datos){
-      variable.push({'label':i.nombre,'value':i.id})
-    }
-    setListaDocumento(variable)
-    variable = [];
-    options =  await endpointLibre("api/estadoCivil","GET")
-    for (let i of options.datos){
-      variable.push({'label':i.descripcion,'value':i.id})
-    }
-    console.log(variable)
-    setListaCivil (variable)
-  },[]); 
 
-  //console.log(datos.map(datos))     
+  useEffect(()=>{
+    cargarListas();
+  },[]);
+
+  const cargarListas = async()=>{
+      let variable = []
+      let options =  await endpointLibre("api/barrio","GET")
+      for (let i of options.datos){
+        variable.push({'label':i.nombre,'value':i.id})
+      }
+      console.log(variable)
+      setListaBarrio (variable)
+      variable = [];
+      options =  await endpointLibre("api/barrio","GET")
+      for (let i of options.datos){
+        variable.push({'label':i.nombre,'value':i.id})
+      }
+      setListaDocumento(variable)
+      variable = [];
+      options =  await endpointLibre("api/estadoCivil","GET")
+      for (let i of options.datos){
+        variable.push({'label':i.descripcion,'value':i.id})
+      }
+      console.log(variable)
+      setListaCivil (variable)
+  }
+  //console.log(datos.map(datos))
   //console.log (selectedOption)
 
 
