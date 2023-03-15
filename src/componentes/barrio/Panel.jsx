@@ -3,25 +3,29 @@ import Tabla from './Tabla';
 import {Formulario as FormCliente} from './Formulario';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
+import {ModalAlerta,ModalConfirmacion} from '../Utiles';
 
 export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
     const [datosForm,setDatosForm] = useState({});
+
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
-
-
     const eliminarFila = async (id)=>{
         let temp = await eliminarRegistro('api/barrio',id)
         console.log(temp)
+        if(temp.cod==0){
+            cambiarModalAlerta("Eliminado Correctamente")
+        }else{
+            cambiarModalAlerta(temp.msg);
+        }
     }
-
     const guardarDatos=(objeto)=>{
         let temp = {...datosForm};
         temp[objeto.target.id]=objeto.target.value;
         setDatosForm(temp);
-
     }
+
     const enviarForm = ()=>{
         console.log(guardarNuevoJson)
         const form = {
@@ -29,13 +33,42 @@ export const Panel = () => {
             'observacion':datosForm.observacion,
         }
         console.log(form);
-        guardarNuevoJson('api/barrio',form)
-        setEstadoForm(false)
+        guardarNuevoJson('api/barrio',form).then(
+            async (a)=>{
+                if(a.cod==0){
+                    cambiarModalAlerta("Guardado Correctamente");
+                    setEstadoForm(false)
+
+                }else{
+                    cambiarModalAlerta(a.msg);
+                }
+            }
+        ).catch(
+            (e)=>{
+                console.log(e)
+                cambiarModalAlerta(e.msg);
+            }
+        )
+
 
     }
     useEffect(()=>{
         obtenerPanel("api/barrio",setDatos)
     },[]);
+
+    // SECCION PARA ACTIVAR ALERTAS
+    const [modalAlerta,setModalAlerta] = useState({"estado":false,"msg":""});
+    const cambiarModalAlerta=(msg)=>{
+        setModalAlerta({"estado":!modalAlerta.estado,"msg":msg})
+        console.log(modalAlerta)
+    }
+
+    // SECCION PARA ACTIVAR ALERT CONFIRMACION
+    const [modalConfirmacion,setModalConfirmacion] = useState({"estado":false,"msg":"","callback":()=>{}});
+    const cambiarModalConfirmacion=(msg,id)=>{
+        setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
+        console.log(modalConfirmacion)
+    }
     return (
         <>
             <Container>
@@ -52,6 +85,9 @@ export const Panel = () => {
                                 <Col sm={8} className="d-flex flex-row-reverse">
                                     <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Barrio</Button>
                                 </Col>
+                                <Col sm={8} className="d-flex flex-row-reverse">
+                                    <Button variant="info" onClick={()=>cambiarModalAlerta("Prueba")}>Abrir Modal</Button>
+                                </Col>
                             </Row>
                             <hr/>
                         </Container>
@@ -62,7 +98,7 @@ export const Panel = () => {
                     <Container fluid={true}>
                         <Row>
                             <br/>
-                            <Tabla datos={datos}  eliminar = {eliminarFila}/>
+                            <Tabla datos={datos}  eliminar = {(id)=>{cambiarModalConfirmacion("¿Esta seguro de que desea eliminar ?",id) } }/>
                         </Row>
 
                     </Container>
@@ -81,7 +117,8 @@ export const Panel = () => {
                     <Button variant="success" onClick={()=>{enviarForm();setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
-
+            <ModalAlerta valores={modalAlerta} ></ModalAlerta>
+            <ModalConfirmacion valores={modalConfirmacion} ></ModalConfirmacion>
         </>
     )
 }
