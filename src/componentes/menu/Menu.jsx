@@ -44,17 +44,17 @@ const Menu = () => {
                     {
                         "titulo":"Solitud Analisis", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
-                        "direccion":"test2"
+                        "direccion":"solicitudAnalista"
                     },
                     {
                         "titulo":"Solicitud Angente", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
-                        "direccion":"barrios"
+                        "direccion":"solicitudAgente"
                     },
                     {
                         "titulo":"Solicitud Directorio", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
-                        "direccion":"barrios"
+                        "direccion":"solicitudDirectorio"
                     },
 
                 ]
