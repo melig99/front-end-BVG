@@ -12,7 +12,7 @@ export const Panel = () => {
 
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
     const eliminarFila = async (id)=>{
-        let temp = await eliminarRegistro('api/barrio',id)
+        let temp = await eliminarRegistro('api/solicitud',id)
         console.log(temp)
         if(temp.cod==0){
             cambiarModalAlerta("Eliminado Correctamente")
@@ -53,7 +53,7 @@ export const Panel = () => {
 
     }
     useEffect(()=>{
-        obtenerPanel("api/barrio",setDatos)
+        obtenerPanel("api/solicitud/aprobado",setDatos)
     },[]);
 
     // SECCION PARA ACTIVAR ALERTAS
@@ -76,23 +76,19 @@ export const Panel = () => {
                     <Col>
                         <Container fluid={true} id="acciones">
                             <Row>
-                                <h1>Barrios</h1>
+                                <h1>Solicitud Analista</h1>
                             </Row>
                             <Row>
                                 <Col sm={4}>
 
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Barrio</Button>
-                                </Col>
-                                <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="info" onClick={()=>cambiarModalAlerta("Prueba")}>Abrir Modal</Button>
+                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nueva Solicitud</Button>
                                 </Col>
                             </Row>
                             <hr/>
                         </Container>
                     </Col>
-
                 </Row>
                 <Row>
                     <Container fluid={true}>
@@ -107,7 +103,7 @@ export const Panel = () => {
             </Container>
             <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
                 <Modal.Header closeButton>
-                <Modal.Title>Datos Barrios</Modal.Title>
+                <Modal.Title>Datos Solicitud</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <FormCliente almacenDatos = {guardarDatos}/>

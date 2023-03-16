@@ -1,15 +1,48 @@
-import React , { useState }from 'react'
+import React , { useState, useEffect }from 'react'
 import {Form,Row, Col} from 'react-bootstrap';
 import Select from 'react-select';
-
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
-];
+import Peticiones from '../../helpers/peticiones';
 
 export const Formulario = ({almacenDatos}) => {
+
+  const [listaBarrio,setListaBarrio] = useState({})
+  const [listaDocumento,setListaDocumento] = useState({})
+  const [listaCivil,setListaCivil] = useState({})
   const [selectedOption, setSelectedOption] = useState(null);
+  const [,,,,endpointLibre] = Peticiones();
+
+
+  useEffect(()=>{
+    cargarListas();
+  },[]);
+
+  const cargarListas = async()=>{
+      let variable = []
+      let options =  await endpointLibre("api/barrio","GET")
+      for (let i of options.datos){
+        variable.push({'label':i.nombre,'value':i.id})
+      }
+      console.log(variable)
+      setListaBarrio (variable)
+      variable = [];
+      options =  await endpointLibre("api/barrio","GET")
+      for (let i of options.datos){
+        variable.push({'label':i.nombre,'value':i.id})
+      }
+      setListaDocumento(variable)
+      variable = [];
+      options =  await endpointLibre("api/estadoCivil","GET")
+      for (let i of options.datos){
+        variable.push({'label':i.descripcion,'value':i.id})
+      }
+      console.log(variable)
+      setListaCivil (variable)
+  }
+  //console.log(datos.map(datos))
+  //console.log (selectedOption)
+
+
+
 
   return(
     <Form >
@@ -32,10 +65,11 @@ export const Formulario = ({almacenDatos}) => {
           <Form.Group className='mb-2' >
             <Form.Label className='padding-left'>Tipo Documento</Form.Label>
             <Select
-              defaultValue={selectedOption}
-              onChange={(a)=>{setSelectedOption(a);almacenDatos(a.value)}}
-              options={options}
-              placeholder="Buscar tipo documento"
+              defaultValue={listaDocumento[0] }
+              onChange={setSelectedOption}
+              options={listaDocumento}
+              placeholder="Buscar documento"
+              isClearable = {true}
               id= "id_tipo_doc"
             />
           </Form.Group>
@@ -52,10 +86,11 @@ export const Formulario = ({almacenDatos}) => {
           <Form.Group className='mb-2'>
             <Form.Label>Barrio</Form.Label>
             <Select
-              defaultValue={selectedOption}
+              defaultValue={listaBarrio[0] }
               onChange={setSelectedOption}
-              options={options}
+              options={listaBarrio}
               placeholder="Buscar barrio"
+              isClearable = {true}
               id= "barrio"
             />
           </Form.Group>
@@ -78,9 +113,10 @@ export const Formulario = ({almacenDatos}) => {
           <Form.Group className='mb-2'>
             <Form.Label>Estado Civil</Form.Label>
             <Select
-              defaultValue={selectedOption}
+              defaultValue={listaCivil[0] }
               onChange={setSelectedOption}
-              options={options}
+              options={listaCivil}
+              isClearable = {true}
               placeholder="Buscar estado civil"
               id="estado_civil"
            />
@@ -109,9 +145,6 @@ export const Formulario = ({almacenDatos}) => {
             <Form.Control type="date" id="fecha_nacimiento" onChange={(e)=>{almacenDatos(e)}}/>
           </Form.Group>
         </Col>
-      </Row>
-      <Row className="g-2">
-
       </Row>
       <Row className="g-2">
         <Form.Group className='mb-2'>

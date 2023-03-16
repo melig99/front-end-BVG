@@ -2,19 +2,27 @@ import React,{useState,useEffect} from 'react';
 import PropTypes from 'prop-types'
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap'
 
-const ModalAlerta = ({mensaje}) => {
+const ModalAlerta = ({valores}) => {
     const [estado,setEstadoModal] = useState(true);
 
+    useEffect(()=>{
+        console.log(valores);
+        setEstadoModal(valores.estado);
+    },[valores]);
+    const cerrar = ()=>{
+        setEstadoModal(false);
+        valores.estado = false
+    }
     return (
-        <Modal show={estado} size="sm" animation={false} onHide={()=>{setEstadoModal(false);console.log(estado)}}>
+        <Modal show={estado} size="sm" animation={false} onHide={()=>{cerrar()}}>
             <Modal.Header closeButton>
                 <Modal.Title>Aviso</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p>{mensaje}</p>
+                <p>{valores.msg}</p>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="success" onClick={()=>{setEstadoModal(false);console.log(estado)}} >Cerrar</Button>
+                <Button variant="success" onClick={()=>{cerrar()}} >Cerrar</Button>
             </Modal.Footer>
         </Modal>
     )

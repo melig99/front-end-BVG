@@ -11,6 +11,9 @@ import Menu from './componentes/menu/Menu'
 import {Panel as PanelCliente}  from './componentes/cliente/Panel'
 import {Panel as PanelBarrio}  from './componentes/barrio/Panel'
 import {Panel as PanelTipoPlazo}  from './componentes/tipoPlazo/Panel'
+import {Panel as PanelSolicitudAgente}  from './componentes/solicitudAgente/Panel'
+import {Panel as PanelSolicitudAnalista}  from './componentes/solicitudAnalista/Panel'
+import {Panel as PanelSolicitudDirectorio}  from './componentes/solicitudDirectorio/Panel'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -25,6 +28,9 @@ root.render(
           <Route  path='clientes' element={<PanelCliente/>} />
           <Route  path='barrios' element={<PanelBarrio/>} />
           <Route  path='tipoPlazo' element={<PanelTipoPlazo/>} />
+          <Route  path='solicitudAgente' element={<PanelSolicitudAgente/>} />
+          <Route  path='solicitudAnalista' element={<PanelSolicitudAnalista/>} />
+          <Route  path='solicitudDirectorio' element={<PanelSolicitudDirectorio/>} />
         </Route>
       </Route>
     </Routes>
