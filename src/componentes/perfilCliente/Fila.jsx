@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {CgTrash} from "react-icons/cg";
-
+import {CgEyeAlt } from "react-icons/cg";
 
 const  Fila = (prop) => {
-    const {dato,eliminar} = prop;
+    const {dato,ver} = prop;
     return (
         <tr>
             <td>{dato.nombre}</td>
@@ -12,10 +11,10 @@ const  Fila = (prop) => {
             <td>{dato.documento}</td>
             <td>{dato.correo}</td>
             <td>{dato.f_nacimiento}</td>
-            { (prop.eliminar && <td><button onClick={()=>{eliminar(dato.id)}} style={{backgroundColor: "red", border: "solid 1px white"}}>
-                                        <CgTrash style={{color:'white'}} className='m-2 item'/>
-                                    </button>
-                                </td>
+            { (prop.ver && <td><button onClick={()=>{ver(dato.id)}} style={{backgroundColor: "#0b5ed7", border: "solid 1px white"}}>
+                                 <CgEyeAlt style={{color:'white'}} className='m-2 item'/>
+                                </button>
+                            </td>
             ) }
         </tr>
 

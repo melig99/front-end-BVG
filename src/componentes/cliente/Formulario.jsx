@@ -2,6 +2,7 @@ import React , { useState, useEffect }from 'react'
 import {Form,Row, Col} from 'react-bootstrap';
 import Select from 'react-select';
 import Peticiones from '../../helpers/peticiones';
+import RenderSelect from '../Utiles/RenderSelect';
 
 export const Formulario = ({almacenDatos}) => {
 
@@ -11,6 +12,12 @@ export const Formulario = ({almacenDatos}) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [,,,,endpointLibre] = Peticiones();
 
+  //seteamos el select segun lo seleccionado
+  const setSelectedValue = (data) => {
+    setSelectedOption(data)
+    almacenDatos(data)
+    
+  }
 
   useEffect(()=>{
     cargarListas();
@@ -39,7 +46,7 @@ export const Formulario = ({almacenDatos}) => {
       setListaCivil (variable)
   }
   //console.log(datos.map(datos))
-  //console.log (selectedOption)
+  console.log ("option selec",selectedOption)
 
 
 
@@ -85,14 +92,15 @@ export const Formulario = ({almacenDatos}) => {
         <Col>
           <Form.Group className='mb-2'>
             <Form.Label>Barrio</Form.Label>
-            <Select
+            {/* <Select
               defaultValue={listaBarrio[0] }
-              onChange={setSelectedOption}
+              onChange={(e,i)=> opcionSelecionada(e,i) }
               options={listaBarrio}
               placeholder="Buscar barrio"
               isClearable = {true}
               id= "barrio"
-            />
+            /> */}
+            <RenderSelect defaultValue={listaBarrio[0]} optionList={listaBarrio} setSelected={setSelectedValue} />
           </Form.Group>
         </Col>
         <Col>

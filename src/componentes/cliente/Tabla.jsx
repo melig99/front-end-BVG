@@ -10,8 +10,8 @@ const  Tabla = ({datos,eliminar}) => {
     console.log(datos)
   return (
     <>
-        <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
-            <thead className="table-dark">
+        <Table table table-striped table-hover s>
+            <thead style={{backgroundColor:"#154360", color: 'white'}}>
                 <tr >
                     {
                         cabecera.map(
