@@ -84,12 +84,9 @@ export const Panel = () => {
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
                                     <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Barrio</Button>
-                                </Col>
-                                <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="info" onClick={()=>cambiarModalAlerta("Prueba")}>Abrir Modal</Button>
-                                </Col>
+                                </Col>  
                             </Row>
-                            <hr/>
+                            <br/>
                         </Container>
                     </Col>
 

@@ -55,7 +55,7 @@ export const Panel = () => {
                                     <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Tipo Plazo</Button>
                                 </Col>
                             </Row>
-                            <hr/>
+                            <br/>
                         </Container>
                     </Col>
 

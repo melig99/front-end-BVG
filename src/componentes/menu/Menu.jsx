@@ -1,5 +1,4 @@
 import React, { useState, useEffect }  from 'react'
-import Card from 'react-bootstrap/Card'
 import {Col,Container,Row} from 'react-bootstrap';
 import OpcionMenu from './OpcionMenu'
 import { useParams } from 'react-router';
@@ -18,17 +17,17 @@ const Menu = () => {
                     {
                         "titulo":"Clientes", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
-                        "direccion":"clientes"
+                        "direccion":"cliente"
                     },
                     {
                         "titulo":"Perfil Cliente", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
-                        "direccion":"test2"
+                        "direccion":"perfilCliente"
                     },
                     {
                         "titulo":"Barrio", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
-                        "direccion":"barrios"
+                        "direccion":"barrio"
                     },
 
                 ]
