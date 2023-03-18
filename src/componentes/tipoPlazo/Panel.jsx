@@ -8,7 +8,6 @@ import {ModalAlerta,ModalConfirmacion} from '../Utiles';
 export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
-    const [datosForm,setDatosForm] = useState({});
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
 
 
@@ -17,25 +16,7 @@ export const Panel = () => {
         console.log(temp)
     }
 
-    const guardarDatos=(objeto)=>{
-        let temp = {...datosForm};
-        temp[objeto.target.id]=objeto.target.value;
-        setDatosForm(temp);
 
-    }
-    const enviarForm = ()=>{
-        console.log(guardarNuevoJson)
-        const form = {
-            'descripcion':datosForm.tipo_plazo,
-            'factor_divisor':datosForm.factor_divisor,
-            'dias_vencimiento':datosForm.dias_vencimiento,
-            'interes':datosForm.interes,
-        }
-        console.log(form);
-        guardarNuevoJson('api/tipoPlazo',form)
-        setEstadoForm(false)
-
-    }
     useEffect(()=>{
         obtenerPanel("api/tipoPlazo",setDatos)
     },[]);
@@ -88,7 +69,7 @@ export const Panel = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-                    <Button variant="success" onClick={()=>{enviarForm();setEstadoForm(!estadoForm)}} >Guardar</Button>
+                    <Button variant="success" onClick={()=>{setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>
