@@ -22,7 +22,7 @@ export const Formulario = ({almacenDatos}) => {
                   <Row>
                       <Col md>
                           <Form.Group className='mb-2'>
-                              <Form.Label>Ingresos Actuales</Form.Label>
+                              <Form.Label>Ingresos Actuales (Mensuales)</Form.Label>
                               <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}}/>
                           </Form.Group>
                       </Col>
