@@ -63,7 +63,7 @@ export const Panel = () => {
                                     <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Cliente</Button>
                                 </Col>
                             </Row>
-                            <hr/>
+                            <br/>
                         </Container>
                     </Col>
 

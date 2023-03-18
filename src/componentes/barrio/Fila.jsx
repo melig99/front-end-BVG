@@ -7,7 +7,11 @@ const  Fila = (prop) => {
     return (
         <tr>
             <td>{dato.nombre}</td>
-            { (prop.eliminar && <td><button onClick={()=>{eliminar(dato.id)}} style={{backgroundColor: "red", border: "solid 1px white"}}><CgTrash style={{color:'white'}} className='m-2 item'/></button></td>) }
+            { (prop.eliminar && <td><button onClick={()=>{eliminar(dato.id)}} style={{backgroundColor: "red", border: "solid 1px white"}}>
+                                        <CgTrash style={{color:'white'}} className='m-2 item'/>
+                                    </button>
+                                </td>
+            ) }
         </tr>
 
     )

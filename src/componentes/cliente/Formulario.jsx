@@ -11,6 +11,12 @@ export const Formulario = ({almacenDatos}) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [,,,,endpointLibre] = Peticiones();
 
+  //seteamos el select segun lo seleccionado
+  const setSelectedValue = (data) => {
+    setSelectedOption(data)
+    almacenDatos(data)
+    
+  }
 
   useEffect(()=>{
     cargarListas();
@@ -39,7 +45,7 @@ export const Formulario = ({almacenDatos}) => {
       setListaCivil (variable)
   }
   //console.log(datos.map(datos))
-  //console.log (selectedOption)
+  console.log ("option selec",selectedOption)
 
 
 

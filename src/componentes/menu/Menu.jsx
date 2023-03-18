@@ -1,5 +1,4 @@
 import React, { useState, useEffect }  from 'react'
-import Card from 'react-bootstrap/Card'
 import {Col,Container,Row} from 'react-bootstrap';
 import OpcionMenu from './OpcionMenu'
 import { useParams } from 'react-router';
@@ -19,19 +18,19 @@ const Menu = () => {
                         "id":"1",
                         "titulo":"Clientes", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
-                        "direccion":"clientes"
+                        "direccion":"cliente"
                     },
                     {
                         "id":"2",
                         "titulo":"Perfil Cliente", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
-                        "direccion":"test2"
+                        "direccion":"perfilCliente"
                     },
                     {
                         "id":"3",
                         "titulo":"Barrio", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
-                        "direccion":"barrios"
+                        "direccion":"barrio"
                     },
 
                 ]
@@ -53,7 +52,7 @@ const Menu = () => {
                     },
                     {
                         "id":"6",
-                        "titulo":"Solicitud Angente", // TITULO DE TARJETA
+                        "titulo":"Solicitud Agente", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"solicitudAgente"
                     },
