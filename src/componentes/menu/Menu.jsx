@@ -16,16 +16,19 @@ const Menu = () => {
                 "agrupador": "Clientes",
                 "opciones":[
                     {
+                        "id":"1",
                         "titulo":"Clientes", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"clientes"
                     },
                     {
+                        "id":"2",
                         "titulo":"Perfil Cliente", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"test2"
                     },
                     {
+                        "id":"3",
                         "titulo":"Barrio", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"barrios"
@@ -37,21 +40,25 @@ const Menu = () => {
                 "agrupador": "Credito",
                 "opciones":[
                     {
+                        "id":"4",
                         "titulo":"Tipo Plazo", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"tipoPlazo"
                     },
                     {
+                        "id":"5",
                         "titulo":"Solitud Analisis", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"solicitudAnalista"
                     },
                     {
+                        "id":"6",
                         "titulo":"Solicitud Angente", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"solicitudAgente"
                     },
                     {
+                        "id":"7",
                         "titulo":"Solicitud Directorio", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"solicitudDirectorio"
@@ -75,8 +82,8 @@ const Menu = () => {
                     {
                         listaOpciones.datos[params.id-1].opciones.map((valor,i)=>{
                             return(
-                            <Col lg={2}>
-                                <OpcionMenu titulo={valor.titulo} imagen={valor.imagen} direccion={valor.direccion}/>
+                            <Col lg={2} key={`col-${valor.id}`}>
+                                <OpcionMenu key={`card-${valor.id}`} titulo={valor.titulo} imagen={valor.imagen} direccion={valor.direccion}/>
                             </Col>)
                         })
                     }

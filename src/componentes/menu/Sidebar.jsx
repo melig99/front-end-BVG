@@ -19,22 +19,22 @@ const Sidebar = () => {
             </CDBSidebarHeader>
             <CDBSidebarContent className="sidebar-content">
               <CDBSidebarMenu>
-                <NavLink to="/" activeClassName="activeClicked">
+                <NavLink to="/"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem><CgFileDocument className='m-2 item'/>Documentos</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/home/menu/1" activeClassName="activeClicked">
+                <NavLink to="/home/menu/1" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem ><CgUserList className='m-2 item'/>Cliente</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/home/menu/2" activeClassName="activeClicked">
+                <NavLink to="/home/menu/2" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem ><CgCreditCard className='m-2 item'/>Credito</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/analytics" activeClassName="activeClicked">
+                <NavLink to="/analytics" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem ><CgCalendarDates className='m-2 item'/>Caja</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/hero404" target="_blank" activeClassName="activeClicked">
+                <NavLink to="/hero404" target="_blank" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem ><CgReadme className='m-2 item' />Reportes</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/hero404" target="_blank" activeClassName="activeClicked">
+                <NavLink to="/hero404" target="_blank" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem ><CgLock className='m-2 item'/>Seguridad</CDBSidebarMenuItem>
                 </NavLink>
               </CDBSidebarMenu>

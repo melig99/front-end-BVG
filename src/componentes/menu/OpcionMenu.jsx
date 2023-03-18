@@ -6,7 +6,7 @@ const OpcionMenu = ({titulo,imagen,direccion}) => {
     let navigate = useNavigate()
     console.log(direccion,"test");
     return (
-        <NavLink to={`/home/${direccion}`} activeClassName="activeClicked">
+        <NavLink to={`/home/${direccion}`} className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
             <Card style={{ width: '10rem' }} onClick={() => {navigate({direccion});console.log("clickeado")}}>
                 <Card.Img variant="top" src={imagen} />
                 <Card.Body>
