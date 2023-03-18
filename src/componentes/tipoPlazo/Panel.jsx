@@ -1,8 +1,9 @@
 import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
-import {Formulario as FormCliente} from './Formulario';
+import {Formulario} from './Formulario';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
+import {ModalAlerta,ModalConfirmacion} from '../Utiles';
 
 export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
@@ -38,6 +39,13 @@ export const Panel = () => {
     useEffect(()=>{
         obtenerPanel("api/tipoPlazo",setDatos)
     },[]);
+
+    // SECCION PARA ACTIVAR ALERTAS
+    const [modalAlerta,setModalAlerta] = useState({"estado":false,"msg":""});
+    const cambiarModalAlerta=(msg)=>{
+        setModalAlerta({"estado":!modalAlerta.estado,"msg":msg})
+        console.log(modalAlerta)
+    }
     return (
         <>
             <Container>
@@ -76,13 +84,14 @@ export const Panel = () => {
                 <Modal.Title>Datos Tipo Plazo</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormCliente almacenDatos = {guardarDatos}/>
+                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
                     <Button variant="success" onClick={()=>{enviarForm();setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
+            <ModalAlerta valores={modalAlerta} ></ModalAlerta>
 
         </>
     )
