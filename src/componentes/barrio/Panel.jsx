@@ -9,7 +9,6 @@ export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
     const [datosForm,setDatosForm] = useState({});
-
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
     const eliminarFila = async (id)=>{
         let temp = await eliminarRegistro('api/barrio',id)
@@ -20,38 +19,7 @@ export const Panel = () => {
             cambiarModalAlerta(temp.msg);
         }
     }
-    const guardarDatos=(objeto)=>{
-        let temp = {...datosForm};
-        temp[objeto.target.id]=objeto.target.value;
-        setDatosForm(temp);
-    }
 
-    const enviarForm = ()=>{
-        console.log(guardarNuevoJson)
-        const form = {
-            'nombre':datosForm.nombre,
-            'observacion':datosForm.observacion,
-        }
-        console.log(form);
-        guardarNuevoJson('api/barrio',form).then(
-            async (a)=>{
-                if(a.cod==0){
-                    cambiarModalAlerta("Guardado Correctamente");
-                    setEstadoForm(false)
-
-                }else{
-                    cambiarModalAlerta(a.msg);
-                }
-            }
-        ).catch(
-            (e)=>{
-                console.log(e)
-                cambiarModalAlerta(e.msg);
-            }
-        )
-
-
-    }
     useEffect(()=>{
         obtenerPanel("api/barrio",setDatos)
     },[]);
@@ -110,11 +78,10 @@ export const Panel = () => {
                 <Modal.Title>Datos Barrios</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormCliente almacenDatos = {guardarDatos}/>
+                    <FormCliente cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-                    <Button variant="success" onClick={()=>{enviarForm();setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>
