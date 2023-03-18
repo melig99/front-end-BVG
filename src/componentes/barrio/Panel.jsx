@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
-import {Formulario as FormCliente} from './Formulario';
+import {Formulario} from './Formulario';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
 import {ModalAlerta,ModalConfirmacion} from '../Utiles';
@@ -52,7 +52,7 @@ export const Panel = () => {
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
                                     <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Barrio</Button>
-                                </Col>  
+                                </Col>
                             </Row>
                             <br/>
                         </Container>
@@ -75,7 +75,7 @@ export const Panel = () => {
                 <Modal.Title>Datos Barrios</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormCliente cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""} />
+                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>

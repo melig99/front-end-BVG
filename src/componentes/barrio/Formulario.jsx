@@ -6,7 +6,6 @@ import Select from 'react-select';
 
 export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
     const [listaBarrio,setListaBarrio] = useState([{"label":"Testing1","value":1},{"label":"Testing2","value":2}])
-    const [datosForm,setDatosForm] =useState({});
     const [selectedOption, setSelectedOption] = useState(null);
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
 
