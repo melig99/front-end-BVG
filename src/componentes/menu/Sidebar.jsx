@@ -28,13 +28,13 @@ const Sidebar = () => {
                 <NavLink to="/home/menu/2" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem ><CgCreditCard className='m-2 item'/>Credito</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/analytics" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+                <NavLink to="/" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem ><CgCalendarDates className='m-2 item'/>Caja</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/hero404" target="_blank" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+                <NavLink to="/"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem ><CgReadme className='m-2 item' />Reportes</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/hero404" target="_blank" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+                <NavLink to="/"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem ><CgLock className='m-2 item'/>Seguridad</CDBSidebarMenuItem>
                 </NavLink>
               </CDBSidebarMenu>

@@ -10,7 +10,11 @@ const  Fila = (prop) => {
             <td>{dato.factor_divisor}</td>
             <td>{dato.dias_vencimiento}</td>
             <td>{dato.interes}</td>
-            { (prop.eliminar && <td><button onClick={()=>{eliminar(dato.id)}} style={{backgroundColor: "red", border: "solid 1px white"}}><CgTrash style={{color:'white'}} className='m-2 item'/></button></td>) }
+            { (prop.eliminar && <td><button onClick={()=>{eliminar(dato.id)}} style={{backgroundColor: "red", border: "solid 1px white"}}>
+                                        <CgTrash style={{color:'white'}} className='m-2 item'/>
+                                    </button>
+                                </td>
+            ) }
         </tr>
 
     )

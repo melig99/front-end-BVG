@@ -10,6 +10,7 @@ export const Panel = () => {
     const [estadoForm,setEstadoForm] = useState(false);
     const [datosForm,setDatosForm] = useState({});
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
+   
     const eliminarFila = async (id)=>{
         let temp = await eliminarRegistro('api/barrio',id)
         console.log(temp)
@@ -37,6 +38,7 @@ export const Panel = () => {
         setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
         console.log(modalConfirmacion)
     }
+
     return (
         <>
             <Container>
@@ -63,7 +65,13 @@ export const Panel = () => {
                     <Container fluid={true}>
                         <Row>
                             <br/>
-                            <Tabla datos={datos}  eliminar = {(id)=>{cambiarModalConfirmacion("¿Esta seguro de que desea eliminar ?",id) } }/>
+                            <Tabla datos={datos}  eliminar = {(id)=>{ 
+                                                                        cambiarModalConfirmacion(
+                                                                            "¿Esta seguro de que desea eliminar ?",id
+                                                                         ) 
+                                                                    } 
+                                                            }
+                            />
                         </Row>
 
                     </Container>

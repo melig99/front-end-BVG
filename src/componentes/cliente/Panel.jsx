@@ -1,8 +1,9 @@
 import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
-import {Formulario as FormCliente} from './Formulario';
+import {Formulario} from './Formulario';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
+import {ModalAlerta,ModalConfirmacion} from '../Utiles';
 
 export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
@@ -11,40 +12,33 @@ export const Panel = () => {
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
 
     const eliminarFila = async (id)=>{
-        let temp = await eliminarRegistro('api/cliente/',id)
+        let temp = await eliminarRegistro('api/cliente',id)
         console.log(temp)
-    }
-
-    const guardarDatos=(objeto)=>{
-        let temp = {...datosForm};
-        temp[objeto.target.id]=objeto.target.value;
-        setDatosForm(temp);
-
-    }
-    const enviarForm = ()=>{
-        console.log(guardarNuevoJson)
-        const form = {
-            'nombre':datosForm.nombre,
-            'apellido':datosForm.apellido,
-            'id_tipo_doc':datosForm.tipo_doc,
-            'nro_doc':datosForm.nro_doc,
-            'barrio':datosForm.barrio,
-            'mail':datosForm.mail,
-            'direccion':datosForm.direccion,
-            'estado_civil':datosForm.estado_civil,
-            'sexo':datosForm.sexo,
-            'telefono':datosForm.telefono,
-            'fecha_nacimiento':datosForm.f_nac,
-            'observacion':datosForm.observacion,
+        if(temp.cod==0){
+            cambiarModalAlerta("Eliminado Correctamente")
+        }else{
+            cambiarModalAlerta(temp.msg);
         }
-        console.log(form);
-        guardarNuevoJson('api/cliente/',form)
-        setEstadoForm(false)
-
     }
+
+
     useEffect(()=>{
         obtenerPanel("api/cliente",setDatos)
     },[]);
+
+    // SECCION PARA ACTIVAR ALERTAS
+    const [modalAlerta,setModalAlerta] = useState({"estado":false,"msg":""});
+    const cambiarModalAlerta=(msg)=>{
+        setModalAlerta({"estado":!modalAlerta.estado,"msg":msg})
+        console.log(modalAlerta)
+    }
+
+    // SECCION PARA ACTIVAR ALERT CONFIRMACION
+    const [modalConfirmacion,setModalConfirmacion] = useState({"estado":false,"msg":"","callback":()=>{}});
+    const cambiarModalConfirmacion=(msg,id)=>{
+        setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
+        console.log(modalConfirmacion)
+    }
 
     return (
         <>
@@ -72,7 +66,7 @@ export const Panel = () => {
                     <Container fluid={true}>
                         <Row>
                             <br/>
-                            <Tabla datos={datos}  eliminar = {eliminarFila}/>
+                            <Tabla datos={datos}  eliminar = {(id)=>{cambiarModalConfirmacion("¿Esta seguro de que desea eliminar ?",id) } }/>
                         </Row>
 
                     </Container>
@@ -84,13 +78,14 @@ export const Panel = () => {
                 <Modal.Title>Datos Personales </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormCliente almacenDatos = {guardarDatos}/>
+                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-                    <Button variant="success" onClick={()=>{enviarForm();setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
+            <ModalAlerta valores={modalAlerta} ></ModalAlerta>
+            <ModalConfirmacion valores={modalConfirmacion} ></ModalConfirmacion>
 
         </>
     )

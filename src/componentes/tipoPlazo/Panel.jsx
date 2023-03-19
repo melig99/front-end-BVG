@@ -14,7 +14,13 @@ export const Panel = () => {
     const eliminarFila = async (id)=>{
         let temp = await eliminarRegistro('api/tipoPlazo',id)
         console.log(temp)
+        if(temp.cod==0){
+            cambiarModalAlerta("Eliminado Correctamente")
+        }else{
+            cambiarModalAlerta(temp.msg);
+        }
     }
+
 
 
     useEffect(()=>{
@@ -27,6 +33,14 @@ export const Panel = () => {
         setModalAlerta({"estado":!modalAlerta.estado,"msg":msg})
         console.log(modalAlerta)
     }
+
+    // SECCION PARA ACTIVAR ALERT CONFIRMACION
+    const [modalConfirmacion,setModalConfirmacion] = useState({"estado":false,"msg":"","callback":()=>{}});
+    const cambiarModalConfirmacion=(msg,id)=>{
+        setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
+        console.log(modalConfirmacion)
+    }
+    
     return (
         <>
             <Container>
@@ -53,7 +67,13 @@ export const Panel = () => {
                     <Container fluid={true}>
                         <Row>
                             <br/>
-                            <Tabla datos={datos}  eliminar = {eliminarFila}/>
+                            <Tabla datos={datos}  eliminar = {(id)=>{ 
+                                                                        cambiarModalConfirmacion(
+                                                                            "¿Esta seguro de que desea eliminar ?",id
+                                                                         ) 
+                                                                    } 
+                                                            }
+                            />
                         </Row>
 
                     </Container>
@@ -69,10 +89,10 @@ export const Panel = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-                    <Button variant="success" onClick={()=>{setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>
+            <ModalConfirmacion valores={modalConfirmacion} ></ModalConfirmacion>
 
         </>
     )

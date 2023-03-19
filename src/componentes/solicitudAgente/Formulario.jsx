@@ -5,6 +5,33 @@ import Peticiones from '../../helpers/peticiones';
 
 export const Formulario = ({almacenDatos}) => {
 
+    const [listaCliente,setListaCliente] = useState([])
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [listaTipoPlazo,setListaTipoPlazo] = useState([])
+    const [,,,,endpointLibre ] = Peticiones();
+
+    useEffect(()=>{
+        cargarListas();
+    },[]);
+    
+    const cargarListas = async()=>{
+        //Extrae Datos de la BD para CLIENTE
+        let variable = []
+        let options =  await endpointLibre("api/cliente","GET")
+        for (let i of options.datos){
+        variable.push({'label':i.nombre,'value':i.id})
+        }
+        console.log(variable)
+        setListaCliente (variable)
+        //Extrae Datos de la BD para TIPO DOCUMENTO
+        variable = [];
+        options =  await endpointLibre("api/tipoPlazo","GET")
+        for (let i of options.datos){
+        variable.push({'label':i.descripcion,'value':i.id})
+        }
+        console.log(variable)
+        setListaTipoPlazo (variable)
+    }
 
     return(
         <Form >
@@ -14,7 +41,15 @@ export const Formulario = ({almacenDatos}) => {
                       <Col md>
                           <Form.Group className='mb-2'>
                               <Form.Label>Cliente</Form.Label>
-                              <Form.Control placeholder="Ingrese nombres" id="nombre" onChange={(e)=>{almacenDatos(e)}}/>
+                              <Select
+                                name="cliente"
+                                id="cliente"
+                                defaultValue={listaCliente[0] }
+                                onChange={setSelectedOption}
+                                options={listaCliente}
+                                isClearable = {true}
+                                placeholder="Buscar cliente"
+                                />
                           </Form.Group>
                       </Col>
 
@@ -44,10 +79,12 @@ export const Formulario = ({almacenDatos}) => {
                   </Row>
                   <Row>
                       <Col md>
-                          <Form.Group className='mb-2'>
-                              <Form.Label>Tipo Plazo</Form.Label>
-                              <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}}/>
-                          </Form.Group>
+                            <Form.Group className='mb-2'>
+                                <Form.Label>Tipo Plazo</Form.Label>
+                                <Form.Select defaultValue="" id="tipo_plazo">
+                                   { listaTipoPlazo.map(valor => <option value={valor.value}>{valor.label}</option> ) }
+                                </Form.Select>
+                            </Form.Group>
                       </Col>
                       <Col md>
                           <Form.Group className='mb-2'>
@@ -68,7 +105,16 @@ export const Formulario = ({almacenDatos}) => {
                       <Col md>
                           <Form.Group className='mb-2'>
                               <Form.Label>Cliente</Form.Label>
-                              <Form.Control placeholder="Ingrese cedula" id="nombre" onChange={(e)=>{almacenDatos(e)}}/>
+                              <Form.Label>Cliente</Form.Label>
+                              <Select
+                                name="cliente"
+                                id="cliente"
+                                defaultValue={listaCliente[0] }
+                                onChange={setSelectedOption}
+                                options={listaCliente}
+                                isClearable = {true}
+                                placeholder="Buscar cliente"
+                                />
                           </Form.Group>
                       </Col>
                   </Row>

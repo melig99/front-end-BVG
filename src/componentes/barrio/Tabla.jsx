@@ -6,12 +6,12 @@ import Table from 'react-bootstrap/Table';
 const  Tabla = ({datos,eliminar}) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
-    const cabecera=["Barrio","Acciones"];
+    const cabecera=["Barrio", "Observacion", "Acciones"];
     console.log(datos)
   return (
     <>
         <Table table striped hover>
-            <thead style={{backgroundColor:"#154360", color: 'white'}}>
+            <thead style={{backgroundColor:"#154360", color: 'white'}}> 
                 <tr >
                     {
                         cabecera.map(
