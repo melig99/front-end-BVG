@@ -1,15 +1,19 @@
 import React , { useState, useEffect }from 'react'
-import {Form,Row,Col,Tab,Tabs,Table} from 'react-bootstrap';
+import {Form,Row,Col,Tab,Tabs,Table,Button,Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import Peticiones from '../../helpers/peticiones';
+import {Formulario as FormularioCliente} from '../cliente/Formulario'
+import {ModalAlerta,ModalConfirmacion} from '../Utiles';
 
-export const Formulario = ({almacenDatos}) => {
+export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
 
     const [listaCliente,setListaCliente] = useState([])
     const [selectedOption, setSelectedOption] = useState(null);
     const [listaTipoPlazo,setListaTipoPlazo] = useState([])
-    const [,,,,endpointLibre ] = Peticiones();
+    const [,guardarNuevoJson,,,endpointLibre ] = Peticiones();
+    const [estadoForm,setEstadoForm] = useState(false);
 
+    
     useEffect(()=>{
         cargarListas();
     },[]);
@@ -33,6 +37,9 @@ export const Formulario = ({almacenDatos}) => {
         setListaTipoPlazo (variable)
     }
 
+
+    
+
     return(
         <Form >
             <Tabs defaultActiveKey="solicitud" id="uncontrolled-tab-example" className="mb-3">
@@ -52,13 +59,15 @@ export const Formulario = ({almacenDatos}) => {
                                 />
                           </Form.Group>
                       </Col>
-
+                      <Col md>
+                           <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Cliente</Button>
+                      </Col>
                   </Row>
                   <Row>
                       <Col md>
                           <Form.Group className='mb-2'>
                               <Form.Label>Ingresos Actuales (Mensuales)</Form.Label>
-                              <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}}/>
+                              <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" />
                           </Form.Group>
                       </Col>
 
@@ -67,13 +76,13 @@ export const Formulario = ({almacenDatos}) => {
                       <Col md>
                           <Form.Group className='mb-2'>
                               <Form.Label>Monto Credito</Form.Label>
-                              <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}}/>
+                              <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" />
                           </Form.Group>
                       </Col>
                       <Col md>
                           <Form.Group className='mb-2'>
                               <Form.Label>Gastos Administrativos</Form.Label>
-                              <Form.Control  placeholder="Ingrese apellidos" id="apellido" onChange={(e)=>{almacenDatos(e)}}/>
+                              <Form.Control  placeholder="Ingrese apellidos" id="apellido" />
                           </Form.Group>
                       </Col>
                   </Row>
@@ -89,13 +98,13 @@ export const Formulario = ({almacenDatos}) => {
                       <Col md>
                           <Form.Group className='mb-2'>
                               <Form.Label>Interes</Form.Label>
-                              <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}}/>
+                              <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" />
                           </Form.Group>
                       </Col>
                       <Col md>
                           <Form.Group className='mb-2'>
                               <Form.Label>Interes Moratorio</Form.Label>
-                              <Form.Control  placeholder="Ingrese apellidos" id="apellido" onChange={(e)=>{almacenDatos(e)}}/>
+                              <Form.Control  placeholder="Ingrese apellidos" id="apellido" />
                           </Form.Group>
                       </Col>
                   </Row>
@@ -137,13 +146,13 @@ export const Formulario = ({almacenDatos}) => {
                       <Col md>
                           <Form.Group className='mb-2'>
                               <Form.Label>Entidad</Form.Label>
-                              <Form.Control placeholder="Ingrese nombres" id="nombre" onChange={(e)=>{almacenDatos(e)}}/>
+                              <Form.Control placeholder="Ingrese nombres" id="nombre" />
                           </Form.Group>
                       </Col>
                       <Col md>
                           <Form.Group className='mb-2'>
                               <Form.Label>Estado</Form.Label>
-                              <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}}/>
+                              <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" />
                           </Form.Group>
                       </Col>
                   </Row>
@@ -151,19 +160,19 @@ export const Formulario = ({almacenDatos}) => {
                       <Col md>
                           <Form.Group className='mb-2'>
                               <Form.Label>Monto cuota</Form.Label>
-                              <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}}/>
+                              <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" />
                           </Form.Group>
                       </Col>
                       <Col md>
                           <Form.Group className='mb-2'>
                               <Form.Label>Cuotas Pendientes</Form.Label>
-                              <Form.Control  placeholder="Ingrese apellidos" id="apellido" onChange={(e)=>{almacenDatos(e)}}/>
+                              <Form.Control  placeholder="Ingrese apellidos" id="apellido" />
                           </Form.Group>
                       </Col>
                       <Col md>
                           <Form.Group className='mb-2'>
                               <Form.Label>Cuotas Totales</Form.Label>
-                              <Form.Control  placeholder="Ingrese apellidos" id="apellido" onChange={(e)=>{almacenDatos(e)}}/>
+                              <Form.Control  placeholder="Ingrese apellidos" id="apellido" />
                           </Form.Group>
                       </Col>
                   </Row>
@@ -185,6 +194,17 @@ export const Formulario = ({almacenDatos}) => {
 
               </Tab>
             </Tabs>
+            <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
+                <Modal.Header closeButton>
+                <Modal.Title>Datos Personales </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <FormularioCliente cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}}/>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
+                </Modal.Footer>
+            </Modal>
         </Form>
     )
 }

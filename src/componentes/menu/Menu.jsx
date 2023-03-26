@@ -81,7 +81,7 @@ const Menu = () => {
                     {
                         listaOpciones.datos[params.id-1].opciones.map((valor,i)=>{
                             return(
-                            <Col lg={2} key={`col-${valor.id}`}>
+                            <Col lg={2} key={`col-${valor.id}`} >
                                 <OpcionMenu key={`card-${valor.id}`} titulo={valor.titulo} imagen={valor.imagen} direccion={valor.direccion}/>
                             </Col>)
                         })

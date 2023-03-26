@@ -82,9 +82,13 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
   //console.log(datos.map(datos))
   console.log ("option selec",selectedOption)
 
+  const [value,setValue] = useState();
 
-
-
+  const refresh = ()=>{
+      // it re-renders the component
+     setValue({});
+    }
+    
   return(
     <Form onSubmit={handleSubmit} >
       <Row className="g-2">
@@ -195,7 +199,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         </Form.Group>
       </Row>
       <Row>
-        <Button type='submit' variant="success" >Guardar</Button>
+        <Button type='submit' variant="success" onClick={refresh}>Guardar</Button>
       </Row>
     </Form>
   )

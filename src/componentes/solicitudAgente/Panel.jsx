@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
-import {Formulario as FormCliente} from './Formulario';
+import {Formulario} from './Formulario';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
 import {ModalAlerta,ModalConfirmacion} from '../Utiles';
@@ -106,7 +106,7 @@ export const Panel = () => {
                 <Modal.Title>Datos Solicitud</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormCliente almacenDatos = {guardarDatos}/>
+                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
