@@ -26,7 +26,7 @@ const  Tabla = ({datos,ver}) => {
             <tbody>
                 {
                     datos.datos.map((fila)=>{
-                        return <Fila key={"fila-"+fila.id+""} dato ={fila} ver={ver}/>
+                        return <Fila key={"filaPanel-"+fila.id+""} dato ={fila} ver={ver}/>
                     })
                 }
             </tbody>
