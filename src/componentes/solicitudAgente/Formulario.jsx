@@ -19,6 +19,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         cargarListas();
     },[]);
 
+
     const cargarListas = async()=>{
         //Extrae Datos de la BD para CLIENTE
         let variable = []
@@ -45,10 +46,11 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         console.log([e.target.cliente.value ,e.target.relacion.value]);
         let temp = listaCliente.find((a)=>a.value==e.target.cliente.value);
         let arrTemp = referenciasPersonales;
-        arrTemp.push({"id":temp.value,"nombre":temp.label,"relacion":e.target.relacion.value})
+        arrTemp.push({"id_cliente":temp.value,"nombre":temp.label,"relacion":e.target.relacion.value})
         setReferenciasPersonales(arrTemp)
-        console.log(arrTemp);
+        console.log(referenciasPersonales);
     }
+
     const actualizarReferenciasComerciales=(e)=>{
         e.preventDefault();
         let campos =e.target;
@@ -56,10 +58,45 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
 
         console.log([e.target.entidad.value, e.target.estado.value, e.target.monto_cuota.value, e.target.cuotas_totales.value, e.target.cuotas_pendientes.value]);
         let arrTemp = referenciasComerciales;
-        arrTemp.push({"entidad":campos.entidad.value,"estado":campos.estado.value,"monto":campos.monto_cuota.value,"cuotas_totales":campos.cuotas_totales.value,"cuotas_pendientes":campos.cuotas_pendientes.value})
+        arrTemp.push({"entidad":campos.entidad.value,"estado":campos.estado.value,"monto_cuota":campos.monto_cuota.value,"cuotas_totales":campos.cuotas_totales.value,"cuotas_pendientes":campos.cuotas_pendientes.value})
 
         setReferenciasComerciales(arrTemp)
-        console.log(arrTemp);
+        console.log(referenciasComerciales);
+    }
+
+    const guardarForm = (e) =>{
+        e.preventDefault();
+        const form = {
+          'cliente_id':e.target.cliente.value,
+          'ingresos_actuales':e.target.ingresos.value,
+          'monto_credito':e.target.monto_credito.value,
+          'gastos_administrativos':e.target.gastos_administrativos.value,
+          'interes':e.target.interes.value,
+          'interes_moratorio':e.target.interes_moratorio.value,
+          'tipo_plazo':e.target.tipo_plazo.value,
+          'usuario_id':"2",
+          'ref_personales':referenciasPersonales,
+          'ref_comerciales':referenciasComerciales,
+        }
+        console.log(form)
+        guardarNuevoJson('api/solicitud',form).then(
+            (a)=>{
+                if(a.cod==0){
+                    console.log(a,"Guardado correctamente")
+                    cambiarModalAlerta("Guardado Correctamente");
+
+                }else{
+                    console.log(a)
+                    cambiarModalAlerta(a.msg);
+                }
+            }
+        ).catch(
+            (e)=>{
+                console.log(e)
+                cambiarModalAlerta(e.msg);
+            }
+        )
+        e.target.reset();
     }
     const actualizarForm=(e)=>{
         e.preventDefault();
@@ -72,7 +109,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         <>
         <Tabs defaultActiveKey="solicitud" id="uncontrolled-tab-example" className="mb-3">
             <Tab eventKey="solicitud" title="Solicitud">
-                <Form id="formGeneral" onSubmit={actualizarForm}>
+                <Form id="formGeneral" onSubmit={guardarForm}>
                     <Row className="g-2">
                         <Col md>
                             <Form.Group className='mb-2'>
@@ -96,7 +133,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Ingresos Actuales (Mensuales)</Form.Label>
-                                <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" />
+                                <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" name="ingresos"/>
                             </Form.Group>
                         </Col>
 
@@ -105,13 +142,13 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Monto Credito</Form.Label>
-                                <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" />
+                                <Form.Control  placeholder="Ingrese ingresos actuales" id="monto_credito" />
                             </Form.Group>
                         </Col>
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Gastos Administrativos</Form.Label>
-                                <Form.Control  placeholder="Ingrese apellidos" id="apellido" />
+                                <Form.Control  placeholder="Ingrese gastosAdministrativos" id="gastos_administrativos"  name="gastos_administrativos" />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -119,7 +156,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Tipo Plazo</Form.Label>
-                                <Form.Select defaultValue="" id="tipo_plazo">
+                                <Form.Select defaultValue="" id="tipo_plazo" name="tipo_plazo">
                                     { listaTipoPlazo.map(valor => <option value={valor.value}>{valor.label}</option> ) }
                                 </Form.Select>
                             </Form.Group>
@@ -127,13 +164,13 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Interes</Form.Label>
-                                <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" />
+                                <Form.Control  placeholder="Ingrese ingresos actuales" id="interes"  name="interes"/>
                             </Form.Group>
                         </Col>
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Interes Moratorio</Form.Label>
-                                <Form.Control  placeholder="Ingrese apellidos" id="apellido" />
+                                <Form.Control  placeholder="Ingrese apellidos" id="interes_moratorio" name="interes_moratorio" />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -249,7 +286,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         </thead>
                         <tbody>
                             {referenciasComerciales.map((fila)=>{return (<tr>
-                                <td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto}</td><td>{fila.cuotas_pendientes+"/"+fila.cuotas_totales}</td>
+                                <td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota}</td><td>{fila.cuotas_pendientes+"/"+fila.cuotas_totales}</td>
                             </tr>)})}
                         </tbody>
                     </Table>
@@ -259,6 +296,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
 
             </Tab>
         </Tabs>
+        <Button variant='success' type="submit" form="formGeneral"> Test</Button>
         <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
             <Modal.Header closeButton>
                 <Modal.Title>Datos Personales </Modal.Title>
@@ -271,5 +309,5 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
             </Modal.Footer>
         </Modal>
         </>
-)
+    )
 }
