@@ -15,3 +15,6 @@ code {
 .item{
   font-size: 150%;
 }
+.titulo{
+  justify-content: center;
+}

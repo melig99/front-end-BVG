@@ -4,12 +4,14 @@ import Select from 'react-select';
 import Peticiones from '../../helpers/peticiones';
 
 export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
-
+  
   const [listaBarrio,setListaBarrio] = useState([])
   const [listaCivil,setListaCivil] = useState([])
   const [listaTipoDocumento,setListaTipoDocumento] = useState([])
   const [selectedOption, setSelectedOption] = useState(null);
   const [,guardarNuevoJson,,,endpointLibre ] = Peticiones();
+
+
 
   const handleSubmit = (e)=> {
     e.preventDefault();
@@ -82,12 +84,8 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
   //console.log(datos.map(datos))
   console.log ("option selec",selectedOption)
 
-  const [value,setValue] = useState();
 
-  const refresh = ()=>{
-      // it re-renders the component
-     setValue({});
-    }
+
     
   return(
     <Form onSubmit={handleSubmit} >
@@ -199,7 +197,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         </Form.Group>
       </Row>
       <Row>
-        <Button type='submit' variant="success" onClick={refresh}>Guardar</Button>
+        <Button type='submit' variant="success" >Guardar</Button>
       </Row>
     </Form>
   )

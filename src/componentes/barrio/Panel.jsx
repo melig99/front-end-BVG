@@ -5,11 +5,13 @@ import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
 import {ModalAlerta,ModalConfirmacion} from '../Utiles';
 
+
 export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
     const [datosForm,setDatosForm] = useState({});
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
+        const [state, setState] = useState(false)
    
     const eliminarFila = async (id)=>{
         let temp = await eliminarRegistro('api/barrio',id)
@@ -37,6 +39,11 @@ export const Panel = () => {
     const cambiarModalConfirmacion=(msg,id)=>{
         setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
         console.log(modalConfirmacion)
+    }
+
+    const recargar =() =>{
+        obtenerPanel("api/barrio",setDatos)
+        setState(true)
     }
 
     return (
@@ -86,7 +93,7 @@ export const Panel = () => {
                     <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""} />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
+                    <Button variant="secondary" onClick={()=>{setEstadoForm(!estadoForm);recargar()}} >Cerrar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>
