@@ -65,7 +65,7 @@ export const Panel = () => {
 
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nueva Solicitud</Button>
+                                    
                                 </Col>
                             </Row>
                             <br/>
