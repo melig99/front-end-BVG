@@ -11,12 +11,13 @@ export const Panel = () => {
     const [open, setOpen] = useState(false);
     const [estadoForm,setEstadoForm] = useState(false);
 
-    const ver = async (id)=>{
-        let temp = await obtenerUnicoRegistro('api/perfilCliente',id)
-        console.log(temp)
-
+    const [selecionado,setSelecionado] = useState({"id":0});
+    const verFormulario=(id)=>{
+        //setverFom({"callback":()=>ver(id)})
+        setEstadoForm(true)
+        console.log("ingresado id: ",id)
+        setSelecionado(id)
     }
-
     useEffect(()=>{
         obtenerPanel("api/cliente",setDatos)
     },[]);
@@ -31,9 +32,6 @@ export const Panel = () => {
                         <Row>
                             <h1>Perfil Cliente</h1>
                         </Row>
-                        <Row>
-                            <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>FORMULARIO</Button>
-                        </Row>
                         <br/>
                     </Container>
                 </Col>
@@ -44,7 +42,7 @@ export const Panel = () => {
 
                     <Row>
                         <br/>
-                        <Tabla datos={datos} ver = {(id)=> ver}/>
+                        <Tabla datos={datos} ver = {(id)=> {verFormulario(id)}}/>
                     </Row>
 
                 </Container>
@@ -56,12 +54,13 @@ export const Panel = () => {
             <Modal.Title>Estatus del cliente</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Formulario />
+                <Formulario idSeleccionado={selecionado}/>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={()=> {{setEstadoForm(!estadoForm)}}} >Cerrar</Button>
             </Modal.Footer>
         </Modal>
+        
     </>
     
   )
