@@ -6,7 +6,7 @@ import Peticiones from '../../helpers/peticiones';
 export const Formulario = ({idSeleccionado}) => {
   console.log(idSeleccionado)
   const [,,obtenerUnicoRegistro,,]= Peticiones();
-  const [listaCliente,setListaCliente] = useState([])
+
   const [datosPerfil,setDatosPerfil] = useState({
      "cliente": {
          "id": 0,
@@ -32,22 +32,17 @@ export const Formulario = ({idSeleccionado}) => {
      },
      "parametros": []
   })
-    // const ver = async (id)=>{
-    //     let temp = await obtenerUnicoRegistro('api/perfilCliente',id)
-    //     console.log(temp)
 
-    // }
 	useEffect(()=>{
         cargarForm()
-		console.log('pras')
     },[idSeleccionado])
+
 	const cargarForm = async ()=>{
         console.log(idSeleccionado);
         let datosCrudo =  (await obtenerUnicoRegistro('api/perfilCliente',idSeleccionado)).datos
         console.log(datosCrudo,"datos solicitud")
         setDatosPerfil (datosCrudo)
     }
-	console.log(listaCliente)
 
     const generarTabla = (datosParametro)=>{
         console.log(datosParametro)
@@ -98,7 +93,7 @@ export const Formulario = ({idSeleccionado}) => {
 										<Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
 											<Form.Label column sm="4">Maxima Alcanzado: </Form.Label>
 											<Col sm="8">
-											<Form.Control plaintext readOnly defaultValue="9" />
+											<Form.Control plaintext readOnly value={datosPerfil.maximo_alcanzable} />
 											</Col>
 										</Form.Group>
 									</Col>
@@ -124,7 +119,7 @@ export const Formulario = ({idSeleccionado}) => {
 									<Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
 										<Form.Label column sm="6">Total Alcanzado: </Form.Label>
 										<Col sm="6">
-										<Form.Control plaintext readOnly defaultValue="8" />
+										<Form.Control plaintext readOnly value={datosPerfil.perfil.total_puntos} />
 										</Col>
 									</Form.Group>
 								</Col>
@@ -134,7 +129,7 @@ export const Formulario = ({idSeleccionado}) => {
 									<Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
 										<Form.Label column sm="6">Promedio Atrasado: </Form.Label>
 										<Col sm="6">
-										<Form.Control plaintext readOnly defaultValue="3" />
+										<Form.Control plaintext readOnly value={datosPerfil.perfil.promedio_atraso} />
 										</Col>
 									</Form.Group>
 								</Col>
@@ -144,7 +139,7 @@ export const Formulario = ({idSeleccionado}) => {
 									<Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
 										<Form.Label column sm="6">Maximo Atrasado: </Form.Label>
 										<Col sm="6">
-										<Form.Control plaintext readOnly defaultValue="3" />
+										<Form.Control plaintext readOnly value={datosPerfil.perfil.maximo_atraso}/>
 										</Col>
 									</Form.Group>
 								</Col>
@@ -154,7 +149,7 @@ export const Formulario = ({idSeleccionado}) => {
 									<Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
 										<Form.Label column sm="6">Edad: </Form.Label>
 										<Col sm="6">
-										<Form.Control plaintext readOnly defaultValue="2" />
+										<Form.Control plaintext readOnly value={datosPerfil.perfil.edad} />
 										</Col>
 									</Form.Group>
 								</Col>
@@ -163,13 +158,22 @@ export const Formulario = ({idSeleccionado}) => {
 					</Col>
 					<Col>
 						<Form>
-
 							<Row className="g-2">
 								<Col md>
 									<Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
-										<Form.Label column sm="6">Nombres y Apellidos: </Form.Label>
+										<Form.Label column sm="6">Nombres: </Form.Label>
 										<Col sm="6">
-										<Form.Control plaintext readOnly defaultValue="Melinda Sueli Gimenez Aveiro" />
+										<Form.Control plaintext readOnly value={datosPerfil.cliente.nombre} />
+										</Col>
+									</Form.Group>
+								</Col>
+							</Row>
+							<Row className="g-2">
+								<Col md>
+									<Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
+										<Form.Label column sm="6">Apellidos: </Form.Label>
+										<Col sm="6">
+										<Form.Control plaintext readOnly value={datosPerfil.cliente.apellido} />
 										</Col>
 									</Form.Group>
 								</Col>
@@ -179,7 +183,7 @@ export const Formulario = ({idSeleccionado}) => {
 									<Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
 										<Form.Label column sm="6">Cedula de identidad: </Form.Label>
 										<Col sm="6">
-										<Form.Control plaintext readOnly defaultValue="5663687" />
+										<Form.Control plaintext readOnly value={datosPerfil.cliente.documento}/>
 										</Col>
 									</Form.Group>
 								</Col>
@@ -190,7 +194,7 @@ export const Formulario = ({idSeleccionado}) => {
 									<Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
 										<Form.Label column sm="6">Edad: </Form.Label>
 										<Col sm="6">
-										<Form.Control plaintext readOnly defaultValue="24" />
+										<Form.Control plaintext readOnly value={datosPerfil.edad} />
 										</Col>
 									</Form.Group>
 								</Col>
