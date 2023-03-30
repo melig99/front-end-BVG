@@ -7,6 +7,31 @@ export const Formulario = ({idSeleccionado}) => {
   console.log(idSeleccionado)
   const [,,obtenerUnicoRegistro,,]= Peticiones();
   const [listaCliente,setListaCliente] = useState([])
+  const [datosPerfil,setDatosPerfil] = useState({
+     "cliente": {
+         "id": 0,
+         "barrio": 0,
+         "documento": "",
+         "tipo_documento": 0,
+         "nombre": "",
+         "apellido": "",
+         "f_nacimiento": "",
+         "correo": "",
+         "direccion": "",
+         "sexo": "",
+         "observaciones": "",
+         "estado_civil": 0,
+     },
+     "edad": 0,
+     "maximo_alcanzable": 0,
+     "perfil": {
+         "total_puntos": 0,
+         "edad": 0,
+         "promedio_atraso": 0,
+         "maximo_atraso": 0
+     },
+     "parametros": []
+  })
     // const ver = async (id)=>{
     //     let temp = await obtenerUnicoRegistro('api/perfilCliente',id)
     //     console.log(temp)
@@ -18,12 +43,12 @@ export const Formulario = ({idSeleccionado}) => {
     },[idSeleccionado])
 	const cargarForm = async ()=>{
         console.log(idSeleccionado);
-        let datosSolicitud =  await obtenerUnicoRegistro('api/perfilCliente',idSeleccionado)
-        console.log(datosSolicitud,"datos solicitud")
-        setListaCliente ([datosSolicitud])
+        let datosCrudo =  (await obtenerUnicoRegistro('api/perfilCliente',idSeleccionado)).datos
+        console.log(datosCrudo,"datos solicitud")
+        datosPerfil (datosCrudo)
     }
 	console.log(listaCliente)
-	
+
   return(
     <>
 		<Container>
@@ -45,6 +70,11 @@ export const Formulario = ({idSeleccionado}) => {
 										</Form.Group>
 									</Col>
 								</Row>
+                                {
+                                    datosPerfil.parametros.map((parametro)=>{
+                                        
+                                    })
+                                }
 								{/*<Row className="g-2">
 									<Col md>
 										<Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
@@ -177,7 +207,7 @@ export const Formulario = ({idSeleccionado}) => {
 					</Col>
 					<Col>
 						<Form>
-							
+
 							<Row className="g-2">
 								<Col md>
 									<Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
