@@ -1,50 +1,68 @@
 import React, {useState,useEffect}  from 'react'
 import Tabla from './Tabla';
+import {Formulario} from './Formulario';
 import Peticiones from '../../helpers/peticiones';
-import {Col,Container,Row,Button, Collapse } from 'react-bootstrap';
+import {Col,Container,Row,Button, Modal, Accordion } from 'react-bootstrap';
 
 
 export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
-    const [obtenerPanel,,,,] = Peticiones();
+    const [obtenerPanel,obtenerUnicoRegistro,,,] = Peticiones();
     const [open, setOpen] = useState(false);
+    const [estadoForm,setEstadoForm] = useState(false);
 
-    const ver = async (id)=>{
-        console.log("eva el ver")
+    const [selecionado,setSelecionado] = useState({"id":0});
+    const verFormulario=(id)=>{
+        //setverFom({"callback":()=>ver(id)})
+        setEstadoForm(true)
+        console.log("ingresado id: ",id)
+        setSelecionado(id)
     }
-
     useEffect(()=>{
         obtenerPanel("api/cliente",setDatos)
     },[]);
 
-
   return (
-    <Container>
-        <Row>
-            <Col>
-                <Container fluid={true} id="acciones">
-                    <Row>
-                        <h1>Perfil Cliente</h1>
+    <>
+    
+        <Container>
+            <Row>
+                <Col>
+                    <Container fluid={true} id="acciones">
+                        <Row>
+                            <h1>Perfil Cliente</h1>
+                        </Row>
+                        <br/>
+                    </Container>
+                </Col>
 
+            </Row>
+            <Row>
+                <Container fluid={true}>
+
+                    <Row>
+                        <br/>
+                        <Tabla datos={datos} ver = {(id)=> {verFormulario(id)}}/>
                     </Row>
 
-                    <br/>
                 </Container>
-            </Col>
+            </Row>
 
-        </Row>
-        <Row>
-            <Container fluid={true}>
-
-                <Row>
-                    <br/>
-                    <Tabla datos={datos} ver = {ver}/>
-                </Row>
-
-            </Container>
-        </Row>
-
-    </Container>
+        </Container>
+        <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
+            <Modal.Header closeButton>
+            <Modal.Title>Estatus del cliente</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Formulario idSeleccionado={selecionado}/>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={()=> {{setEstadoForm(!estadoForm)}}} >Cerrar</Button>
+            </Modal.Footer>
+        </Modal>
+        
+    </>
+    
   )
 }
 

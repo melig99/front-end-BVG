@@ -10,6 +10,8 @@ export const Panel = () => {
     const [estadoForm,setEstadoForm] = useState(false);
     const [datosForm,setDatosForm] = useState({});
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
+    const [state, setState] = useState(false)
+    console.log(state)
 
     const eliminarFila = async (id)=>{
         let temp = await eliminarRegistro('api/cliente',id)
@@ -40,6 +42,11 @@ export const Panel = () => {
         console.log(modalConfirmacion)
     }
 
+    const recargar =() =>{
+        obtenerPanel("api/cliente",setDatos)
+        setState(true)
+    }
+    
     return (
         <>
             <Container>
@@ -81,7 +88,7 @@ export const Panel = () => {
                     <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
+                    <Button variant="secondary" onClick={()=> {{setEstadoForm(!estadoForm);recargar()}}} >Cerrar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>

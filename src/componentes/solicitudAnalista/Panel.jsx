@@ -9,6 +9,7 @@ export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
     const [datosForm,setDatosForm] = useState({});
+    const [seleccionado,setSeleccionado] = useState(0)
 
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
     const eliminarFila = async (id)=>{
@@ -25,33 +26,11 @@ export const Panel = () => {
         temp[objeto.target.id]=objeto.target.value;
         setDatosForm(temp);
     }
-
-    const enviarForm = ()=>{
-        console.log(guardarNuevoJson)
-        const form = {
-            'nombre':datosForm.nombre,
-            'observacion':datosForm.observacion,
-        }
-        console.log(form);
-        guardarNuevoJson('api/barrio',form).then(
-            async (a)=>{
-                if(a.cod==0){
-                    cambiarModalAlerta("Guardado Correctamente");
-                    setEstadoForm(false)
-
-                }else{
-                    cambiarModalAlerta(a.msg);
-                }
-            }
-        ).catch(
-            (e)=>{
-                console.log(e)
-                cambiarModalAlerta(e.msg);
-            }
-        )
-
-
+    const mostarSolicitud = (id) =>{
+        setSeleccionado(id);
+        setEstadoForm(true);
     }
+
     useEffect(()=>{
         obtenerPanel("api/solicitud/aprobado",setDatos)
     },[]);
@@ -69,6 +48,9 @@ export const Panel = () => {
         setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
         console.log(modalConfirmacion)
     }
+
+
+
     return (
         <>
             <Container>
@@ -83,7 +65,7 @@ export const Panel = () => {
 
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nueva Solicitud</Button>
+                                    
                                 </Col>
                             </Row>
                             <br/>
@@ -94,7 +76,7 @@ export const Panel = () => {
                     <Container fluid={true}>
                         <Row>
                             <br/>
-                            <Tabla datos={datos}  eliminar = {(id)=>{cambiarModalConfirmacion("¿Esta seguro de que desea eliminar ?",id) } }/>
+                            <Tabla datos={datos}  ver= {(id)=>{mostarSolicitud(id)} }/>
                         </Row>
 
                     </Container>
@@ -106,11 +88,11 @@ export const Panel = () => {
                 <Modal.Title>Datos Solicitud</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormCliente almacenDatos = {guardarDatos}/>
+                    <FormCliente almacenDatos = {guardarDatos} idSeleccionado={seleccionado}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-                    <Button variant="success" onClick={()=>{enviarForm();setEstadoForm(!estadoForm)}} >Guardar</Button>
+                    <Button variant="success" onClick={()=>{setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>

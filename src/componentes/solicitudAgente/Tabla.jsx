@@ -6,7 +6,7 @@ import Table from 'react-bootstrap/Table';
 const  Tabla = ({datos,ver}) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
-    const cabecera=["Cliente","Ingresos","Monto Credito","Interes","Accion"];
+    const cabecera=["Cliente","Ingresos","Monto Credito","Interes"];
     console.log(datos)
   return (
     <>
@@ -26,7 +26,7 @@ const  Tabla = ({datos,ver}) => {
             <tbody>
                 {
                     datos.datos.map((fila)=>{
-                        return <Fila key={"fila-"+fila.id+""} dato ={fila} ver={ver}/>
+                        return <Fila key={"filaPanel-"+fila.id+""} dato ={fila} ver={ver}/>
                     })
                 }
             </tbody>
