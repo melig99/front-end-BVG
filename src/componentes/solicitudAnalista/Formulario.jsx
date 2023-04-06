@@ -10,6 +10,7 @@ export const Formulario = ({idSeleccionado}) => {
     const [,guardarNuevoJson,,,endpointLibre ] = Peticiones();
     const [referenciasPersonales,setReferenciasPersonales] = useState([]);
     const [referenciasComerciales,setReferenciasComerciales] = useState([]);
+    const [historialEstado,setHistorialEstado] = useState([]);
     const [datosSolicitud,setDatosSolicitud] = useState({"id": 0,
         "ingresos_actuales": 0,
         "monto_credito": 0,
@@ -74,6 +75,8 @@ export const Formulario = ({idSeleccionado}) => {
         cargarForm()
     },[idSeleccionado])
 
+
+
     const cargarForm = async ()=>{
         console.log(idSeleccionado);
         let ds =  (await endpointLibre(`api/solicitudUnico/${idSeleccionado}`,"GET")).datos
@@ -81,9 +84,10 @@ export const Formulario = ({idSeleccionado}) => {
         setDatosSolicitud (ds)
         setReferenciasPersonales(ds.referencia_personal)
         setReferenciasComerciales(ds.referencia_comercial)
+        setHistorialEstado(ds.historial_estado)
         console.log(referenciasPersonales,"datos refPersonal")
+        console.log(historialEstado,"datos historialEstado")
         console.log(referenciasComerciales,"datos refPersonal")
-
 
     }
     const cargarListas = async()=>{
@@ -181,7 +185,7 @@ export const Formulario = ({idSeleccionado}) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {referenciasPersonales.map((fila)=>{return ( <tr> <td>{fila.cliente_id}</td><td>{fila.relacion_cliente}</td></tr>)})}
+                                {referenciasPersonales.map((fila)=>{return ( <tr key={`rf-${fila.id}`}> <td>{fila.cliente_id}</td><td>{fila.relacion_cliente}</td></tr>)})}
                             </tbody>
                         </Table>
                     </Row>
@@ -232,7 +236,7 @@ export const Formulario = ({idSeleccionado}) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {referenciasComerciales.map((fila)=>{return ( <tr> <td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota}</td><td>{fila.cuotas_pendientes+"/"+fila.cuotas_totales}</td></tr>)})}
+                                {referenciasComerciales.map((fila)=>{return ( <tr key={`rC-${fila.id}`}> <td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota}</td><td>{fila.cuotas_pendientes+"/"+fila.cuotas_totales}</td></tr>)})}
                             </tbody>
                         </Table>
                     </Row>
@@ -240,7 +244,31 @@ export const Formulario = ({idSeleccionado}) => {
                 <Tab eventKey="cuotero" title="Cuotero">
                 </Tab>
                 <Tab eventKey="Estado" title="Estado">
-                    
+                    <Row className="g-2">
+                        <Col md>
+                            <Form.Group className='mb-2'>
+                                <Form.Label>Estado</Form.Label>
+                                <Form.Select defaultValue="" id="estadoSolicitud">
+                                    <option value="1">Pendiente</option>
+                                    <option value="2">Analizado</option>
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                            <thead className="table-dark">
+                                <tr >
+                                    <th>Estado</th>
+                                    <th>Observacion</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {historialEstado.map((fila)=>{return ( <tr key={fila.id}> <td>{fila.estado_id}</td><td>{fila.observacion_cambio}</td></tr>)})}
+                            </tbody>
+                        </Table>
+                    </Row>
                 </Tab>
             </Tabs>
         </Form>

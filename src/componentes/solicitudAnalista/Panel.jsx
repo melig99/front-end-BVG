@@ -65,7 +65,7 @@ export const Panel = () => {
 
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
-                                    
+
                                 </Col>
                             </Row>
                             <br/>
@@ -92,11 +92,12 @@ export const Panel = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-                    <Button variant="success" onClick={()=>{setEstadoForm(!estadoForm)}} >Guardar</Button>
+
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>
             <ModalConfirmacion valores={modalConfirmacion} ></ModalConfirmacion>
         </>
     )
+    //<Button variant="success" onClick={()=>{setEstadoForm(!estadoForm)}} >Guardar</Button>
 }

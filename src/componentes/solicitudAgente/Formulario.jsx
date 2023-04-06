@@ -14,10 +14,13 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
     const [estadoForm,setEstadoForm] = useState(false);
     const [referenciasPersonales,setReferenciasPersonales] = useState([]);
     const [referenciasComerciales,setReferenciasComerciales] = useState([]);
+    const [tipoPlazo,setTipoPlazo] = useState({"tipo_plazo":"","interes":"0.0","id_tipo_plazo":""});
 
     useEffect(()=>{
         cargarListas();
     },[]);
+
+
 
 
     const cargarListas = async()=>{
@@ -32,8 +35,9 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         //Extrae Datos de la BD para TIPO DOCUMENTO
         variable = [];
         options =  await endpointLibre("api/tipoPlazo","GET")
+        console.log(options)
         for (let i of options.datos){
-            variable.push({'label':i.descripcion,'value':i.id})
+            variable.push({'label':i.descripcion,'value':i.id,'interes':i.interes})
         }
         console.log(variable)
         setListaTipoPlazo (variable)
@@ -62,6 +66,13 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
 
         setReferenciasComerciales(arrTemp)
         console.log(referenciasComerciales);
+    }
+
+    const actualizarTipoPlazo = (e)=>{
+        let temp = e.target.value;
+        let elemento = listaTipoPlazo.find((fila)=>{return fila.value == temp});
+        setTipoPlazo(elemento);
+
     }
 
     const guardarForm = (e) =>{
@@ -156,7 +167,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Tipo Plazo</Form.Label>
-                                <Form.Select defaultValue="" id="tipo_plazo" name="tipo_plazo">
+                                <Form.Select defaultValue="" id="tipo_plazo" name="tipo_plazo" onChange={(e)=>{actualizarTipoPlazo(e)}}>
                                     { listaTipoPlazo.map(valor => <option value={valor.value}>{valor.label}</option> ) }
                                 </Form.Select>
                             </Form.Group>
@@ -164,7 +175,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Interes</Form.Label>
-                                <Form.Control  placeholder="Ingrese ingresos actuales" id="interes"  name="interes"/>
+                                <Form.Control   id="interes"  name="interes" readOnly value={tipoPlazo.interes}/>
                             </Form.Group>
                         </Col>
                         <Col md>
@@ -296,7 +307,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
 
             </Tab>
         </Tabs>
-        <Button variant='success' type="submit" form="formGeneral"> Test</Button>
+
         <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
             <Modal.Header closeButton>
                 <Modal.Title>Datos Personales </Modal.Title>
