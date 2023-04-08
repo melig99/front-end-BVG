@@ -1,7 +1,8 @@
 import React , { useState, useEffect }from 'react'
-import {Form,Row,Col,Tab,Tabs,Table} from 'react-bootstrap';
+import {Form,Row,Col,Tab,Tabs,Table,Button,Stack} from 'react-bootstrap';
 import Select from 'react-select';
 import Peticiones from '../../helpers/peticiones';
+import CartasAnalisis from './CartasAnalisis'
 
 export const Formulario = ({idSeleccionado}) => {
 
@@ -10,6 +11,7 @@ export const Formulario = ({idSeleccionado}) => {
     const [,guardarNuevoJson,,,endpointLibre ] = Peticiones();
     const [referenciasPersonales,setReferenciasPersonales] = useState([]);
     const [referenciasComerciales,setReferenciasComerciales] = useState([]);
+    const [analisis,setAnalisis] = useState([]);
     const [historialEstado,setHistorialEstado] = useState([]);
     const [datosSolicitud,setDatosSolicitud] = useState({"id": 0,
         "ingresos_actuales": 0,
@@ -75,19 +77,19 @@ export const Formulario = ({idSeleccionado}) => {
         cargarForm()
     },[idSeleccionado])
 
-
-
     const cargarForm = async ()=>{
         console.log(idSeleccionado);
-        let ds =  (await endpointLibre(`api/solicitudUnico/${idSeleccionado}`,"GET")).datos
+        let ds =  (await endpointLibre(`api/solicitudUnico/${idSeleccionado}`,"GET"))
         console.log(ds,"datos solicitud")
-        setDatosSolicitud (ds)
-        setReferenciasPersonales(ds.referencia_personal)
-        setReferenciasComerciales(ds.referencia_comercial)
-        setHistorialEstado(ds.historial_estado)
+        setDatosSolicitud (ds.datos)
+        setReferenciasPersonales(ds.datos.referencia_personal)
+        setReferenciasComerciales(ds.datos.referencia_comercial)
+        setHistorialEstado(ds.datos.historial_estado)
+        setAnalisis(ds.analisis)
         console.log(referenciasPersonales,"datos refPersonal")
         console.log(historialEstado,"datos historialEstado")
         console.log(referenciasComerciales,"datos refPersonal")
+        console.log(analisis,"datos analisis")
 
     }
     const cargarListas = async()=>{
@@ -99,7 +101,6 @@ export const Formulario = ({idSeleccionado}) => {
         }
 
     }
-
 
     return(
         <Form >
@@ -239,6 +240,49 @@ export const Formulario = ({idSeleccionado}) => {
                                 {referenciasComerciales.map((fila)=>{return ( <tr key={`rC-${fila.id}`}> <td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota}</td><td>{fila.cuotas_pendientes+"/"+fila.cuotas_totales}</td></tr>)})}
                             </tbody>
                         </Table>
+                    </Row>
+                </Tab>
+                <Tab eventKey="analisis" title="Analisis">
+                    <Row className="g-2">
+                        <Col md={10}>
+                            <Form.Group className='mb-2'>
+                                <Form.Label>Ingresos Mensuales</Form.Label>
+                                <Form.Control value={datosSolicitud.ingresos_actuales}  id="analisis_ing_mensuales"  disabled/>
+                            </Form.Group>
+                        </Col>
+                        <Col>
+                            <Button> Ver Perfil Cliente</Button>
+                        </Col>
+                    </Row>
+                    <Row className="g-2">
+                        <Col md>
+                            <Form.Group className='mb-2'>
+                                <Form.Label>Costos Mensuales (creditos)</Form.Label>
+                                <Form.Control value={(analisis.length ? analisis[0].total : "")}  id="analisis_ing_mensuales"  disabled/>
+                            </Form.Group>
+                        </Col>
+
+                    </Row>
+                    <Row>
+                        <hr/>
+                        <h6>
+                            Calculos aproximados (3 meses)
+                        </h6>
+                    </Row>
+                    <Row>
+                        <Stack direction="horizontal" gap={3} style={{justifyContent:"center"}}>
+                            {
+                                analisis.map((dato)=>{
+                                     return (
+                                        <div className="bg-light border">
+                                            <CartasAnalisis mes={dato.mes} ingresos={dato.ingresos} costos={dato.costos} restante={dato.restante} cuotaN={dato.cuotaN}></CartasAnalisis>
+                                        </div>
+                                    )
+
+                                })
+                            }
+
+                        </Stack>
                     </Row>
                 </Tab>
                 <Tab eventKey="cuotero" title="Cuotero">
