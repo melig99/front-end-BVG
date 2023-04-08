@@ -16,7 +16,6 @@ const Peticiones = () => {
         const data = await temp.json();
         console.log(url,"testting");
         console.log(data,"testting");
-        console.log("testting");
         setState(data)
         // setCarga(false)
     }
