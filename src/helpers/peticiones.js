@@ -25,6 +25,7 @@ const Peticiones = () => {
         // setCarga(true)
         // IDEA: Cambiar por constante de ambiente
         const url = base + modulo +"/"+id
+        console.log(url)
         const temp = await fetch(url)
         const data = await temp.json();
         return data
@@ -79,8 +80,8 @@ const Peticiones = () => {
            },
             "body": JSON.stringify(datos)
         });
-        const res = await fetch(url)
-        const data = await res.json();
+        const data = await temp.json()
+        return data;
 
     }
 
@@ -105,7 +106,7 @@ const Peticiones = () => {
         const data = await res.json();
         return data;
     }
-    return [obtenerPanel,guardarNuevoJson,obtenerUnicoRegistro,eliminarRegistro,endpointLibre]
+    return [obtenerPanel,guardarNuevoJson,obtenerUnicoRegistro,eliminarRegistro,endpointLibre,modificarRegistroJson]
 }
 
 export default Peticiones

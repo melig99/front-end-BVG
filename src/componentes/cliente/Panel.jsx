@@ -23,6 +23,15 @@ export const Panel = () => {
         }
     }
 
+    const [selecionado,setSelecionado] = useState({"id":0});
+
+    const verFormulario=(id)=>{
+        //setverFom({"callback":()=>ver(id)})
+        setEstadoForm(true)
+        console.log("ingresado id: ",id)
+        setSelecionado(id)
+    }
+
 
     useEffect(()=>{
         obtenerPanel("api/cliente",setDatos)
@@ -33,6 +42,7 @@ export const Panel = () => {
     const cambiarModalAlerta=(msg)=>{
         setModalAlerta({"estado":!modalAlerta.estado,"msg":msg})
         console.log(modalAlerta)
+        recargar()
     }
 
     // SECCION PARA ACTIVAR ALERT CONFIRMACION
@@ -61,7 +71,7 @@ export const Panel = () => {
 
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Cliente</Button>
+                                    <Button variant="primary" onClick={()=>{setSelecionado("");(setEstadoForm(!estadoForm))}}>Nuevo Cliente</Button>
                                 </Col>
                             </Row>
                             <br/>
@@ -73,7 +83,7 @@ export const Panel = () => {
                     <Container fluid={true}>
                         <Row>
                             <br/>
-                            <Tabla datos={datos}  eliminar = {(id)=>{cambiarModalConfirmacion("¿Esta seguro de que desea eliminar ?",id) } }/>
+                            <Tabla datos={datos}  eliminar = {(id)=>{cambiarModalConfirmacion("¿Esta seguro de que desea eliminar ?",id)}} ver = {(id)=> {verFormulario(id)}}/>
                         </Row>
 
                     </Container>
@@ -85,10 +95,10 @@ export const Panel = () => {
                 <Modal.Title>Datos Personales </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
+                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSelec={selecionado}/>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={()=> {{setEstadoForm(!estadoForm);recargar()}}} >Cerrar</Button>
+                    <Button variant="secondary" onClick={()=> {{setEstadoForm(!estadoForm)}}} >Cerrar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>
