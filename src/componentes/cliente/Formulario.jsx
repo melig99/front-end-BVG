@@ -135,7 +135,7 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
     "estado_civil": 0,
   })
 
-  console.log("Cliente: " +JSON.stringify(datosCliente))
+  //console.log("Cliente: " +JSON.stringify(datosCliente))
 
 	useEffect(()=>{
     if(idSelec != ""){
@@ -152,7 +152,9 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
   }
 
 
-
+  console.log("Cliente: " +JSON.stringify(datosCliente.barrio))
+  
+  console.log("listaBarrio: " +JSON.stringify(listaBarrio[0]))
   return(
     <Form onSubmit={handleSubmit} >
       <Row className="g-2">

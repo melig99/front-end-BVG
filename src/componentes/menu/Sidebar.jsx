@@ -28,7 +28,7 @@ const Sidebar = () => {
                 <NavLink to="/home/menu/2" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem ><CgCreditCard className='m-2 item'/>Credito</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+                <NavLink to="/home/menu/3" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem ><CgCalendarDates className='m-2 item'/>Caja</CDBSidebarMenuItem>
                 </NavLink>
                 <NavLink to="/"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>

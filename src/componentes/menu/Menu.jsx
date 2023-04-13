@@ -65,6 +65,18 @@ const Menu = () => {
 
                 ]
             },
+            {
+                "agrupador": "Caja",
+                "opciones":[
+                    {
+                        "id":"8",
+                        "titulo":"Conceptos Caja", // TITULO DE TARJETA
+                        "imagen":"4.jpeg", //URL
+                        "direccion":"conceptosCaja"
+                    },
+
+                ]
+            },
         ]
     }
     const [listaOpciones,setListaOpciones] = useState(tempCliente);
