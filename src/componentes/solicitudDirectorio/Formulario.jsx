@@ -17,7 +17,6 @@ export const Formulario = ({idSeleccionado}) => {
         "gastos_administrativos": 0,
         "interes": 0,
         "interes_moratorio": 0,
-        "tipo_plazo": 0,
         "cliente": {
             "documento": "",
             "tipo_documento": 0,
