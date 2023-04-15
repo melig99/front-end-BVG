@@ -3,14 +3,27 @@ import {Form,Row, Col,Button} from 'react-bootstrap';
 import Select from 'react-select';
 import Peticiones from '../../helpers/peticiones';
 
-export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
+export const Formulario = ({cambiarModalAlerta,idSelec}) => {
   
   const [listaBarrio,setListaBarrio] = useState([])
   const [listaCivil,setListaCivil] = useState([])
   const [listaTipoDocumento,setListaTipoDocumento] = useState([])
   const [selectedOption, setSelectedOption] = useState(null);
-  const [,guardarNuevoJson,,,endpointLibre ] = Peticiones();
-
+  const [,guardarNuevoJson,obtenerUnicoRegistro,,endpointLibre,modificarRegistroJson] = Peticiones();
+  const vacio = {
+    "id": 0,
+    "barrio": 0,
+    "documento": "",
+    "tipo_documento": 0,
+    "nombre": "",
+    "apellido": "",
+    "f_nacimiento": "",
+    "correo": "",
+    "direccion": "",
+    "sexo": "",
+    "observaciones": "",
+    "estado_civil": 0,
+  }
 
 
   const handleSubmit = (e)=> {
@@ -30,24 +43,45 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
       'barrio':e.target.barrio.value,
     }
     console.log(form)
-    guardarNuevoJson('api/cliente',form).then(
+    if(idSelec === ""){
+      guardarNuevoJson('api/cliente',form).then(
         (a)=>{
-            if(a.cod==0){
-                console.log(a,"Guardado correctamente")
-                cambiarModalAlerta("Guardado Correctamente");
-
-            }else{
-                console.log(a)
-                cambiarModalAlerta(a.msg);
-            }
+          if(a.cod==0){
+            console.log(a,"Guardado correctamente")
+            cambiarModalAlerta("Guardado Correctamente");
+          }else{
+            console.log(a)
+            cambiarModalAlerta(a.msg);
+          }
         }
-    ).catch(
+      ).catch(
         (e)=>{
-            console.log(e)
-            cambiarModalAlerta(e.msg);
+          console.log(e)
+          cambiarModalAlerta(e.msg);
         }
-    )
+      )
+    }else{
+      modificarRegistroJson('api/cliente',idSelec,form).then(
+        (a)=>{
+          console.log(a.cod," a.cod")
+          if(a.cod==0){
+            console.log(a,"Guardado correctamente")
+            cambiarModalAlerta("Guardado Correctamente");
+
+          }else{
+            console.log(a)
+            cambiarModalAlerta(a.msg);
+          }
+        }
+      ).catch(
+        (a)=>{
+          console.log(a)
+          cambiarModalAlerta(a.msg);
+        }
+      )
+    }
     e.target.reset();
+    setDatosCliente(vacio)
   }
 
 
@@ -84,22 +118,56 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
   //console.log(datos.map(datos))
   console.log ("option selec",selectedOption)
 
+  console.log("idselec: ",idSelec)
+
+  const [datosCliente,setDatosCliente] = useState({
+    "id": 0,
+    "barrio": 0,
+    "documento": "",
+    "tipo_documento": 0,
+    "nombre": "",
+    "apellido": "",
+    "f_nacimiento": "",
+    "correo": "",
+    "direccion": "",
+    "sexo": "",
+    "observaciones": "",
+    "estado_civil": 0,
+  })
+
+  //console.log("Cliente: " +JSON.stringify(datosCliente))
+
+	useEffect(()=>{
+    if(idSelec != ""){
+      cargarForm()
+    }
+  },[idSelec])
+
+  
+  const cargarForm = async ()=>{
+    console.log(idSelec);
+    let datosCrudo =  (await obtenerUnicoRegistro('api/cliente/u',idSelec)).datos[0]
+    console.log(datosCrudo,"datos solicitud")
+    setDatosCliente (datosCrudo)
+  }
 
 
-    
+  console.log("Cliente: " +JSON.stringify(datosCliente.barrio))
+  
+  console.log("listaBarrio: " +JSON.stringify(listaBarrio[0]))
   return(
     <Form onSubmit={handleSubmit} >
       <Row className="g-2">
         <Col md>
         <Form.Group className='mb-2'>
           <Form.Label>Nombres</Form.Label>
-          <Form.Control placeholder="Ingrese nombres" id="nombre"/>
+          <Form.Control placeholder="Ingrese nombres" id="nombre" defaultValue={datosCliente.nombre}/>
         </Form.Group>
         </Col>
         <Col md>
         <Form.Group className='mb-2'>
           <Form.Label>Apellidos</Form.Label>
-          <Form.Control  placeholder="Ingrese apellidos" id="apellido"/>
+          <Form.Control  placeholder="Ingrese apellidos" id="apellido" defaultValue={datosCliente.apellido}/>
         </Form.Group>
         </Col>
       </Row>
@@ -107,7 +175,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         <Col md>
           <Form.Group className='mb-2' >
             <Form.Label className='padding-left'>Tipo Documento</Form.Label>
-            <Form.Select defaultValue="" id="tipo_documento">
+            <Form.Select defaultValue={datosCliente.tipo_documento} id="tipo_documento">
               { listaTipoDocumento.map(valor => <option value={valor.value}>{valor.label}</option> ) }
             </Form.Select>
           </Form.Group>
@@ -115,7 +183,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         <Col md>
         <Form.Group className='mb-2'>
           <Form.Label>Nro. Documento</Form.Label>
-          <Form.Control  placeholder="Ingrese numero documento" id="documento"/>
+          <Form.Control  placeholder="Ingrese numero documento" id="documento" defaultValue={datosCliente.documento}/>
         </Form.Group>
         </Col>
       </Row>
@@ -126,7 +194,6 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
             <Select
               name="barrio"
               id="barrio"
-              defaultValue={listaBarrio[0] }
               onChange={setSelectedOption}
               options={listaBarrio}
               placeholder="Buscar barrio"
@@ -137,14 +204,14 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         <Col>
           <Form.Group className='mb-2'>
             <Form.Label>Correo</Form.Label>
-            <Form.Control type="email"  placeholder="correo@correo.com" id="correo"/>
+            <Form.Control type="email"  placeholder="correo@correo.com" id="correo" defaultValue={datosCliente.correo}/>
           </Form.Group>
         </Col>
       </Row>
       <Row className="g-2">
         <Form.Group className='mb-2'>
           <Form.Label>Direccion</Form.Label>
-          <Form.Control placeholder="Ingrese direccion" id="direccion"/>
+          <Form.Control placeholder="Ingrese direccion" id="direccion" defaultValue={datosCliente.direccion}/>
         </Form.Group>
       </Row>
       <Row className="g-2">
@@ -165,7 +232,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         <Col md>
           <Form.Group className='mb-2'>
             <Form.Label>Sexo</Form.Label>
-            <Form.Select defaultValue="" id="sexo">
+            <Form.Select defaultValue={datosCliente.sexo} id="sexo">
               <option>Femenino</option>
               <option>Masculino</option>
             </Form.Select>
@@ -176,13 +243,13 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         <Col md>
           <Form.Group className='mb-2'>
             <Form.Label>Telefono</Form.Label>
-            <Form.Control placeholder="Ingrese telefono" id="telefono"/>
+            <Form.Control placeholder="Ingrese telefono" id="telefono" defaultValue={datosCliente.telefono}/>
           </Form.Group>
         </Col>
         <Col md>
           <Form.Group className='mb-2'>
             <Form.Label>Fecha Nacimiento</Form.Label>
-            <Form.Control type="date" id="f_nacimiento"/>
+            <Form.Control type="date" id="f_nacimiento" defaultValue={datosCliente.f_nacimiento}/>
           </Form.Group>
         </Col>
       </Row>
@@ -193,6 +260,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
             as="textarea"
             style={{ height: '100px' }}
             id="observacion"
+            defaultValue={datosCliente.observaciones}
           />
         </Form.Group>
       </Row>

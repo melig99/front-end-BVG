@@ -3,20 +3,20 @@ import PropTypes from 'prop-types'
 import Fila from './Fila'
 import Table from 'react-bootstrap/Table';
 
-const  Tabla = ({datos,ver}) => {
+const  Tabla = ({datos,eliminar,ver}) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
-    const cabecera=["Cliente","Ingresos","Monto Credito","Interes"];
+    const cabecera=["Descripcon", "Saldo","Acciones"];
     console.log(datos)
   return (
     <>
-        <Table striped hover >
+        <Table table striped hover >
             <thead style={{backgroundColor:"#154360", color: 'white'}}>
-                <tr key="cabecera">
+                <tr >
                     {
                         cabecera.map(
                             (dato) => {
-                             return  <th key={`col-${dato}`}>{dato}</th>
+                             return  <th>{dato}</th>
                             }
                         )
                     }
@@ -26,7 +26,7 @@ const  Tabla = ({datos,ver}) => {
             <tbody>
                 {
                     datos.datos.map((fila)=>{
-                        return <Fila key={"filaPanel-"+fila.id+""} dato ={fila} ver={ver}/>
+                        return <Fila key={"fila-"+fila.id+""} dato ={fila} eliminar={eliminar} ver={ver}/>
                     })
                 }
             </tbody>
@@ -37,7 +37,7 @@ const  Tabla = ({datos,ver}) => {
 
 Tabla.propTypes = {
     datos:PropTypes.object,
-    ver:PropTypes.func
+    eliminar:PropTypes.func
 }
 
 export default Tabla

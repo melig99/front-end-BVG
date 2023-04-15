@@ -1,29 +1,30 @@
 import React,{useState,useEffect} from 'react';
 import {Form,Row,Button} from 'react-bootstrap';
 import Peticiones from '../../helpers/peticiones';
+import Select from 'react-select';
+
 
 
 export const Formulario = ({cambiarModalAlerta,idSelec}) => {
-    const [,guardarNuevoJson,obtenerUnicoRegistro,,,modificarRegistroJson] = Peticiones();
+    const [,guardarNuevoJson,obtenerUnicoRegistro,,endpointLibre,modificarRegistroJson] = Peticiones();
+    const [selectedOption, setSelectedOption] = useState(null);
+    const [listaCaja,setListaCaja] = useState([])
     const vacio = {
 			"id": 0,
 			"descripcion": "",
-			"factor_divisor": 0,
-			"dias_vencimiento": 0,
-			"interes": ""
+			"saldo": 0,
     }
 
     const handleSubmit = (e)=> {
         e.preventDefault();
+        console.log(e.target.caja)
         const form = {
-            'descripcion':e.target.tipo_plazo.value,
-            'factor_divisor':e.target.factor_divisor.value,
-            'dias_vencimiento':e.target.dias_vencimiento.value,
-            'interes':e.target.interes.value,
+            'pin':e.target.pin.value,
+            'saldo':e.target.saldo.value,
         }
-        console.log(form)
+        console.log(e.target.caja.value + " caja id")
         if(idSelec === ""){
-            guardarNuevoJson('api/tipoPlazo',form).then(
+            guardarNuevoJson('api/apertura/caja/'+e.target.caja.value,form).then(
               (a)=>{
                 if(a.cod==0){
                   console.log(a,"Guardado correctamente")
@@ -40,13 +41,13 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
               }
             )
           }else{
-            modificarRegistroJson('api/tipoPlazo',idSelec,form).then(
+            modificarRegistroJson('api/caja',idSelec,form).then(
               (a)=>{
                 console.log(a.cod," a.cod")
                 if(a.cod==0){
                   console.log(a,"Guardado correctamente")
                   cambiarModalAlerta("Guardado Correctamente");
-      
+
                 }else{
                   console.log(a)
                   cambiarModalAlerta(a.msg);
@@ -68,51 +69,57 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
     const [datosPlazo,setDatosPlazo] = useState({
 			"id": 0,
 			"descripcion": "",
-			"factor_divisor": 0,
-			"dias_vencimiento": 0,
-			"interes": ""
+			"saldo": 0,
     })
-  
-    console.log("barrio: " +JSON.stringify(datosPlazo))
-  
-      useEffect(()=>{
-      if(idSelec != ""){
-        cargarForm()
-      }
-    },[idSelec])
-  
-    
-    const cargarForm = async ()=>{
-      console.log(idSelec);
-      let datosCrudo =  (await obtenerUnicoRegistro('api/tipoPlazo/u',idSelec)).datos[0]
-      console.log(datosCrudo,"datos solicitud")
-      setDatosPlazo (datosCrudo)
+
+    const cargarListas = async ()=>{
+        let variable = []
+        let options =  await endpointLibre("api/caja","GET")
+        for (let i of options.datos){
+          variable.push({'label':i.descripcion,'value':i.id})
+        }
+        console.log(variable)
+        setListaCaja (variable)
     }
-    
+
+    useEffect(()=>{
+        cargarListas()
+    },[])
+
+    useEffect(()=>{
+        if(idSelec != ""){
+            cargarForm()
+        }
+    },[idSelec])
+
+
+    const cargarForm = async ()=>{
+        console.log(idSelec);
+        let datosCrudo =  (await obtenerUnicoRegistro('api/caja/u',idSelec)).datos[0]
+        console.log(datosCrudo,"datos solicitud")
+        setDatosPlazo (datosCrudo)
+    }
+
     return(
         <Form onSubmit={handleSubmit}>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Tipo Plazo</Form.Label>
-                    <Form.Control type="text" id="tipo_plazo" defaultValue={datosPlazo.descripcion} />
+                    <Form.Label>Caja</Form.Label>
+                        <Form.Select  id="caja">
+                          { listaCaja.map(valor => <option value={valor.value}>{valor.label}</option> ) }
+                        </Form.Select>
                 </Form.Group>
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Factor divisor</Form.Label>
-                    <Form.Control type="number" min="0" id="factor_divisor" defaultValue={datosPlazo.factor_divisor} />
+                    <Form.Label>Pin</Form.Label>
+                    <Form.Control type="text" id="pin" defaultValue={datosPlazo.descripcion} />
                 </Form.Group>
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Dias Vencimiento</Form.Label>
-                    <Form.Control type="number" min="0" id="dias_vencimiento" defaultValue={datosPlazo.dias_vencimiento} />
-                </Form.Group>
-            </Row>
-            <Row className="g-2">
-                <Form.Group className='mb-2'>
-                    <Form.Label>Intereses</Form.Label>
-                    <Form.Control type="decimal" min="0" id="interes" defaultValue={datosPlazo.interes} />
+                    <Form.Label>Saldo</Form.Label>
+                    <Form.Control type="number" min="0" id="saldo" defaultValue="0" />
                 </Form.Group>
             </Row>
             <Row>

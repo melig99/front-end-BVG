@@ -9,6 +9,7 @@ export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
+    const [state, setState] = useState(false)
 
 
     const eliminarFila = async (id)=>{
@@ -21,6 +22,14 @@ export const Panel = () => {
         }
     }
 
+    const [selecionado,setSelecionado] = useState({"id":0});
+
+    const verFormulario=(id)=>{
+        //setverFom({"callback":()=>ver(id)})
+        setEstadoForm(true)
+        console.log("ingresado id: ",id)
+        setSelecionado(id)
+    }
 
 
     useEffect(()=>{
@@ -32,6 +41,7 @@ export const Panel = () => {
     const cambiarModalAlerta=(msg)=>{
         setModalAlerta({"estado":!modalAlerta.estado,"msg":msg})
         console.log(modalAlerta)
+        recargar()
     }
 
     // SECCION PARA ACTIVAR ALERT CONFIRMACION
@@ -39,6 +49,11 @@ export const Panel = () => {
     const cambiarModalConfirmacion=(msg,id)=>{
         setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
         console.log(modalConfirmacion)
+    }
+
+    const recargar =() =>{
+        obtenerPanel("api/tipoPlazo",setDatos)
+        setState(true)
     }
     
     return (
@@ -55,7 +70,7 @@ export const Panel = () => {
 
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Tipo Plazo</Button>
+                                    <Button variant="primary" onClick={()=>{setSelecionado("");(setEstadoForm(!estadoForm))}}>Nuevo Tipo Plazo</Button>
                                 </Col>
                             </Row>
                             <br/>
@@ -67,13 +82,7 @@ export const Panel = () => {
                     <Container fluid={true}>
                         <Row>
                             <br/>
-                            <Tabla datos={datos}  eliminar = {(id)=>{ 
-                                                                        cambiarModalConfirmacion(
-                                                                            "¿Esta seguro de que desea eliminar ?",id
-                                                                         ) 
-                                                                    } 
-                                                            }
-                            />
+                            <Tabla datos={datos}  eliminar = {(id)=>{cambiarModalConfirmacion("¿Esta seguro de que desea eliminar ?",id )}}ver = {(id)=> {verFormulario(id)}}/>
                         </Row>
 
                     </Container>
@@ -85,10 +94,10 @@ export const Panel = () => {
                 <Modal.Title>Datos Tipo Plazo</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
+                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSelec={selecionado}/>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
+                    <Button variant="secondary" onClick={()=>{setEstadoForm(!estadoForm)}} >Cerrar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>

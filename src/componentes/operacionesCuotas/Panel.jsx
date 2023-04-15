@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
-import {Formulario as FormCliente} from './Formulario';
+import {Formulario} from './Formulario';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
 import {ModalAlerta,ModalConfirmacion} from '../Utiles';
@@ -9,7 +9,6 @@ export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
     const [datosForm,setDatosForm] = useState({});
-    const [seleccionado,setSeleccionado] = useState(0)
 
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
     const eliminarFila = async (id)=>{
@@ -26,11 +25,33 @@ export const Panel = () => {
         temp[objeto.target.id]=objeto.target.value;
         setDatosForm(temp);
     }
-    const mostarSolicitud = (id) =>{
-        setSeleccionado(id);
-        setEstadoForm(true);
-    }
 
+    const enviarForm = ()=>{
+        console.log(guardarNuevoJson)
+        const form = {
+            'nombre':datosForm.nombre,
+            'observacion':datosForm.observacion,
+        }
+        console.log(form);
+        guardarNuevoJson('api/barrio',form).then(
+            async (a)=>{
+                if(a.cod==0){
+                    cambiarModalAlerta("Guardado Correctamente");
+                    setEstadoForm(false)
+
+                }else{
+                    cambiarModalAlerta(a.msg);
+                }
+            }
+        ).catch(
+            (e)=>{
+                console.log(e)
+                cambiarModalAlerta(e.msg);
+            }
+        )
+
+
+    }
     useEffect(()=>{
         obtenerPanel("api/solicitud/aprobado",setDatos)
     },[]);
@@ -48,9 +69,6 @@ export const Panel = () => {
         setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
         console.log(modalConfirmacion)
     }
-
-
-
     return (
         <>
             <Container>
@@ -58,14 +76,14 @@ export const Panel = () => {
                     <Col>
                         <Container fluid={true} id="acciones">
                             <Row>
-                                <h1>Solicitud Analista</h1>
+                                <h1>Solicitud Agente</h1>
                             </Row>
                             <Row>
                                 <Col sm={4}>
 
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
-
+                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nueva Solicitud</Button>
                                 </Col>
                             </Row>
                             <br/>
@@ -76,7 +94,7 @@ export const Panel = () => {
                     <Container fluid={true}>
                         <Row>
                             <br/>
-                            <Tabla datos={datos}  ver= {(id)=>{mostarSolicitud(id)} }/>
+                            <Tabla datos={datos}  eliminar = {(id)=>{cambiarModalConfirmacion("¿Esta seguro de que desea eliminar ?",id) } }/>
                         </Row>
 
                     </Container>
@@ -88,16 +106,15 @@ export const Panel = () => {
                 <Modal.Title>Datos Solicitud</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormCliente almacenDatos = {guardarDatos} idSeleccionado={seleccionado}/>
+                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-
+                    <Button variant="success" onClick={()=>{enviarForm();setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>
             <ModalConfirmacion valores={modalConfirmacion} ></ModalConfirmacion>
         </>
     )
-    //<Button variant="success" onClick={()=>{setEstadoForm(!estadoForm)}} >Guardar</Button>
 }

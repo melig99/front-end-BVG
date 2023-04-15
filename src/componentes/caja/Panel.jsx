@@ -1,38 +1,41 @@
 import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
-import {Formulario as FormCliente} from './Formulario';
+import {Formulario} from './Formulario';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
 import {ModalAlerta,ModalConfirmacion} from '../Utiles';
 
+
 export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
-    const [datosForm,setDatosForm] = useState({});
-    const [seleccionado,setSeleccionado] = useState(0)
-
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
+    const [state, setState] = useState(false)
+
+
     const eliminarFila = async (id)=>{
-        let temp = await eliminarRegistro('api/solicitud',id)
-        console.log(temp)
-        if(temp.cod==0){
-            cambiarModalAlerta("Eliminado Correctamente")
-        }else{
-            cambiarModalAlerta(temp.msg);
-        }
+        // let temp = await eliminarRegistro('api/caja',id)
+        // console.log(temp)
+        // if(temp.cod==0){
+        //     cambiarModalAlerta("Eliminado Correctamente")
+        // }else{
+        //     cambiarModalAlerta(temp.msg);
+        // }
+        console.log("testing");
     }
-    const guardarDatos=(objeto)=>{
-        let temp = {...datosForm};
-        temp[objeto.target.id]=objeto.target.value;
-        setDatosForm(temp);
+
+    const [selecionado,setSelecionado] = useState({"id":0});
+
+    const verFormulario=(id)=>{
+        //setverFom({"callback":()=>ver(id)})
+        setEstadoForm(true)
+        console.log("ingresado id: ",id)
+        setSelecionado(id)
     }
-    const mostarSolicitud = (id) =>{
-        setSeleccionado(id);
-        setEstadoForm(true);
-    }
+
 
     useEffect(()=>{
-        obtenerPanel("api/solicitud/aprobado",setDatos)
+        obtenerPanel("api/caja",setDatos)
     },[]);
 
     // SECCION PARA ACTIVAR ALERTAS
@@ -40,6 +43,7 @@ export const Panel = () => {
     const cambiarModalAlerta=(msg)=>{
         setModalAlerta({"estado":!modalAlerta.estado,"msg":msg})
         console.log(modalAlerta)
+        recargar()
     }
 
     // SECCION PARA ACTIVAR ALERT CONFIRMACION
@@ -49,7 +53,10 @@ export const Panel = () => {
         console.log(modalConfirmacion)
     }
 
-
+    const recargar =() =>{
+        obtenerPanel("api/caja",setDatos)
+        setState(true)
+    }
 
     return (
         <>
@@ -58,25 +65,26 @@ export const Panel = () => {
                     <Col>
                         <Container fluid={true} id="acciones">
                             <Row>
-                                <h1>Solicitud Analista</h1>
+                                <h1>Caja</h1>
                             </Row>
                             <Row>
                                 <Col sm={4}>
 
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
-
+                                    <Button variant="primary" onClick={()=>{setSelecionado("");(setEstadoForm(!estadoForm))}}>Nueva Caja</Button>
                                 </Col>
                             </Row>
                             <br/>
                         </Container>
                     </Col>
+
                 </Row>
                 <Row>
                     <Container fluid={true}>
                         <Row>
                             <br/>
-                            <Tabla datos={datos}  ver= {(id)=>{mostarSolicitud(id)} }/>
+                            <Tabla datos={datos}  eliminar = {(id)=>{cambiarModalConfirmacion("¿Esta seguro de que desea eliminar ?",id )}}ver = {(id)=> {verFormulario(id)}}/>
                         </Row>
 
                     </Container>
@@ -85,19 +93,18 @@ export const Panel = () => {
             </Container>
             <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
                 <Modal.Header closeButton>
-                <Modal.Title>Datos Solicitud</Modal.Title>
+                <Modal.Title>Datos Caja</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormCliente almacenDatos = {guardarDatos} idSeleccionado={seleccionado}/>
+                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSelec={selecionado}/>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-
+                    <Button variant="secondary" onClick={()=>{setEstadoForm(!estadoForm)}} >Cerrar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>
             <ModalConfirmacion valores={modalConfirmacion} ></ModalConfirmacion>
+
         </>
     )
-    //<Button variant="success" onClick={()=>{setEstadoForm(!estadoForm)}} >Guardar</Button>
 }

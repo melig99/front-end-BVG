@@ -5,7 +5,7 @@ const Peticiones = () => {
   //DATOS A UTILIZAR EN EL OBJETO CARDS
     // const [imagenes,setImagenes] = useState([])
     // const [buscador,setBuscador] = useState("")
-    const base = process.env.REACT_APP_URL_BACKEND_BASE // "http://localhost:8000/"
+    const base =  "http://localhost:8000/"
     // const [carga,setCarga] = useState(true)
     //FUNCIONES A UTILIZAR
     const obtenerPanel = async (modulo,setState,pagina=0,buscar="",filtros=[]) =>{
@@ -16,7 +16,6 @@ const Peticiones = () => {
         const data = await temp.json();
         console.log(url,"testting");
         console.log(data,"testting");
-        console.log("testting");
         setState(data)
         // setCarga(false)
     }
@@ -25,6 +24,7 @@ const Peticiones = () => {
         // setCarga(true)
         // IDEA: Cambiar por constante de ambiente
         const url = base + modulo +"/"+id
+        console.log(url)
         const temp = await fetch(url)
         const data = await temp.json();
         return data
@@ -79,8 +79,8 @@ const Peticiones = () => {
            },
             "body": JSON.stringify(datos)
         });
-        const res = await fetch(url)
-        const data = await res.json();
+        const data = await temp.json()
+        return data;
 
     }
 
@@ -105,7 +105,7 @@ const Peticiones = () => {
         const data = await res.json();
         return data;
     }
-    return [obtenerPanel,guardarNuevoJson,obtenerUnicoRegistro,eliminarRegistro,endpointLibre]
+    return [obtenerPanel,guardarNuevoJson,obtenerUnicoRegistro,eliminarRegistro,endpointLibre,modificarRegistroJson]
 }
 
 export default Peticiones

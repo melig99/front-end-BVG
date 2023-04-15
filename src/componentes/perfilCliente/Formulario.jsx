@@ -33,6 +33,8 @@ export const Formulario = ({idSeleccionado}) => {
      "parametros": []
   })
 
+  console.log("perfil: " +JSON.stringify(datosPerfil))
+  
 	useEffect(()=>{
         cargarForm()
     },[idSeleccionado])
