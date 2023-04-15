@@ -15,6 +15,7 @@ import {Panel as PanelSolicitudAnalista}  from './componentes/solicitudAnalista/
 import {Panel as PanelSolicitudDirectorio}  from './componentes/solicitudDirectorio/Panel'
 import {Panel as PanelPerfilCliente} from './componentes/perfilCliente/Panel'
 import {Panel as PanelConceptosCaja} from './componentes/conceptosCaja/Panel'
+import {Panel as PanelCaja} from './componentes/caja/Panel'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -34,6 +35,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route  path='solicitudDirectorio' element={<PanelSolicitudDirectorio/>} />
           <Route  path='perfilCliente' element={<PanelPerfilCliente/>} />
           <Route  path='conceptosCaja' element={<PanelConceptosCaja/>} />
+          <Route  path='caja' element={<PanelCaja/>} />
         </Route>
       </Route>
     </Routes>

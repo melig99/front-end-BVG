@@ -70,9 +70,15 @@ const Menu = () => {
                 "opciones":[
                     {
                         "id":"8",
-                        "titulo":"Conceptos Caja", // TITULO DE TARJETA
+                        "titulo":"Conceptos", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"conceptosCaja"
+                    },
+                    {
+                        "id":"9",
+                        "titulo":"Cajas", // TITULO DE TARJETA
+                        "imagen":"4.jpeg", //URL
+                        "direccion":"caja"
                     },
 
                 ]

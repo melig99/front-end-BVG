@@ -32,8 +32,9 @@
   }
 }
 
-.card {
-  padding: 2em;
+div.col-lg-2 > a{
+    text-decoration:none !important;
+    color:#154360;
 }
 
 .read-the-docs {
