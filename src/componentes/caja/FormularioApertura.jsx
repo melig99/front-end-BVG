@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import {Form,Row,Button} from 'react-bootstrap';
 import Peticiones from '../../helpers/peticiones';
+import localBD from '../../helpers/localBD';
 import Select from 'react-select';
 
 
@@ -9,6 +10,7 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
     const [,guardarNuevoJson,obtenerUnicoRegistro,,endpointLibre,modificarRegistroJson] = Peticiones();
     const [selectedOption, setSelectedOption] = useState(null);
     const [listaCaja,setListaCaja] = useState([])
+    const {abrirCaja} = localBD()
     const vacio = {
 			"id": 0,
 			"descripcion": "",
@@ -24,44 +26,9 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
         }
         console.log(e.target.caja.value + " caja id")
         if(idSelec === ""){
-            guardarNuevoJson('api/apertura/caja/'+e.target.caja.value,form).then(
-              (a)=>{
-                if(a.cod==0){
-                  console.log(a,"Guardado correctamente")
-                  cambiarModalAlerta("Guardado Correctamente");
-                }else{
-                  console.log(a)
-                  cambiarModalAlerta(a.msg);
-                }
-              }
-            ).catch(
-              (e)=>{
-                console.log(e)
-                cambiarModalAlerta(e.msg);
-              }
-            )
-          }else{
-            modificarRegistroJson('api/caja',idSelec,form).then(
-              (a)=>{
-                console.log(a.cod," a.cod")
-                if(a.cod==0){
-                  console.log(a,"Guardado correctamente")
-                  cambiarModalAlerta("Guardado Correctamente");
+            abrirCaja(guardarNuevoJson('api/apertura/caja/'+e.target.caja.value,form),cambiarModalAlerta)
 
-                }else{
-                  console.log(a)
-                  cambiarModalAlerta(a.msg);
-                }
-              }
-            ).catch(
-              (a)=>{
-                console.log(a)
-                cambiarModalAlerta(a.msg);
-              }
-            )
           }
-          e.target.reset();
-          setDatosPlazo(vacio)
     }
 
     console.log("idselec: ",idSelec)
@@ -106,7 +73,7 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
                 <Form.Group className='mb-2'>
                     <Form.Label>Caja</Form.Label>
                         <Form.Select  id="caja">
-                          { listaCaja.map(valor => <option value={valor.value}>{valor.label}</option> ) }
+                          { listaCaja.map(valor => <option key={valor.value} value={valor.value}>{valor.label}</option> ) }
                         </Form.Select>
                 </Form.Group>
             </Row>

@@ -10,13 +10,13 @@ const  Tabla = ({datos,eliminar,ver}) => {
     console.log(datos)
   return (
     <>
-        <Table table striped hover >
+        <Table striped hover >
             <thead style={{backgroundColor:"#154360", color: 'white'}}>
-                <tr >
+                <tr key={`cabecera`} >
                     {
                         cabecera.map(
                             (dato) => {
-                             return  <th>{dato}</th>
+                             return  <th key={dato}>{dato}</th>
                             }
                         )
                     }
