@@ -1,9 +1,26 @@
 import { useState} from 'react'
 import { Form, Button, Card, Container } from 'react-bootstrap'
 import { Navigate  } from "react-router-dom";
+import localBD from '../../helpers/localBD';
 
 const Login = () => {
     const [usuarioValido, cambiarUsuarioValido] = useState(false);
+    const {iniciarSesion} = localBD()
+
+    const loguear=(e)=>{
+        e.preventDefault();
+        const form = {
+            'usuario':e.target.usuario.value,
+            'pass':e.target.pass.value,
+        }
+        //condicionando mensajes
+        if(1){
+            iniciarSesion(form);
+            cambiarUsuarioValido(true)
+        }else{
+            //error
+        }
+    }
 
     return (
         <>
@@ -19,18 +36,18 @@ const Login = () => {
                         <div className="text-center " style={{ fontFamily: "monospace"}}>
                             <h2 >Inicio Sesion</h2>
                         </div>
-                        <Form>
+                        <Form method="post" onSubmit={loguear}>
                             <Form.Group >
                                 <Form.Label className="d-flex justify-content-start">Usuario</Form.Label>
-                                <Form.Control />
+                                <Form.Control type="text" id="usuario" name="usuario" />
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label className="d-flex justify-content-start">Contraseña</Form.Label>
-                                <Form.Control type="password" />
+                                <Form.Control type="password" id="pass" name="pass" />
                             </Form.Group>
                             <br/>
                             <Form.Group className="d-flex" >
-                                <Button onClick={()=>cambiarUsuarioValido(true)} className="w-100" type="button" style={{backgroundColor: "#01569a",borderColor: "#01569a"}}> Iniciar</Button>
+                                <Button type="submit" className="w-100" style={{backgroundColor: "#01569a",borderColor: "#01569a"}}> Iniciar</Button>
                                 {usuarioValido && (
                                     <Navigate to="/home" replace={true} />
                                 )}
