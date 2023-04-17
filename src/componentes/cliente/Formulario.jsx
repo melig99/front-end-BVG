@@ -4,7 +4,7 @@ import Select from 'react-select';
 import Peticiones from '../../helpers/peticiones';
 
 export const Formulario = ({cambiarModalAlerta,idSelec}) => {
-  
+
   const [listaBarrio,setListaBarrio] = useState([])
   const [listaCivil,setListaCivil] = useState([])
   const [listaTipoDocumento,setListaTipoDocumento] = useState([])
@@ -143,7 +143,7 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
     }
   },[idSelec])
 
-  
+
   const cargarForm = async ()=>{
     console.log(idSelec);
     let datosCrudo =  (await obtenerUnicoRegistro('api/cliente/u',idSelec)).datos[0]
@@ -152,9 +152,6 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
   }
 
 
-  console.log("Cliente: " +JSON.stringify(datosCliente.barrio))
-  
-  console.log("listaBarrio: " +JSON.stringify(listaBarrio[0]))
   return(
     <Form onSubmit={handleSubmit} >
       <Row className="g-2">

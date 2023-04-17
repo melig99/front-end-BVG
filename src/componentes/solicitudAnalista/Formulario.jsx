@@ -4,7 +4,7 @@ import Select from 'react-select';
 import Peticiones from '../../helpers/peticiones';
 import CartasAnalisis from './CartasAnalisis'
 
-export const Formulario = ({idSeleccionado}) => {
+export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
 
     const [listaCliente,setListaCliente] = useState([])
     const [selectedOption, setSelectedOption] = useState(null);
