@@ -10,6 +10,7 @@ export const Formulario = ({idSeleccionado}) => {
     const [,guardarNuevoJson,,,endpointLibre ] = Peticiones();
     const [referenciasPersonales,setReferenciasPersonales] = useState([]);
     const [referenciasComerciales,setReferenciasComerciales] = useState([]);
+    const [historialEstado,setHistorialEstado] = useState([]);
     const [analisis,setAnalisis] = useState([]);
     const [datosSolicitud,setDatosSolicitud] = useState({"id": 0,
         "ingresos_actuales": 0,
@@ -81,9 +82,11 @@ export const Formulario = ({idSeleccionado}) => {
         setDatosSolicitud (ds.datos)
         setReferenciasPersonales(ds.datos.referencia_personal)
         setReferenciasComerciales(ds.datos.referencia_comercial)
+        setHistorialEstado(ds.datos.historial_estado)
         setAnalisis(ds.analisis)
         console.log(referenciasPersonales,"datos refPersonal")
         console.log(referenciasComerciales,"datos refPersonal")
+        console.log(historialEstado,"datos historialEstado")
         console.log(analisis,"datos analisis")
 
 
@@ -235,7 +238,31 @@ export const Formulario = ({idSeleccionado}) => {
                 <Tab eventKey="cuotero" title="Cuotero">
                 </Tab>
                 <Tab eventKey="Estado" title="Estado">
+                    <Row className="g-2">
+                        <Col md>
+                            <Form.Group className='mb-2'>
+                                <Form.Label>Estado</Form.Label>
+                                <Form.Select defaultValue="" id="estadoSolicitud">
+                                    <option value="1">Pendiente</option>
+                                    <option value="2">Analizado</option>
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                            <thead className="table-dark">
+                                <tr >
+                                    <th>Estado</th>
+                                    <th>Observacion</th>
 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {historialEstado.map((fila)=>{return ( <tr key={fila.id}> <td>{fila.estado_solicitud.descripcion}</td><td>{fila.observacion_cambio}</td></tr>)})}
+                            </tbody>
+                        </Table>
+                    </Row>
                 </Tab>
             </Tabs>
         </Form>

@@ -8,7 +8,7 @@ export const Formulario = ({idSeleccionado}) => {
 
     const [listaCliente,setListaCliente] = useState([])
     const [selectedOption, setSelectedOption] = useState(null);
-    const [,guardarNuevoJson,,,endpointLibre ] = Peticiones();
+    const [,guardarNuevoJson,,,endpointLibre,modificarRegistroJson ] = Peticiones();
     const [referenciasPersonales,setReferenciasPersonales] = useState([]);
     const [referenciasComerciales,setReferenciasComerciales] = useState([]);
     const [analisis,setAnalisis] = useState([]);
@@ -51,7 +51,7 @@ export const Formulario = ({idSeleccionado}) => {
         console.log([e.target.cliente.value ,e.target.relacion.value]);
         let temp = listaCliente.find((a)=>a.value==e.target.cliente.value);
         let arrTemp = referenciasPersonales;
-        arrTemp.push({"cliente_id":temp.value,"nombre":"test","relacion_cliente":e.target.relacion.value})
+        arrTemp.push({"cliente_id":temp.value,"nombre":temp.label,"relacion_cliente":e.target.relacion.value})
         setReferenciasPersonales(arrTemp)
         console.log(referenciasPersonales);
     }
@@ -80,8 +80,13 @@ export const Formulario = ({idSeleccionado}) => {
         console.log(idSeleccionado);
         let ds =  (await endpointLibre(`api/solicitudUnico/${idSeleccionado}`,"GET"))
         console.log(ds,"datos solicitud")
+        let refPersonales = [];
+        for (const ref of ds.datos.referencia_personal) {
+            console.log(ref.cliente.nombre)
+            refPersonales.push({"cliente_id":`${ref.cliente_id}`,"nombre":`${ref.cliente.nombre} ${ref.cliente.apellido}`,"relacion_cliente":`${ref.relacion_cliente}`})
+        }
         setDatosSolicitud (ds.datos)
-        setReferenciasPersonales(ds.datos.referencia_personal)
+        setReferenciasPersonales(refPersonales)
         setReferenciasComerciales(ds.datos.referencia_comercial)
         setHistorialEstado(ds.datos.historial_estado)
         setAnalisis(ds.analisis)
@@ -98,222 +103,283 @@ export const Formulario = ({idSeleccionado}) => {
         for (let i of options.datos){
             variable.push({'label':i.nombre,'value':i.id})
         }
+        setListaCliente(variable);
 
     }
 
+    const guardarForm = (e) =>{
+        e.preventDefault();
+        const form = {
+            'ref_personales':referenciasPersonales,
+            'ref_comerciales':referenciasComerciales,
+        }
+        console.log(form)
+        modificarRegistroJson('api/solicitud',idSeleccionado,form).then(
+            (a)=>{
+                if(a.cod==0){
+                    console.log(a,"Guardado correctamente")
+                    cambiarModalAlerta("Guardado Correctamente");
+                    e.target.reset();
+                }else{
+                    console.log(a)
+                    cambiarModalAlerta(a.msg);
+                }
+            }
+        ).catch(
+            (e)=>{
+                console.log(e)
+                cambiarModalAlerta(e.msg);
+            }
+        )
+    }
     return(
-        <Form >
-            <Tabs defaultActiveKey="solicitud" id="uncontrolled-tab-example" className="mb-3">
-                <Tab eventKey="solicitud" title="Solicitud">
-                    <Row className="g-2">
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Cliente</Form.Label>
-                                <Form.Control value={datosSolicitud.cliente.nombre+" "+datosSolicitud.cliente.apellido} placeholder="Ingrese nombres" id="nombre"  disabled/>
-                            </Form.Group>
-                        </Col>
+            <>
+                <Tabs defaultActiveKey="solicitud" id="uncontrolled-tab-example" className="mb-3">
+                    <Tab eventKey="solicitud" title="Solicitud">
+                        <Form id="formGeneral" onSubmit={guardarForm}>
+                            <Row className="g-2">
+                            <Col md>
+                                <Form.Group className='mb-2'>
+                                    <Form.Label>Cliente</Form.Label>
+                                    <Form.Control value={datosSolicitud.cliente.nombre+" "+datosSolicitud.cliente.apellido} placeholder="Ingrese nombres" id="nombre"  disabled/>
+                                </Form.Group>
+                            </Col>
 
-                    </Row>
-                    <Row>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Ingresos Actuales (Mensuales)</Form.Label>
-                                <Form.Control value={datosSolicitud.ingresos_actuales}  placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}} disabled/>
-                            </Form.Group>
-                        </Col>
+                        </Row>
+                            <Row>
+                                <Col md>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Ingresos Actuales (Mensuales)</Form.Label>
+                                        <Form.Control value={datosSolicitud.ingresos_actuales}  placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}} disabled/>
+                                    </Form.Group>
+                                </Col>
 
-                    </Row>
-                    <Row>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Monto Credito</Form.Label>
-                                <Form.Control value={datosSolicitud.monto_credito} placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}} disabled/>
-                            </Form.Group>
-                        </Col>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Gastos Administrativos</Form.Label>
-                                <Form.Control value={datosSolicitud.gastos_administrativos} placeholder="Ingrese apellidos" id="apellido" onChange={(e)=>{almacenDatos(e)}} disabled/>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Tipo Plazo</Form.Label>
-                                <Form.Control value={datosSolicitud.tipo_plazo.descripcion} placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}} disabled/>
-                            </Form.Group>
-                        </Col>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Interes</Form.Label>
-                                <Form.Control value={datosSolicitud.interes} placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}} disabled/>
-                            </Form.Group>
-                        </Col>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Interes Moratorio</Form.Label>
-                                <Form.Control value={datosSolicitud.interes_moratorio} placeholder="Ingrese apellidos" id="apellido" onChange={(e)=>{almacenDatos(e)}} disabled/>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                </Tab>
-                <Tab eventKey="refPersonal" title="Referencia Personal">
-                    <Row className="g-2">
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Cliente</Form.Label>
-                                <Select
-                                    name="cliente"
-                                    id="cliente"
-                                    defaultValue={listaCliente[0] }
-                                    onChange={setSelectedOption}
-                                    options={listaCliente}
-                                    isClearable = {true}
-                                    placeholder="Buscar cliente"
-                                    />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
-                            <thead className="table-dark">
-                                <tr >
-                                    <th>Cedula</th>
-                                    <th>Nombre</th>
-                                    <th>Apellido</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {referenciasPersonales.map((fila)=>{return ( <tr key={`rf-${fila.id}`}> <td>{fila.cliente_id}</td><td>{fila.relacion_cliente}</td></tr>)})}
-                            </tbody>
-                        </Table>
-                    </Row>
-                </Tab>
-                <Tab eventKey="refComercial" title="Referencia Comercial">
-                    <Row>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Entidad</Form.Label>
-                                <Form.Control placeholder="Ingrese nombres" id="nombre" onChange={(e)=>{almacenDatos(e)}}/>
-                            </Form.Group>
-                        </Col>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Estado</Form.Label>
-                                <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}}/>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Monto cuota</Form.Label>
-                                <Form.Control  placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}}/>
-                            </Form.Group>
-                        </Col>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Cuotas Pendientes</Form.Label>
-                                <Form.Control  placeholder="Ingrese apellidos" id="apellido" onChange={(e)=>{almacenDatos(e)}}/>
-                            </Form.Group>
-                        </Col>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Cuotas Totales</Form.Label>
-                                <Form.Control  placeholder="Ingrese apellidos" id="apellido" onChange={(e)=>{almacenDatos(e)}}/>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
-                            <thead className="table-dark">
-                                <tr >
-                                    <th>Entidad</th>
-                                    <th>Estado</th>
-                                    <th>Monto Cuota</th>
-                                    <th>Cuotas</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {referenciasComerciales.map((fila)=>{return ( <tr key={`rC-${fila.id}`}> <td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota}</td><td>{fila.cuotas_pendientes+"/"+fila.cuotas_totales}</td></tr>)})}
-                            </tbody>
-                        </Table>
-                    </Row>
-                </Tab>
-                <Tab eventKey="analisis" title="Analisis">
-                    <Row className="g-2">
-                        <Col md={10}>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Ingresos Mensuales</Form.Label>
-                                <Form.Control value={datosSolicitud.ingresos_actuales}  id="analisis_ing_mensuales"  disabled/>
-                            </Form.Group>
-                        </Col>
-                        <Col>
-                            <Button> Ver Perfil Cliente</Button>
-                        </Col>
-                    </Row>
-                    <Row className="g-2">
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Costos Mensuales (creditos)</Form.Label>
-                                <Form.Control value={(analisis.length ? analisis[0].total : "")}  id="analisis_ing_mensuales"  disabled/>
-                            </Form.Group>
-                        </Col>
+                            </Row>
+                            <Row>
+                                <Col md>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Monto Credito</Form.Label>
+                                        <Form.Control value={datosSolicitud.monto_credito} placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}} disabled/>
+                                    </Form.Group>
+                                </Col>
+                                <Col md>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Gastos Administrativos</Form.Label>
+                                        <Form.Control value={datosSolicitud.gastos_administrativos} placeholder="Ingrese apellidos" id="apellido" onChange={(e)=>{almacenDatos(e)}} disabled/>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Tipo Plazo</Form.Label>
+                                        <Form.Control value={datosSolicitud.tipo_plazo.descripcion} placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}} disabled/>
+                                    </Form.Group>
+                                </Col>
+                                <Col md>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Interes</Form.Label>
+                                        <Form.Control value={datosSolicitud.interes} placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}} disabled/>
+                                    </Form.Group>
+                                </Col>
+                                <Col md>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Interes Moratorio</Form.Label>
+                                        <Form.Control value={datosSolicitud.interes_moratorio} placeholder="Ingrese apellidos" id="apellido" onChange={(e)=>{almacenDatos(e)}} disabled/>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                        </Form>
+                    </Tab>
+                    <Tab eventKey="refPersonal" title="Referencia Personal">
+                        <Form id="formRefPers" onSubmit={actualizarReferenciasPersonales}>
+                            <Row className="g-2">
+                                <Col md={8}>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Cliente</Form.Label>
+                                        <Select
+                                            name="cliente"
+                                            id="cliente"
+                                            defaultValue={listaCliente[0] }
+                                            onChange={setSelectedOption}
+                                            options={listaCliente}
+                                            isClearable = {true}
+                                            placeholder="Buscar cliente"
+                                            />
+                                    </Form.Group>
+                                </Col>
+                                <Col md={4}>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Relacion (con el cliente)</Form.Label>
+                                        <Form.Control  placeholder="Vecino,primo,pariente..." id="relacion" />
+                                    </Form.Group>
+                                </Col>
 
-                    </Row>
-                    <Row>
-                        <hr/>
-                        <h6>
-                            Calculos aproximados (3 meses)
-                        </h6>
-                    </Row>
-                    <Row>
-                        <Stack direction="horizontal" gap={3} style={{justifyContent:"center"}}>
-                            {
-                                analisis.map((dato)=>{
-                                     return (
-                                        <div className="bg-light border">
-                                            <CartasAnalisis mes={dato.mes} ingresos={dato.ingresos} costos={dato.costos} restante={dato.restante} cuotaN={dato.cuotaN}></CartasAnalisis>
-                                        </div>
-                                    )
+                            </Row>
+                            <Row>
+                                <Col md={10}>
 
-                                })
-                            }
+                                </Col>
+                                <Col md={2}>
+                                    <Form.Group className='mb-2'>
+                                        <Button type='submit' form="formRefPers" variant="success" >Guardar</Button>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                        </Form>
+                        <Row>
+                            <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                                <thead className="table-dark">
+                                    <tr >
+                                        <th>Nombre</th>
+                                        <th>Relacion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {referenciasPersonales.map((fila)=>{return ( <tr key={`rf-${fila.cliente_id}`}> <td>{fila.nombre}</td><td>{fila.relacion_cliente}</td></tr>)})}
+                                </tbody>
+                            </Table>
+                        </Row>
+                    </Tab>
+                    <Tab eventKey="refComercial" title="Referencia Comercial">
+                        <Form id="formRefCom" onSubmit={actualizarReferenciasComerciales}>
+                            <Row>
+                                <Col md>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Entidad</Form.Label>
+                                        <Form.Control placeholder="Ingrese nombres" id="entidad" />
+                                    </Form.Group>
+                                </Col>
+                                <Col md>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Estado</Form.Label>
+                                        <Form.Control  placeholder="Ingrese ingresos actuales" id="estado" />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Monto cuota</Form.Label>
+                                        <Form.Control  placeholder="Ingrese ingresos actuales" id="monto_cuota" />
+                                    </Form.Group>
+                                </Col>
+                                <Col md>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Cuotas Pendientes</Form.Label>
+                                        <Form.Control  placeholder="Ingrese apellidos" id="cuotas_pendientes" />
+                                    </Form.Group>
+                                </Col>
+                                <Col md>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Cuotas Totales</Form.Label>
+                                        <Form.Control  placeholder="Ingrese apellidos" id="cuotas_totales" />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={10}>
 
-                        </Stack>
-                    </Row>
-                </Tab>
-                <Tab eventKey="cuotero" title="Cuotero">
-                </Tab>
-                <Tab eventKey="Estado" title="Estado">
-                    <Row className="g-2">
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Estado</Form.Label>
-                                <Form.Select defaultValue="" id="estadoSolicitud">
-                                    <option value="1">Pendiente</option>
-                                    <option value="2">Analizado</option>
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
-                            <thead className="table-dark">
-                                <tr >
-                                    <th>Estado</th>
-                                    <th>Observacion</th>
+                                </Col>
+                                <Col md={2}>
+                                    <Form.Group className='mb-2'>
+                                        <Button type='submit' form="formRefCom" variant="success" >Guardar</Button>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                        </Form>
+                        <Row>
+                            <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                                <thead className="table-dark">
+                                    <tr >
+                                        <th>Entidad</th>
+                                        <th>Estado</th>
+                                        <th>Monto Cuota</th>
+                                        <th>Cuotas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {referenciasComerciales.map((fila)=>{return ( <tr key={`rC-${fila.id}`}> <td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota}</td><td>{fila.cuotas_pendientes+"/"+fila.cuotas_totales}</td></tr>)})}
+                                </tbody>
+                            </Table>
+                        </Row>
+                    </Tab>
+                    <Tab eventKey="analisis" title="Analisis">
+                        <Row className="g-2">
+                            <Col md={10}>
+                                <Form.Group className='mb-2'>
+                                    <Form.Label>Ingresos Mensuales</Form.Label>
+                                    <Form.Control value={datosSolicitud.ingresos_actuales}  id="analisis_ing_mensuales"  disabled/>
+                                </Form.Group>
+                            </Col>
+                            <Col>
+                                <Button> Ver Perfil Cliente</Button>
+                            </Col>
+                        </Row>
+                        <Row className="g-2">
+                            <Col md>
+                                <Form.Group className='mb-2'>
+                                    <Form.Label>Costos Mensuales (creditos)</Form.Label>
+                                    <Form.Control value={(analisis.length ? analisis[0].total : "")}  id="analisis_ing_mensuales"  disabled/>
+                                </Form.Group>
+                            </Col>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {historialEstado.map((fila)=>{return ( <tr key={fila.id}> <td>{fila.estado_id}</td><td>{fila.observacion_cambio}</td></tr>)})}
-                            </tbody>
-                        </Table>
-                    </Row>
-                </Tab>
-            </Tabs>
-        </Form>
+                        </Row>
+                        <Row>
+                            <hr/>
+                            <h6>
+                                Calculos aproximados (3 meses)
+                            </h6>
+                        </Row>
+                        <Row>
+                            <Stack direction="horizontal" gap={3} style={{justifyContent:"center"}}>
+                                {
+                                    analisis.map((dato)=>{
+                                         return (
+                                            <div className="bg-light border">
+                                                <CartasAnalisis mes={dato.mes} ingresos={dato.ingresos} costos={dato.costos} restante={dato.restante} cuotaN={dato.cuotaN}></CartasAnalisis>
+                                            </div>
+                                        )
+
+                                    })
+                                }
+
+                            </Stack>
+                        </Row>
+                    </Tab>
+                    <Tab eventKey="cuotero" title="Cuotero">
+                    </Tab>
+                    <Tab eventKey="Estado" title="Estado">
+                        <Row className="g-2">
+                            <Col md>
+                                <Form.Group className='mb-2'>
+                                    <Form.Label>Estado</Form.Label>
+                                    <Form.Select defaultValue="" id="estadoSolicitud">
+                                        <option value="1">Pendiente</option>
+                                        <option value="2">Analizado</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                                <thead className="table-dark">
+                                    <tr >
+                                        <th>Estado</th>
+                                        <th>Observacion</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {historialEstado.map((fila)=>{return ( <tr key={fila.id}> <td>{fila.estado_solicitud.descripcion}</td><td>{fila.observacion_cambio}</td></tr>)})}
+                                </tbody>
+                            </Table>
+                        </Row>
+                    </Tab>
+                </Tabs>
+                <Row>
+                    <Button type='submit' form="formGeneral" variant="success" >Guardar</Button>
+                </Row>
+            </>
     )
 }
