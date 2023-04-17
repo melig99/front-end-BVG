@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
-import {Formulario} from './Formulario';
+import {FormularioDesembolso} from './FormularioDesembolso';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
 import {ModalAlerta,ModalConfirmacion} from '../Utiles';
@@ -53,7 +53,7 @@ export const Panel = () => {
 
     }
     useEffect(()=>{
-        obtenerPanel("api/solicitud/aprobado",setDatos)
+        obtenerPanel("api/operaciones",setDatos)
     },[]);
 
     // SECCION PARA ACTIVAR ALERTAS
@@ -76,14 +76,14 @@ export const Panel = () => {
                     <Col>
                         <Container fluid={true} id="acciones">
                             <Row>
-                                <h1>Solicitud Agente</h1>
+                                <h1>Movimientos</h1>
                             </Row>
                             <Row>
                                 <Col sm={4}>
 
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nueva Solicitud</Button>
+                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Desembolso</Button>
                                 </Col>
                             </Row>
                             <br/>
@@ -103,10 +103,10 @@ export const Panel = () => {
             </Container>
             <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
                 <Modal.Header closeButton>
-                <Modal.Title>Datos Solicitud</Modal.Title>
+                <Modal.Title>Datos Movimientos</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
+                    <FormularioDesembolso cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>

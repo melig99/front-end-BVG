@@ -5,7 +5,7 @@ import Peticiones from '../../helpers/peticiones';
 import {Formulario as FormularioCliente} from '../cliente/Formulario'
 import {ModalAlerta,ModalConfirmacion} from '../Utiles';
 
-export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
+export const FormularioDesembolso = ({cambiarModalAlerta,idSeleccionado}) => {
 
     const [listaCliente,setListaCliente] = useState([])
     const [selectedOption, setSelectedOption] = useState(null);
