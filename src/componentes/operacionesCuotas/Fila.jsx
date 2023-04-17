@@ -6,10 +6,11 @@ const  Fila = (prop) => {
     const {dato,eliminar} = prop;
     return (
         <tr key={`filaSA-${dato.id}`}>
-            <td>{dato.nombre +" "+ dato.apellido}</td>
-            <td>{dato.ingresos_actuales}</td>
-            <td>{dato.monto_credito}</td>
-            <td>{dato.interes}</td>
+            <td>{dato.caja }</td>
+            <td>{dato.concepto}</td>
+            <td>{dato.monto}</td>
+            <td>{dato.fecha_operacion}</td>
+            <td>{dato.solicitud_id}</td>
             { (prop.eliminar && <td><button onClick={()=>{eliminar(dato.id)}} style={{backgroundColor: "red", border: "solid 1px white"}}><CgTrash style={{color:'white'}} className='m-2 item'/></button></td>) }
         </tr>
 

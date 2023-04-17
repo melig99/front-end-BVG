@@ -80,6 +80,12 @@ const Menu = () => {
                         "imagen":"4.jpeg", //URL
                         "direccion":"caja"
                     },
+                    {
+                        "id":"10",
+                        "titulo":"Movimientos", // TITULO DE TARJETA
+                        "imagen":"4.jpeg", //URL
+                        "direccion":"operacion"
+                    },
 
                 ]
             },
