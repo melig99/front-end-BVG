@@ -4,7 +4,6 @@ import Select from 'react-select';
 import Peticiones from '../../helpers/peticiones';
 
 export const Formulario = ({idSeleccionado}) => {
-  console.log(idSeleccionado)
   const [,,obtenerUnicoRegistro,,]= Peticiones();
 
   const [datosPerfil,setDatosPerfil] = useState({
@@ -33,27 +32,26 @@ export const Formulario = ({idSeleccionado}) => {
      "parametros": []
   })
 
-  console.log("perfil: " +JSON.stringify(datosPerfil))
-  
+
 	useEffect(()=>{
         cargarForm()
     },[idSeleccionado])
 
 	const cargarForm = async ()=>{
-        console.log(idSeleccionado);
+        // console.log(idSeleccionado);
         let datosCrudo =  (await obtenerUnicoRegistro('api/perfilCliente',idSeleccionado)).datos
         console.log(datosCrudo,"datos solicitud")
         setDatosPerfil (datosCrudo)
     }
 
     const generarTabla = (datosParametro)=>{
-        console.log(datosParametro)
+        // console.log(datosParametro)
         let cantDatos = datosParametro.parametros.length;
         return (
-            <Table table  hover bordered >
+            <Table  hover bordered >
                 <thead>
                     <tr style={{backgroundColor:"#154360", color: 'white'}}>
-                        <th colspan={cantDatos} style={{textAlign:"center"}}>
+                        <th colSpan={cantDatos} style={{textAlign:"center"}}>
                             {datosParametro.parametro}
                         </th>
                     </tr>

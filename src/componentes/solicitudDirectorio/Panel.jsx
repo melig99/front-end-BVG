@@ -60,11 +60,8 @@ export const Panel = () => {
                                 <h1>Solicitud Directorio</h1>
                             </Row>
                             <Row>
-                                <Col sm={4}>
+                                <Col sm={12}>
 
-                                </Col>
-                                <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nueva Solicitud</Button>
                                 </Col>
                             </Row>
                             <br/>

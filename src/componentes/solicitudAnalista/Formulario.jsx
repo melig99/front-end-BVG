@@ -12,7 +12,9 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
     const [referenciasPersonales,setReferenciasPersonales] = useState([]);
     const [referenciasComerciales,setReferenciasComerciales] = useState([]);
     const [analisis,setAnalisis] = useState([]);
+    const [cuotero,setCuotero] = useState([]);
     const [historialEstado,setHistorialEstado] = useState([]);
+    const [estadosPosibles,setEstadosPosibles] = useState([]);
     const [datosSolicitud,setDatosSolicitud] = useState({"id": 0,
         "ingresos_actuales": 0,
         "monto_credito": 0,
@@ -41,9 +43,7 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
         },
     });
 
-    const almacenDatos= (a)=>{
-        console.log(a);
-    }
+
     const actualizarReferenciasPersonales=(e)=>{
         e.preventDefault();
         console.log("Formulario Ref Personales")
@@ -81,19 +81,22 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
         let ds =  (await endpointLibre(`api/solicitudUnico/${idSeleccionado}`,"GET"))
         console.log(ds,"datos solicitud")
         let refPersonales = [];
-        for (const ref of ds.datos.referencia_personal) {
+        for (const ref of ds.datos.solicitud.referencia_personal) {
             console.log(ref.cliente.nombre)
             refPersonales.push({"cliente_id":`${ref.cliente_id}`,"nombre":`${ref.cliente.nombre} ${ref.cliente.apellido}`,"relacion_cliente":`${ref.relacion_cliente}`})
         }
-        setDatosSolicitud (ds.datos)
+        setDatosSolicitud (ds.datos.solicitud)
         setReferenciasPersonales(refPersonales)
-        setReferenciasComerciales(ds.datos.referencia_comercial)
-        setHistorialEstado(ds.datos.historial_estado)
-        setAnalisis(ds.analisis)
+        setReferenciasComerciales(ds.datos.solicitud.referencia_comercial)
+        setHistorialEstado(ds.datos.solicitud.historial_estado)
+        setAnalisis(ds.datos.analisis)
+        setCuotero(ds.datos.cuotero);
+        setEstadosPosibles(ds.datos.reglas);
         console.log(referenciasPersonales,"datos refPersonal")
         console.log(historialEstado,"datos historialEstado")
         console.log(referenciasComerciales,"datos refPersonal")
         console.log(analisis,"datos analisis")
+        console.log(estadosPosibles,"datos estados posibles")
 
     }
     const cargarListas = async()=>{
@@ -112,6 +115,8 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
         const form = {
             'ref_personales':referenciasPersonales,
             'ref_comerciales':referenciasComerciales,
+            'estado_id':e.target.estadoSolicitud.value,
+            'observacion':e.target.observacion.value,
         }
         console.log(form)
         modificarRegistroJson('api/solicitud',idSeleccionado,form).then(
@@ -150,7 +155,7 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                                 <Col md>
                                     <Form.Group className='mb-2'>
                                         <Form.Label>Ingresos Actuales (Mensuales)</Form.Label>
-                                        <Form.Control value={datosSolicitud.ingresos_actuales}  placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}} disabled/>
+                                        <Form.Control value={datosSolicitud.ingresos_actuales}  placeholder="Ingrese ingresos actuales" id="ingresos"  disabled/>
                                     </Form.Group>
                                 </Col>
 
@@ -159,13 +164,13 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                                 <Col md>
                                     <Form.Group className='mb-2'>
                                         <Form.Label>Monto Credito</Form.Label>
-                                        <Form.Control value={datosSolicitud.monto_credito} placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}} disabled/>
+                                        <Form.Control value={datosSolicitud.monto_credito} placeholder="Ingrese ingresos actuales" id="ingresos"  disabled/>
                                     </Form.Group>
                                 </Col>
                                 <Col md>
                                     <Form.Group className='mb-2'>
                                         <Form.Label>Gastos Administrativos</Form.Label>
-                                        <Form.Control value={datosSolicitud.gastos_administrativos} placeholder="Ingrese apellidos" id="apellido" onChange={(e)=>{almacenDatos(e)}} disabled/>
+                                        <Form.Control value={datosSolicitud.gastos_administrativos} placeholder="Ingrese apellidos" id="apellido"  disabled/>
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -173,19 +178,19 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                                 <Col md>
                                     <Form.Group className='mb-2'>
                                         <Form.Label>Tipo Plazo</Form.Label>
-                                        <Form.Control value={datosSolicitud.tipo_plazo.descripcion} placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}} disabled/>
+                                        <Form.Control value={datosSolicitud.tipo_plazo.descripcion} placeholder="Ingrese ingresos actuales" id="ingresos"  disabled/>
                                     </Form.Group>
                                 </Col>
                                 <Col md>
                                     <Form.Group className='mb-2'>
                                         <Form.Label>Interes</Form.Label>
-                                        <Form.Control value={datosSolicitud.interes} placeholder="Ingrese ingresos actuales" id="ingresos" onChange={(e)=>{almacenDatos(e)}} disabled/>
+                                        <Form.Control value={datosSolicitud.interes} placeholder="Ingrese ingresos actuales" id="ingresos"  disabled/>
                                     </Form.Group>
                                 </Col>
                                 <Col md>
                                     <Form.Group className='mb-2'>
                                         <Form.Label>Interes Moratorio</Form.Label>
-                                        <Form.Control value={datosSolicitud.interes_moratorio} placeholder="Ingrese apellidos" id="apellido" onChange={(e)=>{almacenDatos(e)}} disabled/>
+                                        <Form.Control value={datosSolicitud.interes_moratorio} placeholder="Ingrese apellidos" id="apellido"  disabled/>
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -228,7 +233,7 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                             </Row>
                         </Form>
                         <Row>
-                            <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                            <Table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
                                 <thead className="table-dark">
                                     <tr >
                                         <th>Nombre</th>
@@ -289,7 +294,7 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                             </Row>
                         </Form>
                         <Row>
-                            <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                            <Table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
                                 <thead className="table-dark">
                                     <tr >
                                         <th>Entidad</th>
@@ -348,6 +353,22 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                         </Row>
                     </Tab>
                     <Tab eventKey="cuotero" title="Cuotero">
+                        <Row>
+                            <Table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                                <thead className="table-dark">
+                                    <tr >
+                                        <th>N</th>
+                                        <th>Cuota</th>
+                                        <th>Interes</th>
+                                        <th>Neto</th>
+                                        <th>Capital</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {cuotero.map((fila)=>{return ( <tr key={`cuo-${fila.n_cuota}`}> <td>{fila.n_cuota}</td><td>{fila.cuota}</td><td>{fila.interes}</td><td>{fila.neto}</td><td>{fila.capital}</td></tr>)})}
+                                </tbody>
+                            </Table>
+                        </Row>
                     </Tab>
                     <Tab eventKey="Estado" title="Estado">
                         <Row className="g-2">
@@ -355,14 +376,22 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                                 <Form.Group className='mb-2'>
                                     <Form.Label>Estado</Form.Label>
                                     <Form.Select defaultValue="" id="estadoSolicitud">
-                                        <option value="1">Pendiente</option>
-                                        <option value="2">Analizado</option>
+                                        <option value={0}>Seleccione un estado nuevo</option>
+                                        {estadosPosibles.map((opcion)=>{return (<option value={opcion.estado_posible[0].id}>{opcion.estado_posible[0].descripcion}</option>)})}
                                     </Form.Select>
                                 </Form.Group>
                             </Col>
                         </Row>
+                        <Row className="g-2">
+                            <Col md>
+                                <Form.Group className='mb-2'>
+                                    <Form.Label>Observacion de Cambio</Form.Label>
+                                    <Form.Control as="textarea" style={{ height: '100px' }} id="observacion"/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
                         <Row>
-                            <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                            <Table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
                                 <thead className="table-dark">
                                     <tr >
                                         <th>Estado</th>

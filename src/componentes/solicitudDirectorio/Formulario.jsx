@@ -10,8 +10,10 @@ export const Formulario = ({idSeleccionado}) => {
     const [,guardarNuevoJson,,,endpointLibre ] = Peticiones();
     const [referenciasPersonales,setReferenciasPersonales] = useState([]);
     const [referenciasComerciales,setReferenciasComerciales] = useState([]);
-    const [historialEstado,setHistorialEstado] = useState([]);
     const [analisis,setAnalisis] = useState([]);
+    const [cuotero,setCuotero] = useState([]);
+    const [historialEstado,setHistorialEstado] = useState([]);
+    const [estadosPosibles,setEstadosPosibles] = useState([]);
     const [datosSolicitud,setDatosSolicitud] = useState({"id": 0,
         "ingresos_actuales": 0,
         "monto_credito": 0,
@@ -79,15 +81,19 @@ export const Formulario = ({idSeleccionado}) => {
         console.log(idSeleccionado);
         let ds =  (await endpointLibre(`api/solicitudUnico/${idSeleccionado}`,"GET"))
         console.log(ds,"datos solicitud")
-        setDatosSolicitud (ds.datos)
-        setReferenciasPersonales(ds.datos.referencia_personal)
-        setReferenciasComerciales(ds.datos.referencia_comercial)
-        setHistorialEstado(ds.datos.historial_estado)
-        setAnalisis(ds.analisis)
+        setDatosSolicitud (ds.datos.solicitud)
+        setReferenciasPersonales(ds.datos.solicitud.referencia_personal)
+        setReferenciasComerciales(ds.datos.solicitud.referencia_comercial)
+        setHistorialEstado(ds.datos.solicitud.historial_estado)
+        setCuotero(ds.datos.cuotero);
+        setAnalisis(ds.datos.analisis)
+        setEstadosPosibles(ds.datos.reglas);
         console.log(referenciasPersonales,"datos refPersonal")
         console.log(referenciasComerciales,"datos refPersonal")
         console.log(historialEstado,"datos historialEstado")
         console.log(analisis,"datos analisis")
+        console.log(estadosPosibles,"datos estados posibles")
+
 
 
     }
@@ -236,6 +242,22 @@ export const Formulario = ({idSeleccionado}) => {
                     </Row>
                 </Tab>
                 <Tab eventKey="cuotero" title="Cuotero">
+                    <Row>
+                        <Table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                            <thead className="table-dark">
+                                <tr >
+                                    <th>N</th>
+                                    <th>Cuota</th>
+                                    <th>Interes</th>
+                                    <th>Neto</th>
+                                    <th>Capital</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {cuotero.map((fila)=>{return ( <tr key={`cuo-${fila.n_cuota}`}> <td>{fila.n_cuota}</td><td>{fila.cuota}</td><td>{fila.interes}</td><td>{fila.neto}</td><td>{fila.capital}</td></tr>)})}
+                            </tbody>
+                        </Table>
+                    </Row>
                 </Tab>
                 <Tab eventKey="Estado" title="Estado">
                     <Row className="g-2">
@@ -243,9 +265,17 @@ export const Formulario = ({idSeleccionado}) => {
                             <Form.Group className='mb-2'>
                                 <Form.Label>Estado</Form.Label>
                                 <Form.Select defaultValue="" id="estadoSolicitud">
-                                    <option value="1">Pendiente</option>
-                                    <option value="2">Analizado</option>
+                                    <option value={0}>Seleccione un estado nuevo</option>
+                                    {estadosPosibles.map((opcion)=>{return (<option value={opcion.estado_posible[0].id}>{opcion.estado_posible[0].descripcion}</option>)})}
                                 </Form.Select>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row className="g-2">
+                        <Col md>
+                            <Form.Group className='mb-2'>
+                                <Form.Label>Observacion de Cambio</Form.Label>
+                                <Form.Control as="textarea" style={{ height: '100px' }} id="observacion"/>
                             </Form.Group>
                         </Col>
                     </Row>
