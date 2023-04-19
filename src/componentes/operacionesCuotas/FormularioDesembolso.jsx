@@ -12,6 +12,13 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
     const [, guardarNuevoJson, , , endpointLibre] = Peticiones();
     const [estadoForm, setEstadoForm] = useState(false);
     const [datosCliente, setDatosCliente] = useState({ "documento": "", "nombre_completo": "", "direccion": "" });
+    const [datosSolicitud, setDatosSolicitud] = useState(
+        {
+            "monto_credito": "",
+            "interes": "",
+            "descripcion_plazo": "",
+            "cant_cuotas": ""
+        });
 
     useEffect(() => {
         cargarListas();
@@ -34,10 +41,11 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
 
     console.log("idCliente ", idSeleccionado)
     console.log("lista ", listaCliente)
-    console.log("clientes ", datosCliente)
+    console.log("solicitud ", datosSolicitud)
 
     useEffect(() => {
         cargarCliente();
+        cargarSolicitud();
     }, [idSeleccionado]);
 
     const cargarCliente = () => {
@@ -50,11 +58,24 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
 
     }
 
+    const cargarSolicitud = async () => {
+        console.log(idSeleccionado)
+        let options = await endpointLibre("api/solicitud/aprobado/cliente/" + selectedOption.value, "GET")
+        console.log(options)
+        for (let i of options.datos) {
+            setDatosSolicitud({ "monto_credito": i.monto_credito, "interes": i.interes ,"descripcion_plazo": i.descripcion_plazo, "cant_cuotas": i.cant_cuotas })
+        }
+    }
+
+
+
+
+
 
     return (
         <>
             <Tabs defaultActiveKey="nomCliente" id="uncontrolled-tab-example" className="mb-3">
-                <Tab eventKey="nomCliente" title="Cliente">
+                <Tab eventKey="nomCliente" title="Datos de la solictud">
                     <Form id="formGeneral" onSubmit={""}>
                         <Row className="g-2">
                             <Col md>
@@ -78,7 +99,6 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                             selectedOption != null &&
                             <>
                                 <Row>
-
                                     <Col md>
                                         <Form.Group className='mb-2'>
                                             <Form.Label>Documento</Form.Label>
@@ -105,6 +125,34 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                                             <Form.Control value={datosCliente.direccion} placeholder="Ingrese apellidos" id="direccion" name="direccion" disabled />
                                         </Form.Group>
                                     </Col>
+                                </Row>
+                                <Row>
+                                    <Form.Label>Solicitud</Form.Label>
+                                    <Col md>
+                                        <Form.Group className='mb-2'>
+                                            <Form.Label>Monto del credito</Form.Label>
+                                            <Form.Control value={datosSolicitud.monto_credito} placeholder="Ingrese gastosAdministrativos" id="monto_credito" name="monto_credito" disabled />
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md>
+                                        <Form.Group className='mb-2'>
+                                            <Form.Label>Intereses</Form.Label>
+                                            <Form.Control value={datosSolicitud.interes} placeholder="Ingrese apellidos" id="interes" name="interes" disabled />
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md>
+                                        <Form.Group className='mb-2'>
+                                            <Form.Label>Cantidad de cuotas</Form.Label>
+                                            <Form.Control value={datosSolicitud.cant_cuotas} placeholder="Ingrese gastosAdministrativos" id="cant_cuotas" name="cant_cuotas" disabled />
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md>
+                                        <Form.Group className='mb-2'>
+                                            <Form.Label>Tipo plazo</Form.Label>
+                                            <Form.Control value={datosSolicitud.descripcion_plazo} placeholder="Ingrese apellidos" id="descripcion_plazo" name="descripcion_plazo" disabled />
+                                        </Form.Group>
+                                    </Col>
+
                                 </Row>
                             </>
                         }
