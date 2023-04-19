@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 
 const Menu = () => {
     const params= useParams()
-    console.log(params)
+    // console.log(params)
     //CONSTANTE PARA MENU DE CLIENTES
     let tempCliente = {
         "cod":"00",
