@@ -80,7 +80,7 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                         <Row className="g-2">
                             <Col md>
                                 <Form.Group className='mb-2'>
-                                    <Form.Label>Cliente</Form.Label>
+                                    <Form.Label style={{fontWeight: 'bold'}}>Cliente</Form.Label>
                                     <Select
                                         name="cliente"
                                         id="cliente"
@@ -126,8 +126,9 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                                         </Form.Group>
                                     </Col>
                                 </Row>
+                                <hr/>
                                 <Row>
-                                    <Form.Label>Solicitud</Form.Label>
+                                    <Form.Label style={{fontWeight: 'bold'}}>Solicitud</Form.Label>
                                     <Col md>
                                         <Form.Group className='mb-2'>
                                             <Form.Label>Monto del credito</Form.Label>
