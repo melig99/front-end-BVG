@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Form, Row, Col, Tab, Tabs, Table, Button, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import Peticiones from '../../helpers/peticiones';
+import localBD from '../../helpers/localBD';
 import { Formulario as FormularioCliente } from '../cliente/Formulario'
 import { ModalAlerta, ModalConfirmacion } from '../Utiles';
+import { useAsyncError } from 'react-router-dom';
 
 export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
 
@@ -11,7 +13,10 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [, guardarNuevoJson, , , endpointLibre] = Peticiones();
     const [estadoForm, setEstadoForm] = useState(false);
-    const [datosCliente, setDatosCliente] = useState({ "documento": "", "nombre_completo": "", "direccion": "" });
+    const [solicitud, setSolicitud] = useState(false);
+    const {obtenerUsuario,} = localBD();
+    const [usuario, setUsuario] = useState({ "nombre": ""})
+    const [datosCliente, setDatosCliente] = useState({ "id": "", "documento": "", "nombre_completo": "", "direccion": "" });
     const [datosSolicitud, setDatosSolicitud] = useState(
         {
             "monto_credito": "",
@@ -22,6 +27,13 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
 
     useEffect(() => {
         cargarListas();
+    }, []);
+
+    useEffect(() => {
+        console.log("obt usuario")
+        let temp = obtenerUsuario()
+        console.log(temp);
+        setUsuario(temp);
     }, []);
 
 
@@ -61,9 +73,15 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
     const cargarSolicitud = async () => {
         console.log(idSeleccionado)
         let options = await endpointLibre("api/solicitud/aprobado/cliente/" + selectedOption.value, "GET")
-        console.log(options)
-        for (let i of options.datos) {
-            setDatosSolicitud({ "monto_credito": i.monto_credito, "interes": i.interes ,"descripcion_plazo": i.descripcion_plazo, "cant_cuotas": i.cant_cuotas })
+        console.log("options ", options)
+        if (options.cod === "00") {
+            for (let i of options.datos) {
+                setDatosSolicitud({ "id": i.id, "monto_credito": i.monto_credito, "interes": i.interes, "descripcion_plazo": i.descripcion_plazo, "cant_cuotas": i.cant_cuotas })
+            }
+            setSolicitud(false)
+        } else {
+            console.log("else")
+            setSolicitud(true)
         }
     }
 
@@ -76,11 +94,11 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
         <>
             <Tabs defaultActiveKey="nomCliente" id="uncontrolled-tab-example" className="mb-3">
                 <Tab eventKey="nomCliente" title="Datos de la solictud">
-                    <Form id="formGeneral" onSubmit={""}>
+                    <Form >
                         <Row className="g-2">
                             <Col md>
                                 <Form.Group className='mb-2'>
-                                    <Form.Label style={{fontWeight: 'bold'}}>Cliente</Form.Label>
+                                    <Form.Label style={{ fontWeight: 'bold' }}>Cliente</Form.Label>
                                     <Select
                                         name="cliente"
                                         id="cliente"
@@ -126,108 +144,80 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                                         </Form.Group>
                                     </Col>
                                 </Row>
-                                <hr/>
-                                <Row>
-                                    <Form.Label style={{fontWeight: 'bold'}}>Solicitud</Form.Label>
-                                    <Col md>
-                                        <Form.Group className='mb-2'>
-                                            <Form.Label>Monto del credito</Form.Label>
-                                            <Form.Control value={datosSolicitud.monto_credito} placeholder="Ingrese gastosAdministrativos" id="monto_credito" name="monto_credito" disabled />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md>
-                                        <Form.Group className='mb-2'>
-                                            <Form.Label>Intereses</Form.Label>
-                                            <Form.Control value={datosSolicitud.interes} placeholder="Ingrese apellidos" id="interes" name="interes" disabled />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md>
-                                        <Form.Group className='mb-2'>
-                                            <Form.Label>Cantidad de cuotas</Form.Label>
-                                            <Form.Control value={datosSolicitud.cant_cuotas} placeholder="Ingrese gastosAdministrativos" id="cant_cuotas" name="cant_cuotas" disabled />
-                                        </Form.Group>
-                                    </Col>
-                                    <Col md>
-                                        <Form.Group className='mb-2'>
-                                            <Form.Label>Tipo plazo</Form.Label>
-                                            <Form.Control value={datosSolicitud.descripcion_plazo} placeholder="Ingrese apellidos" id="descripcion_plazo" name="descripcion_plazo" disabled />
-                                        </Form.Group>
-                                    </Col>
-
-                                </Row>
+                                <hr />
+                                {
+                                    !solicitud &&
+                                    <Row>
+                                        <Form.Label style={{ fontWeight: 'bold' }}>Solicitud</Form.Label>
+                                        <Col md>
+                                            <Form.Group className='mb-2'>
+                                                <Form.Label>Monto del credito</Form.Label>
+                                                <Form.Control value={datosSolicitud.monto_credito} placeholder="Ingrese gastosAdministrativos" id="monto_credito" name="monto_credito" disabled />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col md>
+                                            <Form.Group className='mb-2'>
+                                                <Form.Label>Intereses</Form.Label>
+                                                <Form.Control value={datosSolicitud.interes} placeholder="Ingrese apellidos" id="interes" name="interes" disabled />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col md>
+                                            <Form.Group className='mb-2'>
+                                                <Form.Label>Cantidad de cuotas</Form.Label>
+                                                <Form.Control value={datosSolicitud.cant_cuotas} placeholder="Ingrese gastosAdministrativos" id="cant_cuotas" name="cant_cuotas" disabled />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col md>
+                                            <Form.Group className='mb-2'>
+                                                <Form.Label>Tipo plazo</Form.Label>
+                                                <Form.Control value={datosSolicitud.descripcion_plazo} placeholder="Ingrese apellidos" id="descripcion_plazo" name="descripcion_plazo" disabled />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                }
+                                {
+                                    solicitud &&
+                                    <div>NO POSEE SOLICITUD
+                                        <h4>verique los datos</h4>
+                                    </div>
+                                }
                             </>
                         }
 
                     </Form>
                 </Tab>
-                {/* <Tab eventKey="refPersonal" title="Referencia Personal">
-                    <Form id="formRefPers" onSubmit={actualizarReferenciasPersonales}>
-                        <Row className="g-2">
-                            <Col md={8}>
+                <Tab eventKey="refPersonal" title="Datos del desembolso">
+                    <Form id="formRefPers" onSubmit={""}>
+                        <Row >
+                            <Col md={6}>
                                 <Form.Group className='mb-2'>
-                                    <Form.Label>Cliente</Form.Label>
-                                    <Select
-                                        name="cliente"
-                                        id="cliente"
-                                        defaultValue={listaCliente[0]}
-                                        onChange={setSelectedOption}
-                                        options={listaCliente}
-                                        isClearable={true}
-                                        placeholder="Buscar cliente"
-                                    />
+                                    <Form.Label>Caja</Form.Label>
+                                    <Form.Control id="caja" disabled />
                                 </Form.Group>
                             </Col>
-                            <Col md={4}>
-                                <Form.Group className='mb-2'>
-                                    <Form.Label>Relacion (con el cliente)</Form.Label>
-                                    <Form.Control placeholder="Vecino,primo,pariente..." id="relacion" />
-                                </Form.Group>
+                            <Col md={6}>
+                                <Form.Label>Saldo en caja </Form.Label>
+                                <Form.Control id="saldo_caja" disabled />
                             </Col>
-
                         </Row>
                         <Row>
-                            <Col md={10}>
-
-                            </Col>
-                            <Col md={2}>
+                            <Col md={6}>
+                                <Form.Label>Cajero </Form.Label>
+                                <Form.Control id="usuario" value={usuario.nombre} disabled />
+                            </Col >
+                            <Col md={6}>
                                 <Form.Group className='mb-2'>
-                                    <Button type='submit' form="formRefPers" variant="success" >Guardar</Button>
+                                    <Form.Label>Monto Desembolso</Form.Label>
+                                    <Form.Control id="monto" value={datosSolicitud.monto_credito} disabled />
                                 </Form.Group>
                             </Col>
                         </Row>
+                        <Row>
+                            <Button type='submit' variant="success" >Guardar</Button>
+                        </Row>
                     </Form>
-                    <Row>
-                        <Table table table-striped table-hover style={{ backgroundColor: "#ffffff" }}>
-                            <thead className="table-dark">
-                                <tr >
-                                    <th>Nombre</th>
-                                    <th>Relacion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {referenciasPersonales.map((fila) => { return (<tr> <td>{fila.nombre}</td><td>{fila.relacion}</td></tr>) })}
-                            </tbody>
-                        </Table>
-                    </Row>
-                    </Tab>*/}
+                </Tab>
             </Tabs>
-            {/*{
-                selectedOption === null &&
-                <Row>
-                    <Button type='submit' form="formGeneral" variant="success" >Guardar</Button>
-                </Row>
-            }
-            <Modal show={estadoForm} size="lg" animation={false} onHide={() => setEstadoForm(!estadoForm)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Datos Personales </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <FormularioCliente cambiarModalAlerta={(a) => { cambiarModalAlerta(a) }} />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setEstadoForm(!estadoForm)} >Cerrar</Button>
-                </Modal.Footer>
-        </Modal>*/}
         </>
     )
 }
