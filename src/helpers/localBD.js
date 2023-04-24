@@ -51,9 +51,19 @@ const localBD = () =>{
         )
     }
 
-    const cerrarCaja = () =>{
+    const obtenerCaja = ( )=>{
+        let caja
+        if(localStorage.getItem("caja") != null){
+            caja = localStorage.getItem("caja")
+            console.log(caja)
+        }else{
+            throw new Error('No existe indice');
+        }
+        return JSON.parse(caja)
+    }
+    const cerrarCaja = (promesa,alerta) =>{
         //pendiente
     }
-    return ({"obtenerUsuario":obtenerUsuario,"iniciarSesion":iniciarSesion,"cerrarSesion":cerrarSesion,"abrirCaja":abrirCaja})
+    return ({"obtenerUsuario":obtenerUsuario,"iniciarSesion":iniciarSesion,"cerrarSesion":cerrarSesion,"abrirCaja":abrirCaja,"obtenerCaja":obtenerCaja})
 }
 export default localBD

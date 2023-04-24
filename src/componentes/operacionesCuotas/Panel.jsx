@@ -3,15 +3,19 @@ import Tabla from './Tabla';
 import {FormularioDesembolso} from './FormularioDesembolso';
 // import {FormularioDesembolso} from './FormularioDesembolso';
 import {FormularioApertura} from '../caja/FormularioApertura';
+import {FormularioCierre} from '../caja/FormularioCierre';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
 import {ModalAlerta,ModalConfirmacion} from '../Utiles';
+import localBD from '../../helpers/localBD';
 
 export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
     const [datosForm,setDatosForm] = useState({});
     const [formSeleccionado,setFormSeleccionado] = useState();
+    const [caja,setCaja] = useState(null);
+    const {obtenerCaja} = localBD()
 
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
     const eliminarFila = async (id)=>{
@@ -34,7 +38,7 @@ export const Panel = () => {
                 return (<FormularioApertura cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
                 break;
             case 'cierre':
-
+                return (<FormularioCierre cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
                 break;
             case 'desembolso':
 
@@ -47,7 +51,6 @@ export const Panel = () => {
 
         }
     }
-
 
     const enviarForm = ()=>{
         console.log(guardarNuevoJson)
@@ -77,7 +80,24 @@ export const Panel = () => {
     }
     useEffect(()=>{
         obtenerPanel("api/operaciones",setDatos)
+        try {
+            let cajaBD = obtenerCaja()
+            setCaja(cajaBD)
+            console.log(cajaBD,"caja <-")
+        } catch (e) {
+            console.log(e)
+        }
     },[]);
+
+    useEffect(()=>{
+        try {
+            let cajaBD = obtenerCaja()
+            setCaja(cajaBD)
+            console.log(cajaBD,"caja <-")
+        } catch (e) {
+            console.log(e)
+        }
+    },[estadoForm])
 
     // SECCION PARA ACTIVAR ALERTAS
     const [modalAlerta,setModalAlerta] = useState({"estado":false,"msg":""});
@@ -102,11 +122,15 @@ export const Panel = () => {
                                 <h1>Movimientos</h1>
                             </Row>
                             <Row>
-                                <Col sm={9}>
+                                <Col sm={8}>
 
                                 </Col>
                                 <Col sm={1}>
-                                    <Button variant="primary" onClick={()=>{setFormSeleccionado('apertura'),setEstadoForm(!estadoForm)} }> Apertura  Caja </Button>
+                                    <Button variant="primary" onClick={ ()=>{ setFormSeleccionado('apertura');setEstadoForm(!estadoForm);} }> Apertura  Caja </Button>
+
+                                </Col>
+                                <Col sm={1}>
+                                    <Button variant="primary" onClick={ ()=>{ setFormSeleccionado('cierre');setEstadoForm(!estadoForm);} }> Cierre  Caja </Button>
 
                                 </Col>
                                 <Col sm={1}>
