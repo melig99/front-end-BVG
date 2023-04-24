@@ -85,6 +85,8 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
             'interes':e.target.interes.value,
             'interes_moratorio':e.target.interes_moratorio.value,
             'tipo_plazo':e.target.tipo_plazo.value,
+            'cant_cuotas':e.target.cant_cuotas.value,
+            'inicio_cuota':e.target.inicio_cuota.value,
             'usuario_id':"1",
             'ref_personales':referenciasPersonales,
             'ref_comerciales':referenciasComerciales,
@@ -151,20 +153,6 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                     <Row>
                         <Col md>
                             <Form.Group className='mb-2'>
-                                <Form.Label>Monto Credito</Form.Label>
-                                <Form.Control  placeholder="Ingrese ingresos actuales" id="monto_credito" />
-                            </Form.Group>
-                        </Col>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Gastos Administrativos</Form.Label>
-                                <Form.Control  placeholder="Ingrese gastosAdministrativos" id="gastos_administrativos"  name="gastos_administrativos" />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md>
-                            <Form.Group className='mb-2'>
                                 <Form.Label>Tipo Plazo</Form.Label>
                                 <Form.Select defaultValue="" id="tipo_plazo" name="tipo_plazo" onChange={(e)=>{actualizarTipoPlazo(e)}}>
                                     { listaTipoPlazo.map(valor => <option value={valor.value}>{valor.label}</option> ) }
@@ -181,6 +169,34 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                             <Form.Group className='mb-2'>
                                 <Form.Label>Interes Moratorio</Form.Label>
                                 <Form.Control  placeholder="Ingrese apellidos" id="interes_moratorio" name="interes_moratorio" />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md>
+                            <Form.Group className='mb-2'>
+                                <Form.Label>Monto Credito</Form.Label>
+                                <Form.Control  placeholder="Ingrese ingresos actuales" id="monto_credito" />
+                            </Form.Group>
+                        </Col>
+                        <Col md>
+                            <Form.Group className='mb-2'>
+                                <Form.Label>Gastos Administrativos</Form.Label>
+                                <Form.Control  placeholder="Ingrese gastosAdministrativos" id="gastos_administrativos"  name="gastos_administrativos" />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md>
+                            <Form.Group className='mb-2'>
+                                <Form.Label>Cantidad Cuotas</Form.Label>
+                                <Form.Control id="cant_cuotas"  name="cant_cuotas" />
+                            </Form.Group>
+                        </Col>
+                        <Col md>
+                            <Form.Group className='mb-2'>
+                                <Form.Label>Inicio Cuotas</Form.Label>
+                                <Form.Control   id="inicio_cuota"  name="inicio_cuota" />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -248,7 +264,10 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Estado</Form.Label>
-                                <Form.Control  placeholder="Ingrese ingresos actuales" id="estado" />
+                                    <Form.Select id="estado">
+                                        <option value="ACTIVO">Activo</option>
+                                        <option value="INACTIVO">Inactivo</option>
+                                    </Form.Select>
                             </Form.Group>
                         </Col>
                     </Row>
@@ -295,9 +314,9 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {referenciasComerciales.map((fila)=>{return (<tr>
-                                <td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota}</td><td>{fila.cuotas_pendientes+"/"+fila.cuotas_totales}</td>
-                            </tr>)})}
+                            {referenciasComerciales.map((fila)=>{
+                                return (<tr key={`rcS-${fila.entidad}${fila.cuotas_pendientes}`}><td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota}</td><td>{fila.cuotas_pendientes+"/"+fila.cuotas_totales}</td></tr>)
+                            })}
                         </tbody>
                     </Table>
                 </Row>

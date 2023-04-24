@@ -37,11 +37,7 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
         setListaCliente(variable)
     }
 
-    const idSeleccionado = (selectedOption != null ? selectedOption.value : "")
 
-    console.log("idCliente ", idSeleccionado)
-    console.log("lista ", listaCliente)
-    console.log("solicitud ", datosSolicitud)
 
     useEffect(() => {
         cargarCliente();
@@ -49,6 +45,10 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
     }, [idSeleccionado]);
 
     const cargarCliente = () => {
+        const idSeleccionado = (selectedOption != null ? selectedOption.value : "")
+        console.log("idCliente ", idSeleccionado)
+        console.log("lista ", listaCliente)
+        console.log("solicitud ", datosSolicitud)
         console.log(idSeleccionado)
         const id = listaCliente.find(item => item.value === idSeleccionado)
         console.log("holaaaaaaaa", id)

@@ -6,7 +6,7 @@ import Select from 'react-select';
 
 
 
-export const Formulario = ({cambiarModalAlerta,idSelec}) => {
+export const FormularioApertura = ({cambiarModalAlerta,idSelec}) => {
     const [,guardarNuevoJson,obtenerUnicoRegistro,,endpointLibre,modificarRegistroJson] = Peticiones();
     const [selectedOption, setSelectedOption] = useState(null);
     const [listaCaja,setListaCaja] = useState([])

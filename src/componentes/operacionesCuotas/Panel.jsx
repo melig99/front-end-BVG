@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
 import {FormularioDesembolso} from './FormularioDesembolso';
+// import {FormularioDesembolso} from './FormularioDesembolso';
+import {FormularioApertura} from '../caja/FormularioApertura';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
 import {ModalAlerta,ModalConfirmacion} from '../Utiles';
@@ -9,6 +11,7 @@ export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
     const [datosForm,setDatosForm] = useState({});
+    const [formSeleccionado,setFormSeleccionado] = useState();
 
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
     const eliminarFila = async (id)=>{
@@ -25,6 +28,26 @@ export const Panel = () => {
         temp[objeto.target.id]=objeto.target.value;
         setDatosForm(temp);
     }
+    const abrirForm =()=>{
+        switch (formSeleccionado) {
+            case 'apertura':
+                return <FormularioApertura cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
+                break;
+            case 'cierre':
+
+                break;
+            case 'desembolso':
+
+                return <FormularioDesembolso cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
+                break;
+            case 'cuota':
+
+                break;
+            default:
+
+        }
+    }
+
 
     const enviarForm = ()=>{
         console.log(guardarNuevoJson)
@@ -79,11 +102,19 @@ export const Panel = () => {
                                 <h1>Movimientos</h1>
                             </Row>
                             <Row>
-                                <Col sm={4}>
+                                <Col sm={9}>
 
                                 </Col>
-                                <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Desembolso</Button>
+                                <Col sm={1}>
+                                    <Button variant="primary" onClick={()=>{} }> Apertura  Caja </Button>
+
+                                </Col>
+                                <Col sm={1}>
+                                    <Button variant="primary" onClick={()=>{} }>Pagar Cuota</Button>
+
+                                </Col>
+                                <Col sm={1} className="d-flex flex-row-reverse">
+                                    <Button variant="primary" onClick={()=>{setFormSeleccionado('desembolso'),setEstadoForm(!estadoForm)}}>Desembolso</Button>
                                 </Col>
                             </Row>
                             <br/>

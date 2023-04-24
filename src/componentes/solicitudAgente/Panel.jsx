@@ -27,7 +27,7 @@ export const Panel = () => {
     }
 
     useEffect(()=>{
-        obtenerPanel("api/solicitud/aprobado",setDatos)
+        obtenerPanel("api/solicitud/pendiente",setDatos)
     },[]);
 
     // SECCION PARA ACTIVAR ALERTAS

@@ -32,7 +32,7 @@ export const Panel = () => {
     }
 
     useEffect(()=>{
-        obtenerPanel("api/solicitud/aprobado",setDatos)
+        obtenerPanel("api/solicitud/analizando",setDatos)
     },[]);
 
     // SECCION PARA ACTIVAR ALERTAS

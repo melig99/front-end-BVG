@@ -45,16 +45,16 @@ const Menu = () => {
                         "direccion":"tipoPlazo"
                     },
                     {
-                        "id":"5",
-                        "titulo":"Solitud Analisis", // TITULO DE TARJETA
-                        "imagen":"4.jpeg", //URL
-                        "direccion":"solicitudAnalista"
-                    },
-                    {
                         "id":"6",
                         "titulo":"Solicitud Agente", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"solicitudAgente"
+                    },
+                    {
+                        "id":"5",
+                        "titulo":"Solitud Analisis", // TITULO DE TARJETA
+                        "imagen":"4.jpeg", //URL
+                        "direccion":"solicitudAnalista"
                     },
                     {
                         "id":"7",
