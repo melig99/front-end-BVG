@@ -19,19 +19,17 @@ export const FormularioApertura = ({cambiarModalAlerta,idSelec}) => {
 
     const handleSubmit = (e)=> {
         e.preventDefault();
-        console.log(e.target.caja)
         const form = {
             'pin':e.target.pin.value,
             'saldo':e.target.saldo.value,
         }
         console.log(e.target.caja.value + " caja id")
-        if(idSelec === ""){
+        if(e.target.caja.value !== ""){
             abrirCaja(guardarNuevoJson('api/apertura/caja/'+e.target.caja.value,form),cambiarModalAlerta)
 
           }
     }
 
-    console.log("idselec: ",idSelec)
 
     const [datosPlazo,setDatosPlazo] = useState({
 			"id": 0,

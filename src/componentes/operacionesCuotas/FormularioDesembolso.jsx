@@ -9,6 +9,7 @@ import { useAsyncError } from 'react-router-dom';
 
 export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
 
+    let idSeleccionado="";
     const [listaCliente, setListaCliente] = useState([])
     const [selectedOption, setSelectedOption] = useState(null);
     const [, guardarNuevoJson, , , endpointLibre] = Peticiones();

@@ -31,14 +31,14 @@ export const Panel = () => {
     const abrirForm =()=>{
         switch (formSeleccionado) {
             case 'apertura':
-                return <FormularioApertura cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
+                return (<FormularioApertura cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
                 break;
             case 'cierre':
 
                 break;
             case 'desembolso':
 
-                return <FormularioDesembolso cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
+                return (<FormularioDesembolso cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
                 break;
             case 'cuota':
 
@@ -106,7 +106,7 @@ export const Panel = () => {
 
                                 </Col>
                                 <Col sm={1}>
-                                    <Button variant="primary" onClick={()=>{} }> Apertura  Caja </Button>
+                                    <Button variant="primary" onClick={()=>{setFormSeleccionado('apertura'),setEstadoForm(!estadoForm)} }> Apertura  Caja </Button>
 
                                 </Col>
                                 <Col sm={1}>
@@ -137,7 +137,8 @@ export const Panel = () => {
                 <Modal.Title>Datos Movimientos</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormularioDesembolso cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
+                    {abrirForm()}
+
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
