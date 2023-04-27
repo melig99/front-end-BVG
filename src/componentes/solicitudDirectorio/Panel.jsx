@@ -88,7 +88,6 @@ export const Panel = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-                    <Button variant="success" onClick={()=>{setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>

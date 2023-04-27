@@ -106,7 +106,32 @@ export const Formulario = ({idSeleccionado}) => {
         }
 
     }
-
+    const guardarForm = (e) =>{
+        e.preventDefault();
+        console.log(e.target)
+        const form = {
+            'estado_id':e.target.estadoSolicitud.value,
+            'observacion':e.target.observacion.value,
+        }
+        console.log(form)
+        modificarRegistroJson('api/solicitud',`${idSeleccionado}/estado`,form).then(
+            (a)=>{
+                if(a.cod==0){
+                    console.log(a,"Guardado correctamente")
+                    cambiarModalAlerta("Guardado Correctamente");
+                    e.target.reset();
+                }else{
+                    console.log(a)
+                    cambiarModalAlerta(a.msg);
+                }
+            }
+        ).catch(
+            (e)=>{
+                console.log(e)
+                cambiarModalAlerta(e.msg);
+            }
+        )
+    }
 
     return(
         <Form >
@@ -260,41 +285,46 @@ export const Formulario = ({idSeleccionado}) => {
                     </Row>
                 </Tab>
                 <Tab eventKey="Estado" title="Estado">
-                    <Row className="g-2">
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Estado</Form.Label>
-                                <Form.Select defaultValue="" id="estadoSolicitud">
-                                    <option value={0}>Seleccione un estado nuevo</option>
-                                    {estadosPosibles.map((opcion)=>{return (<option value={opcion.estado_posible[0].id}>{opcion.estado_posible[0].descripcion}</option>)})}
-                                </Form.Select>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row className="g-2">
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Observacion de Cambio</Form.Label>
-                                <Form.Control as="textarea" style={{ height: '100px' }} id="observacion"/>
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
-                            <thead className="table-dark">
-                                <tr >
-                                    <th>Estado</th>
-                                    <th>Observacion</th>
+                    <Form id="formEstado" onSubmit={guardarForm}>
+                        <Row className="g-2">
+                            <Col md>
+                                <Form.Group className='mb-2'>
+                                    <Form.Label>Estado</Form.Label>
+                                    <Form.Select defaultValue="" id="estadoSolicitud">
+                                        <option value={0}>Seleccione un estado nuevo</option>
+                                        {estadosPosibles.map((opcion)=>{return (<option value={opcion.estado_posible[0].id}>{opcion.estado_posible[0].descripcion}</option>)})}
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row className="g-2">
+                            <Col md>
+                                <Form.Group className='mb-2'>
+                                    <Form.Label>Observacion de Cambio</Form.Label>
+                                    <Form.Control as="textarea" style={{ height: '100px' }} id="observacion"/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                                <thead className="table-dark">
+                                    <tr >
+                                        <th>Estado</th>
+                                        <th>Observacion</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {historialEstado.map((fila)=>{return ( <tr key={fila.id}> <td>{fila.estado_solicitud.descripcion}</td><td>{fila.observacion_cambio}</td></tr>)})}
-                            </tbody>
-                        </Table>
-                    </Row>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {historialEstado.map((fila)=>{return ( <tr key={fila.id}> <td>{fila.estado_solicitud.descripcion}</td><td>{fila.observacion_cambio}</td></tr>)})}
+                                </tbody>
+                            </Table>
+                        </Row>
+                    </Form>
                 </Tab>
             </Tabs>
+            <Row>
+                <Button type='submit' form="formEstado" variant="success" >Guardar</Button>
+            </Row>
         </Form>
     )
 }

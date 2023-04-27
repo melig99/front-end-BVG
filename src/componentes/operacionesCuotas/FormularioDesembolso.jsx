@@ -55,7 +55,7 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
     useEffect(() => {
         cargarCliente();
         cargarSolicitud();
-    }, [idSeleccionado]);
+    }, [selectedOption]);
 
     const cargarCliente = () => {
         const idSeleccionado = (selectedOption != null ? selectedOption.value : "")

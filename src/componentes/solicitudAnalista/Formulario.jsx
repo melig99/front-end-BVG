@@ -112,11 +112,13 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
 
     const guardarForm = (e) =>{
         e.preventDefault();
+        const SELECT_ESTADO = document.getElementById('estadoSolicitud')
+        const OBSERVACION = document.getElementById('observacion')
         const form = {
             'ref_personales':referenciasPersonales,
             'ref_comerciales':referenciasComerciales,
-            'estado_id':e.target.estadoSolicitud.value,
-            'observacion':e.target.observacion.value,
+            'estado_id':SELECT_ESTADO.value,
+            'observacion':OBSERVACION.value,
         }
         console.log(form)
         modificarRegistroJson('api/solicitud',idSeleccionado,form).then(
@@ -301,6 +303,7 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                                         <th>Estado</th>
                                         <th>Monto Cuota</th>
                                         <th>Cuotas</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -362,10 +365,11 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                                         <th>Interes</th>
                                         <th>Neto</th>
                                         <th>Capital</th>
+                                        <th>fecha</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {cuotero.map((fila)=>{return ( <tr key={`cuo-${fila.n_cuota}`}> <td>{fila.n_cuota}</td><td>{fila.cuota}</td><td>{fila.interes}</td><td>{fila.neto}</td><td>{fila.capital}</td></tr>)})}
+                                    {cuotero.map((fila)=>{return ( <tr key={`cuo-${fila.n_cuota}`}> <td>{fila.n_cuota}</td><td>{fila.cuota}</td><td>{fila.interes}</td><td>{fila.neto}</td><td>{fila.capital}</td><td>{fila.vencimiento}</td></tr>)})}
                                 </tbody>
                             </Table>
                         </Row>

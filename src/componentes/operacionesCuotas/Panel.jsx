@@ -95,6 +95,7 @@ export const Panel = () => {
             setCaja(cajaBD)
             console.log(cajaBD,"caja <-")
         } catch (e) {
+            setCaja(null)
             console.log(e)
         }
     },[estadoForm])
@@ -121,24 +122,22 @@ export const Panel = () => {
                             <Row>
                                 <h1>Movimientos</h1>
                             </Row>
-                            <Row>
-                                <Col sm={8}>
+                            <Row className="d-flex flex-row">
+                                <Col sm={9}>
+
+                                </Col>
+
+                                <Col sm={1}>
+                                    {(caja == null ) && <Button variant="success" style={{width:"100%"}} onClick={ ()=>{ setFormSeleccionado('apertura');setEstadoForm(!estadoForm);} }> Abrir  Caja </Button>}
+                                    {(caja!=null) && <Button variant="danger" style={{width:"100%"}} onClick={ ()=>{ setFormSeleccionado('cierre');setEstadoForm(!estadoForm);} }> Cierre  Caja </Button>}
 
                                 </Col>
                                 <Col sm={1}>
-                                    <Button variant="primary" onClick={ ()=>{ setFormSeleccionado('apertura');setEstadoForm(!estadoForm);} }> Apertura  Caja </Button>
+                                    <Button variant="primary" style={{width:"100%"}} onClick={()=>{} }>Pago Cuota</Button>
 
                                 </Col>
-                                <Col sm={1}>
-                                    <Button variant="primary" onClick={ ()=>{ setFormSeleccionado('cierre');setEstadoForm(!estadoForm);} }> Cierre  Caja </Button>
-
-                                </Col>
-                                <Col sm={1}>
-                                    <Button variant="primary" onClick={()=>{} }>Pagar Cuota</Button>
-
-                                </Col>
-                                <Col sm={1} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>{setFormSeleccionado('desembolso'),setEstadoForm(!estadoForm)}}>Desembolso</Button>
+                                <Col sm={1} >
+                                    <Button variant="primary" style={{width:"100%"}} onClick={()=>{setFormSeleccionado('desembolso'),setEstadoForm(!estadoForm)}}>Desembolso</Button>
                                 </Col>
                             </Row>
                             <br/>
