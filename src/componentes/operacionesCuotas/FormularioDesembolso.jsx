@@ -106,7 +106,33 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
         setSaldoCaja(datosCrudo)
     }
 
-
+    const guardarForm = (e) =>{
+        e.preventDefault();
+        const form = {
+            "caja": caja?.caja, 
+            "monto": datosSolicitud?.monto_credito,
+            "solicitud_id": datosSolicitud?.id,
+            "usuario_id": usuario?.id
+        }
+        console.log(form)
+        guardarNuevoJson('api/operaciones',form).then(
+            (a)=>{
+                if(a.cod==0){
+                    console.log(a,"Guardado correctamente")
+                    cambiarModalAlerta("Guardado Correctamente");
+                    e.target.reset();
+                }else{
+                    console.log(a)
+                    cambiarModalAlerta(a.msg);
+                }
+            }
+        ).catch(
+            (e)=>{
+                console.log(e)
+                cambiarModalAlerta(e.msg);
+            }
+        )
+    }
 
 
     return (
@@ -208,7 +234,7 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                 {
                     solicitud === false &&
                     <Tab eventKey="refPersonal" title="Datos del desembolso">
-                        <Form>
+                        <Form id="formGeneral" onSubmit={guardarForm}>
                             <Row >
                                 <Col md={6}>
                                     <Form.Group className='mb-2'>
@@ -234,7 +260,7 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                                 </Col>
                             </Row>
                             <Row>
-                                <Button type='submit' variant="success" >Guardar</Button>
+                                <Button type='submit' form="formGeneral" variant="success">Guardar</Button>
                             </Row>
                         </Form>
                     </Tab>

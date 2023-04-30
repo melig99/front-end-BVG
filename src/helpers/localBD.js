@@ -7,7 +7,8 @@ const localBD = () =>{
         localStorage.setItem("usuario",JSON.stringify({
             "nombre":datos.usuario,
             "perfil":datos.perfil,
-            "token" : datos.token
+            "token" : datos.token,
+            "id" : 1
         }));
         return true
     }
