@@ -11,6 +11,9 @@ export const Formulario = ({idSeleccionado}) => {
     const [referenciasPersonales,setReferenciasPersonales] = useState([]);
     const [referenciasComerciales,setReferenciasComerciales] = useState([]);
     const [analisis,setAnalisis] = useState([]);
+    const [cuotero,setCuotero] = useState([]);
+    const [historialEstado,setHistorialEstado] = useState([]);
+    const [estadosPosibles,setEstadosPosibles] = useState([]);
     const [datosSolicitud,setDatosSolicitud] = useState({"id": 0,
         "ingresos_actuales": 0,
         "monto_credito": 0,
@@ -78,13 +81,19 @@ export const Formulario = ({idSeleccionado}) => {
         console.log(idSeleccionado);
         let ds =  (await endpointLibre(`api/solicitudUnico/${idSeleccionado}`,"GET"))
         console.log(ds,"datos solicitud")
-        setDatosSolicitud (ds.datos)
-        setReferenciasPersonales(ds.datos.referencia_personal)
-        setReferenciasComerciales(ds.datos.referencia_comercial)
-        setAnalisis(ds.analisis)
+        setDatosSolicitud (ds.datos.solicitud)
+        setReferenciasPersonales(ds.datos.solicitud.referencia_personal)
+        setReferenciasComerciales(ds.datos.solicitud.referencia_comercial)
+        setHistorialEstado(ds.datos.solicitud.historial_estado)
+        setCuotero(ds.datos.cuotero);
+        setAnalisis(ds.datos.analisis)
+        setEstadosPosibles(ds.datos.reglas);
         console.log(referenciasPersonales,"datos refPersonal")
         console.log(referenciasComerciales,"datos refPersonal")
+        console.log(historialEstado,"datos historialEstado")
         console.log(analisis,"datos analisis")
+        console.log(estadosPosibles,"datos estados posibles")
+
 
 
     }
@@ -97,7 +106,32 @@ export const Formulario = ({idSeleccionado}) => {
         }
 
     }
-
+    const guardarForm = (e) =>{
+        e.preventDefault();
+        console.log(e.target)
+        const form = {
+            'estado_id':e.target.estadoSolicitud.value,
+            'observacion':e.target.observacion.value,
+        }
+        console.log(form)
+        modificarRegistroJson('api/solicitud',`${idSeleccionado}/estado`,form).then(
+            (a)=>{
+                if(a.cod==0){
+                    console.log(a,"Guardado correctamente")
+                    cambiarModalAlerta("Guardado Correctamente");
+                    e.target.reset();
+                }else{
+                    console.log(a)
+                    cambiarModalAlerta(a.msg);
+                }
+            }
+        ).catch(
+            (e)=>{
+                console.log(e)
+                cambiarModalAlerta(e.msg);
+            }
+        )
+    }
 
     return(
         <Form >
@@ -233,11 +267,64 @@ export const Formulario = ({idSeleccionado}) => {
                     </Row>
                 </Tab>
                 <Tab eventKey="cuotero" title="Cuotero">
+                    <Row>
+                        <Table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                            <thead className="table-dark">
+                                <tr >
+                                    <th>N</th>
+                                    <th>Cuota</th>
+                                    <th>Interes</th>
+                                    <th>Neto</th>
+                                    <th>Capital</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {cuotero.map((fila)=>{return ( <tr key={`cuo-${fila.n_cuota}`}> <td>{fila.n_cuota}</td><td>{fila.cuota}</td><td>{fila.interes}</td><td>{fila.neto}</td><td>{fila.capital}</td></tr>)})}
+                            </tbody>
+                        </Table>
+                    </Row>
                 </Tab>
                 <Tab eventKey="Estado" title="Estado">
+                    <Form id="formEstado" onSubmit={guardarForm}>
+                        <Row className="g-2">
+                            <Col md>
+                                <Form.Group className='mb-2'>
+                                    <Form.Label>Estado</Form.Label>
+                                    <Form.Select defaultValue="" id="estadoSolicitud">
+                                        <option value={0}>Seleccione un estado nuevo</option>
+                                        {estadosPosibles.map((opcion)=>{return (<option value={opcion.estado_posible[0].id}>{opcion.estado_posible[0].descripcion}</option>)})}
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row className="g-2">
+                            <Col md>
+                                <Form.Group className='mb-2'>
+                                    <Form.Label>Observacion de Cambio</Form.Label>
+                                    <Form.Control as="textarea" style={{ height: '100px' }} id="observacion"/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                                <thead className="table-dark">
+                                    <tr >
+                                        <th>Estado</th>
+                                        <th>Observacion</th>
 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {historialEstado.map((fila)=>{return ( <tr key={fila.id}> <td>{fila.estado_solicitud.descripcion}</td><td>{fila.observacion_cambio}</td></tr>)})}
+                                </tbody>
+                            </Table>
+                        </Row>
+                    </Form>
                 </Tab>
             </Tabs>
+            <Row>
+                <Button type='submit' form="formEstado" variant="success" >Guardar</Button>
+            </Row>
         </Form>
     )
 }

@@ -5,7 +5,7 @@ import {CgTrash,CgPen} from "react-icons/cg";
 const  Fila = (prop) => {
     const {dato,eliminar,ver} = prop;
     return (
-        <tr>
+        <tr key={`filaTP-${dato.id}`}>
             <td>{dato.descripcion}</td>
             <td>{dato.factor_divisor}</td>
             <td>{dato.dias_vencimiento}</td>
@@ -16,8 +16,8 @@ const  Fila = (prop) => {
                                     </button>
             { (prop.ver && <button onClick={()=>{ver(dato.id)}} style={{backgroundColor: "#0b5ed7", border: "solid 1px white"}}>
                                 <CgPen style={{color:'white'}} className='m-2 item'/>
-                            </button>   
-            ) } 
+                            </button>
+            ) }
                                 </td>
             ) }
         </tr>

@@ -26,34 +26,8 @@ export const Panel = () => {
         setDatosForm(temp);
     }
 
-    const enviarForm = ()=>{
-        console.log(guardarNuevoJson)
-        const form = {
-            'nombre':datosForm.nombre,
-            'observacion':datosForm.observacion,
-        }
-        console.log(form);
-        guardarNuevoJson('api/barrio',form).then(
-            async (a)=>{
-                if(a.cod==0){
-                    cambiarModalAlerta("Guardado Correctamente");
-                    setEstadoForm(false)
-
-                }else{
-                    cambiarModalAlerta(a.msg);
-                }
-            }
-        ).catch(
-            (e)=>{
-                console.log(e)
-                cambiarModalAlerta(e.msg);
-            }
-        )
-
-
-    }
     useEffect(()=>{
-        obtenerPanel("api/solicitud/aprobado",setDatos)
+        obtenerPanel("api/solicitud/pendiente",setDatos)
     },[]);
 
     // SECCION PARA ACTIVAR ALERTAS
@@ -110,7 +84,6 @@ export const Panel = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-                    <Button variant="success" onClick={()=>{enviarForm();setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>

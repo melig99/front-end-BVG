@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 
 const Menu = () => {
     const params= useParams()
-    console.log(params)
+    // console.log(params)
     //CONSTANTE PARA MENU DE CLIENTES
     let tempCliente = {
         "cod":"00",
@@ -45,16 +45,16 @@ const Menu = () => {
                         "direccion":"tipoPlazo"
                     },
                     {
-                        "id":"5",
-                        "titulo":"Solitud Analisis", // TITULO DE TARJETA
-                        "imagen":"4.jpeg", //URL
-                        "direccion":"solicitudAnalista"
-                    },
-                    {
                         "id":"6",
                         "titulo":"Solicitud Agente", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"solicitudAgente"
+                    },
+                    {
+                        "id":"5",
+                        "titulo":"Solitud Analisis", // TITULO DE TARJETA
+                        "imagen":"4.jpeg", //URL
+                        "direccion":"solicitudAnalista"
                     },
                     {
                         "id":"7",
@@ -79,6 +79,12 @@ const Menu = () => {
                         "titulo":"Cajas", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"caja"
+                    },
+                    {
+                        "id":"10",
+                        "titulo":"Movimientos", // TITULO DE TARJETA
+                        "imagen":"4.jpeg", //URL
+                        "direccion":"operacion"
                     },
 
                 ]

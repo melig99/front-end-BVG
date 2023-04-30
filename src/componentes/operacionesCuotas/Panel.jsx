@@ -1,14 +1,21 @@
 import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
-import {Formulario} from './Formulario';
+import {FormularioDesembolso} from './FormularioDesembolso';
+// import {FormularioDesembolso} from './FormularioDesembolso';
+import {FormularioApertura} from '../caja/FormularioApertura';
+import {FormularioCierre} from '../caja/FormularioCierre';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
 import {ModalAlerta,ModalConfirmacion} from '../Utiles';
+import localBD from '../../helpers/localBD';
 
 export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
     const [estadoForm,setEstadoForm] = useState(false);
     const [datosForm,setDatosForm] = useState({});
+    const [formSeleccionado,setFormSeleccionado] = useState();
+    const [caja,setCaja] = useState(null);
+    const {obtenerCaja} = localBD()
 
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
     const eliminarFila = async (id)=>{
@@ -24,6 +31,25 @@ export const Panel = () => {
         let temp = {...datosForm};
         temp[objeto.target.id]=objeto.target.value;
         setDatosForm(temp);
+    }
+    const abrirForm =()=>{
+        switch (formSeleccionado) {
+            case 'apertura':
+                return (<FormularioApertura cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
+                break;
+            case 'cierre':
+                return (<FormularioCierre cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
+                break;
+            case 'desembolso':
+
+                return (<FormularioDesembolso cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
+                break;
+            case 'cuota':
+
+                break;
+            default:
+
+        }
     }
 
     const enviarForm = ()=>{
@@ -53,8 +79,26 @@ export const Panel = () => {
 
     }
     useEffect(()=>{
-        obtenerPanel("api/solicitud/aprobado",setDatos)
+        obtenerPanel("api/operaciones",setDatos)
+        try {
+            let cajaBD = obtenerCaja()
+            setCaja(cajaBD)
+            console.log(cajaBD,"caja <-")
+        } catch (e) {
+            console.log(e)
+        }
     },[]);
+
+    useEffect(()=>{
+        try {
+            let cajaBD = obtenerCaja()
+            setCaja(cajaBD)
+            console.log(cajaBD,"caja <-")
+        } catch (e) {
+            setCaja(null)
+            console.log(e)
+        }
+    },[estadoForm])
 
     // SECCION PARA ACTIVAR ALERTAS
     const [modalAlerta,setModalAlerta] = useState({"estado":false,"msg":""});
@@ -76,14 +120,24 @@ export const Panel = () => {
                     <Col>
                         <Container fluid={true} id="acciones">
                             <Row>
-                                <h1>Solicitud Agente</h1>
+                                <h1>Movimientos</h1>
                             </Row>
-                            <Row>
-                                <Col sm={4}>
+                            <Row className="d-flex flex-row">
+                                <Col sm={9}>
 
                                 </Col>
-                                <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nueva Solicitud</Button>
+
+                                <Col sm={1}>
+                                    {(caja == null ) && <Button variant="success" style={{width:"100%"}} onClick={ ()=>{ setFormSeleccionado('apertura');setEstadoForm(!estadoForm);} }> Abrir  Caja </Button>}
+                                    {(caja!=null) && <Button variant="danger" style={{width:"100%"}} onClick={ ()=>{ setFormSeleccionado('cierre');setEstadoForm(!estadoForm);} }> Cierre  Caja </Button>}
+
+                                </Col>
+                                <Col sm={1}>
+                                    <Button variant="primary" style={{width:"100%"}} onClick={()=>{} }>Pago Cuota</Button>
+
+                                </Col>
+                                <Col sm={1} >
+                                    <Button variant="primary" style={{width:"100%"}} onClick={()=>{setFormSeleccionado('desembolso'),setEstadoForm(!estadoForm)}}>Desembolso</Button>
                                 </Col>
                             </Row>
                             <br/>
@@ -103,14 +157,14 @@ export const Panel = () => {
             </Container>
             <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
                 <Modal.Header closeButton>
-                <Modal.Title>Datos Solicitud</Modal.Title>
+                <Modal.Title>Datos Movimientos</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
+                    {abrirForm()}
+
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-                    <Button variant="success" onClick={()=>{enviarForm();setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>

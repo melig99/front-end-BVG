@@ -32,7 +32,7 @@ export const Panel = () => {
     }
 
     useEffect(()=>{
-        obtenerPanel("api/solicitud/aprobado",setDatos)
+        obtenerPanel("api/solicitud/analizando",setDatos)
     },[]);
 
     // SECCION PARA ACTIVAR ALERTAS
@@ -60,11 +60,8 @@ export const Panel = () => {
                                 <h1>Solicitud Directorio</h1>
                             </Row>
                             <Row>
-                                <Col sm={4}>
+                                <Col sm={12}>
 
-                                </Col>
-                                <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nueva Solicitud</Button>
                                 </Col>
                             </Row>
                             <br/>
@@ -91,7 +88,6 @@ export const Panel = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
-                    <Button variant="success" onClick={()=>{setEstadoForm(!estadoForm)}} >Guardar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>

@@ -5,7 +5,7 @@ import {CgTrash,CgPen} from "react-icons/cg";
 const  Fila = (prop) => {
     const {dato,eliminar,ver} = prop;
     return (
-        <tr>
+        <tr key={`filaC-${dato.id}`}>
             <td>{dato.descripcion}</td>
             <td>{dato.saldo_actual}</td>
             { (prop.eliminar && <td>

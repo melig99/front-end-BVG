@@ -32,7 +32,7 @@ export const Panel = () => {
     }
 
     useEffect(()=>{
-        obtenerPanel("api/solicitud/aprobado",setDatos)
+        obtenerPanel("api/solicitud/pendiente",setDatos)
     },[]);
 
     // SECCION PARA ACTIVAR ALERTAS
@@ -88,7 +88,7 @@ export const Panel = () => {
                 <Modal.Title>Datos Solicitud</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormCliente almacenDatos = {guardarDatos} idSeleccionado={seleccionado}/>
+                    <FormCliente  cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={seleccionado} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>

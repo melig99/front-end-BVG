@@ -6,7 +6,7 @@ import Select from 'react-select';
 
 
 
-export const FormularioApertura = ({cambiarModalAlerta,idSelec}) => {
+export const FormularioCierre = ({cambiarModalAlerta,idSelec}) => {
     const [,guardarNuevoJson,obtenerUnicoRegistro,,endpointLibre,modificarRegistroJson] = Peticiones();
     const [selectedOption, setSelectedOption] = useState(null);
     const [listaCaja,setListaCaja] = useState([])
@@ -77,13 +77,13 @@ export const FormularioApertura = ({cambiarModalAlerta,idSelec}) => {
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Pin</Form.Label>
+                    <Form.Label>Saldo Sistema</Form.Label>
                     <Form.Control type="text" id="pin" defaultValue={datosPlazo.descripcion} />
                 </Form.Group>
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Saldo</Form.Label>
+                    <Form.Label>Saldo Fisico</Form.Label>
                     <Form.Control type="number" min="0" id="saldo" defaultValue="0" />
                 </Form.Group>
             </Row>

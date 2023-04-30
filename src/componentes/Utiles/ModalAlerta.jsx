@@ -4,10 +4,10 @@ import {Col,Container,Row,Modal,Button} from 'react-bootstrap'
 
 const ModalAlerta = ({valores}) => {
     const [estado,setEstadoModal] = useState(true);
-    
+
 
     useEffect(()=>{
-        console.log(valores);
+        // console.log(valores);
         setEstadoModal(valores.estado);
     },[valores]);
     const cerrar = ()=>{

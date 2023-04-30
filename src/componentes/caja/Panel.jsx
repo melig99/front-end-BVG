@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
-import {Formulario} from './Formulario';
+// import {Formulario} from './Formulario';
+import {FormularioApertura as Formulario  } from './FormularioApertura';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
 import {ModalAlerta,ModalConfirmacion} from '../Utiles';
