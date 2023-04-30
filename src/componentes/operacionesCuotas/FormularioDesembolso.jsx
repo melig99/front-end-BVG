@@ -9,14 +9,17 @@ import { useAsyncError } from 'react-router-dom';
 
 export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
 
-    let idSeleccionado="";
+    let idSeleccionado = "";
     const [listaCliente, setListaCliente] = useState([])
     const [selectedOption, setSelectedOption] = useState(null);
-    const [, guardarNuevoJson, , , endpointLibre] = Peticiones();
+    const [, guardarNuevoJson,obtenerUnicoRegistro , , endpointLibre] = Peticiones();
     const [estadoForm, setEstadoForm] = useState(false);
     const [solicitud, setSolicitud] = useState(false);
-    const {obtenerUsuario,} = localBD();
-    const [usuario, setUsuario] = useState({ "nombre": ""})
+    const [usuario, setUsuario] = useState({ "nombre": "" })
+    const { obtenerUsuario } = localBD();
+    const [caja, setCaja] = useState([{"descripcion":""}]);
+    const { obtenerCaja } = localBD()
+    const [saldoCaja,setSaldoCaja] = useState()
     const [datosCliente, setDatosCliente] = useState({ "id": "", "documento": "", "nombre_completo": "", "direccion": "" });
     const [datosSolicitud, setDatosSolicitud] = useState(
         {
@@ -29,13 +32,22 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
     useEffect(() => {
         cargarListas();
     }, []);
-
     useEffect(() => {
-        console.log("obt usuario")
-        let temp = obtenerUsuario()
-        console.log(temp);
-        setUsuario(temp);
-    }, []);
+        try {
+            let cajaBD = obtenerCaja()
+            setCaja(cajaBD)
+            console.log(cajaBD, "caja <-")
+            obtenerSaldoCaja(cajaBD.caja);
+            console.log("obt usuario")
+            let temp = obtenerUsuario()
+            console.log(temp);
+            setUsuario(temp);
+        } catch (e) {
+            setCaja(null)
+            console.log(e)
+        }
+        
+    }, [])
 
 
     const cargarListas = async () => {
@@ -73,7 +85,7 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
 
     const cargarSolicitud = async () => {
         console.log(idSeleccionado)
-        let options = await endpointLibre("api/solicitud/aprobado/cliente/" + selectedOption.value, "GET")
+        let options = await endpointLibre("api/solicitud/aprobado/cliente/" + selectedOption?.value, "GET")
         console.log("options ", options)
         if (options.cod === "00") {
             for (let i of options.datos) {
@@ -86,7 +98,13 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
         }
     }
 
-
+    const obtenerSaldoCaja = async (idSelec) =>{
+       // const idSelec = caja.caja
+        console.log(idSelec)
+        let datosCrudo = (await obtenerUnicoRegistro('api/caja/u', idSelec)).datos[0]
+        console.log(datosCrudo, "saldo caja")
+        setSaldoCaja(datosCrudo)
+    }
 
 
 
@@ -187,37 +205,41 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
 
                     </Form>
                 </Tab>
-                <Tab eventKey="refPersonal" title="Datos del desembolso">
-                    <Form id="formRefPers" onSubmit={""}>
-                        <Row >
-                            <Col md={6}>
-                                <Form.Group className='mb-2'>
-                                    <Form.Label>Caja</Form.Label>
-                                    <Form.Control id="caja" disabled />
-                                </Form.Group>
-                            </Col>
-                            <Col md={6}>
-                                <Form.Label>Saldo en caja </Form.Label>
-                                <Form.Control id="saldo_caja" disabled />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={6}>
-                                <Form.Label>Cajero </Form.Label>
-                                <Form.Control id="usuario" value={usuario.nombre} disabled />
-                            </Col >
-                            <Col md={6}>
-                                <Form.Group className='mb-2'>
-                                    <Form.Label>Monto Desembolso</Form.Label>
-                                    <Form.Control id="monto" value={datosSolicitud.monto_credito} disabled />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Button type='submit' variant="success" >Guardar</Button>
-                        </Row>
-                    </Form>
-                </Tab>
+                {
+                    solicitud === false &&
+                    <Tab eventKey="refPersonal" title="Datos del desembolso">
+                        <Form>
+                            <Row >
+                                <Col md={6}>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Caja</Form.Label>
+                                        <Form.Control id="caja" value={caja.descripcion} disabled />
+                                    </Form.Group>
+                                </Col>
+                                <Col md={6}>
+                                    <Form.Label>Saldo en caja </Form.Label>
+                                    <Form.Control id="saldo_caja" value={saldoCaja?.saldo_actual} disabled />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={6}>
+                                    <Form.Label>Cajero </Form.Label>
+                                    <Form.Control id="usuario" value={usuario.nombre} disabled />
+                                </Col >
+                                <Col md={6}>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Monto Desembolso</Form.Label>
+                                        <Form.Control id="monto" value={datosSolicitud.monto_credito} disabled />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Button type='submit' variant="success" >Guardar</Button>
+                            </Row>
+                        </Form>
+                    </Tab>
+                }
+
             </Tabs>
         </>
     )

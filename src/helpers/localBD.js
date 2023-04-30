@@ -36,7 +36,7 @@ const localBD = () =>{
               alerta("Caja abierta correctamente");
               localStorage.setItem("caja",JSON.stringify({
                   "caja":a.datos.id,
-                  "descrpcion":a.datos.descripcion
+                  "descripcion":a.datos.descripcion
               }))
             }else{
               console.log(a)

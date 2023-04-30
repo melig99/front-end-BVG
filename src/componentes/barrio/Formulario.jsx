@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import {Form,Row,Button} from 'react-bootstrap';
 import Peticiones from '../../helpers/peticiones';
-import Select from 'react-select';
 
 
 export const Formulario = ({cambiarModalAlerta,idSelec}) => {
