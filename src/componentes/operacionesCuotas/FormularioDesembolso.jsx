@@ -115,7 +115,7 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
             "usuario_id": usuario?.id
         }
         console.log(form)
-        guardarNuevoJson('api/operaciones',form).then(
+        guardarNuevoJson('api/operaciones/desembolso',form).then(
             (a)=>{
                 if(a.cod==0){
                     console.log(a,"Guardado correctamente")
