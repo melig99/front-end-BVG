@@ -10,7 +10,7 @@ export const FormularioCierre = ({cambiarModalAlerta,idSelec}) => {
     const [,guardarNuevoJson,obtenerUnicoRegistro,,endpointLibre,modificarRegistroJson] = Peticiones();
     const [selectedOption, setSelectedOption] = useState(null);
     const [listaCaja,setListaCaja] = useState([])
-    const {abrirCaja} = localBD()
+    const {cerrarCaja} = localBD()
     const vacio = {
 			"id": 0,
 			"descripcion": "",
@@ -25,7 +25,7 @@ export const FormularioCierre = ({cambiarModalAlerta,idSelec}) => {
         }
         console.log(e.target.caja.value + " caja id")
         if(e.target.caja.value !== ""){
-            abrirCaja(guardarNuevoJson('api/apertura/caja/'+e.target.caja.value,form),cambiarModalAlerta)
+            cerrarCaja(guardarNuevoJson('api/cierre/caja/'+e.target.caja.value,form),cambiarModalAlerta)
 
           }
     }
