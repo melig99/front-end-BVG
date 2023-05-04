@@ -31,11 +31,11 @@ const Sidebar = () => {
                 <NavLink to="/home/menu/3" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                   <CDBSidebarMenuItem ><CgCalendarDates className='m-2 item'/>Caja</CDBSidebarMenuItem>
                 </NavLink>
-                <NavLink to="/"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
-                  <CDBSidebarMenuItem ><CgReadme className='m-2 item' />Reportes</CDBSidebarMenuItem>
+                <NavLink to="/home/menu/4"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+                <CDBSidebarMenuItem ><CgLock className='m-2 item'/>Seguridad</CDBSidebarMenuItem>
                 </NavLink>
                 <NavLink to="/"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
-                  <CDBSidebarMenuItem ><CgLock className='m-2 item'/>Seguridad</CDBSidebarMenuItem>
+                  <CDBSidebarMenuItem ><CgReadme className='m-2 item' />Reportes</CDBSidebarMenuItem>
                 </NavLink>
               </CDBSidebarMenu>
             </CDBSidebarContent>
