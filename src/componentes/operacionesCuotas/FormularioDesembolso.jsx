@@ -132,6 +132,7 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                 cambiarModalAlerta(e.msg);
             }
         )
+        e.target.reset();
     }
 
 

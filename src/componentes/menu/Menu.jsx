@@ -95,7 +95,7 @@ const Menu = () => {
                         "id":"1",
                         "titulo":"Usuarios", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
-                        "direccion":"cliente"
+                        "direccion":"usuario"
                     },
                     {
                         "id":"2",
