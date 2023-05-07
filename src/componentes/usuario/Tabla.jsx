@@ -7,7 +7,7 @@ const  Tabla = ({datos,eliminar,ver}) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
     const cabecera=[ "Nombre y Apellido", "CI" , "Email","Usuario","Perfil", "Acciones"];
-    //console.log(datos)
+   console.log(datos)
   return (
     <>
         <Table table striped hover>

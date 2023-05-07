@@ -33,7 +33,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     for (let i of options?.datos) {
       variable.push({ 'label': i.descripcion, 'value': i.id })
     }
-    //console.log("variable ",variable)
+   console.log("variable ",variable)
     setListaPerfil(variable)
   }
 
@@ -50,21 +50,21 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
       "perfil_id": e.target.perfil_id.value,
       "restablecer_pass": true
     }
-    //console.log(form)
+   console.log(form)
     if (idSelec === "") {
       guardarNuevoJson('api/usuario', form).then(
         (a) => {
           if (a.cod == 0) {
-            //console.log(a, "Guardado correctamente")
+           console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
           } else {
-            //console.log(a)
+           console.log(a)
             cambiarModalAlerta(a.msg);
           }
         }
       ).catch(
         (e) => {
-          //console.log(e)
+         console.log(e)
           cambiarModalAlerta(e.msg);
         }
       )
@@ -73,17 +73,17 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         (a) => {
          // console.log(a.cod, " a.cod")
           if (a.cod == 0) {
-            //console.log(a, "Guardado correctamente")
+           console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
 
           } else {
-            //console.log(a)
+           console.log(a)
             cambiarModalAlerta(a.msg);
           }
         }
       ).catch(
         (a) => {
-          //console.log(a)
+         console.log(a)
           cambiarModalAlerta(a.msg);
         }
       )
@@ -92,7 +92,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     setDatosPerfil(vacio)
   }
 
-  //console.log("idselec: ", idSelec)
+ console.log("idselec: ", idSelec)
   
 
   const [datosPerfil, setDatosPerfil] = useState({
@@ -107,7 +107,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     "restablecer_pass": true
   })
 
-  //console.log("usuario: " + JSON.stringify(datosPerfil))
+ console.log("usuario: " + JSON.stringify(datosPerfil))
 
   useEffect(() => {
     if (idSelec != "") {
@@ -117,9 +117,9 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
 
 
   const cargarForm = async () => {
-    //console.log(idSelec);
+   console.log(idSelec);
     let datosCrudo = (await obtenerUnicoRegistro('api/usuario/u', idSelec)).datos[0]
-    //console.log(datosCrudo, "datos solicitud")
+   console.log(datosCrudo, "datos solicitud")
     setDatosPerfil(datosCrudo)
   }
 
@@ -134,9 +134,9 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
 
   }
 
-  //console.log("aaaa ",obtenerPerfil())
+ console.log("aaaa ",obtenerPerfil())
   console.log("aaaa ",selectedOption)
-  //console.log(selectedOption === obtenerPerfil())
+ console.log(selectedOption === obtenerPerfil())
   return (
     <Form onSubmit={handleSubmit}>
       <Row className="g-2">
@@ -184,6 +184,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
               options={listaPerfil}
               isClearable={true}
               placeholder="Buscar Perfil"
+              
               value={obtenerPerfil() ? obtenerPerfil() : false}
             />
           </Form.Group>

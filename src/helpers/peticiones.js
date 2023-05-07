@@ -14,8 +14,8 @@ const Peticiones = () => {
         const url = base + modulo + "/"+pagina+"/"+((buscar!=="")?buscar : "")
         const temp = await fetch(url)
         const data = await temp.json();
-        //console.log(url,"testting");
-        //console.log(data,"testting");
+       console.log(url,"testting");
+       console.log(data,"testting");
         setState(data)
         // setCarga(false)
     }
@@ -24,7 +24,7 @@ const Peticiones = () => {
         // setCarga(true)
         // IDEA: Cambiar por constante de ambiente
         const url = base + modulo +"/"+id
-        //console.log(url)
+       console.log(url)
         const temp = await fetch(url)
         const data = await temp.json();
         return data
@@ -32,7 +32,7 @@ const Peticiones = () => {
 
     const guardarNuevoJson = async (modulo,datos)=>{
         const url = base + modulo ;
-        //console.log(url)
+       console.log(url)
         const temp = await fetch(url, {
           "method": "POST",
           "headers": {
@@ -40,10 +40,10 @@ const Peticiones = () => {
            },
             "body": JSON.stringify(datos)
         });
-        //console.log(temp);
+       console.log(temp);
         // const res = await fetch(url)
         const data = await temp.json();
-        //console.log(data);
+       console.log(data);
         return data;
     }
 
@@ -65,7 +65,7 @@ const Peticiones = () => {
             }
         });
         const data = await temp.json();
-        //console.log(data);
+       console.log(data);
         return data;
 
     }
