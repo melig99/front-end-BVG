@@ -19,7 +19,6 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     "fecha_nacimiento": "",
     "email": "",
     "perfil_id": 0,
-    "restablecer_pass": true
   }
 
   useEffect(() => {
@@ -48,7 +47,6 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
       "fecha_nacimiento": e.target.fecha_nacimiento.value,
       "email": e.target.email.value,
       "perfil_id": e.target.perfil_id.value,
-      "restablecer_pass": true
     }
    console.log(form)
     if (idSelec === "") {
@@ -135,8 +133,6 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
   }
 
  console.log("aaaa ",obtenerPerfil())
-  console.log("aaaa ",selectedOption)
- console.log(selectedOption === obtenerPerfil())
   return (
     <Form onSubmit={handleSubmit}>
       <Row className="g-2">
