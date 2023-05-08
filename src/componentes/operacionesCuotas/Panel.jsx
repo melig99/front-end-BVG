@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
 import {FormularioDesembolso} from './FormularioDesembolso';
+import {FormularioMovGenerico} from './FormularioMovGenerico';
 // import {FormularioDesembolso} from './FormularioDesembolso';
 import {FormularioApertura} from '../caja/FormularioApertura';
 import {FormularioCierre} from '../caja/FormularioCierre';
@@ -46,6 +47,9 @@ export const Panel = () => {
                 break;
             case 'cuota':
 
+                break;
+            case 'generico':
+                return (<FormularioMovGenerico cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
                 break;
             default:
 
@@ -133,7 +137,7 @@ export const Panel = () => {
 
                                 </Col>
                                 <Col sm={1}>
-                                    <Button variant="primary" style={{width:"100%"}} onClick={()=>{} }>Pago Cuota</Button>
+                                    <Button variant="primary" style={{width:"100%"}} onClick={ ()=>{ setFormSeleccionado('generico');setEstadoForm(!estadoForm);} }>Pago Cuota</Button>
 
                                 </Col>
                                 <Col sm={1} >

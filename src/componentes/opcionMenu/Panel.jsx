@@ -91,7 +91,7 @@ export const Panel = () => {
             </Container>
             <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
                 <Modal.Header closeButton>
-                <Modal.Title>Datos Agrupador</Modal.Title>
+                <Modal.Title>Datos Opcion</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSelec={selecionado} />
