@@ -92,25 +92,25 @@ const Menu = () => {
             {   "agrupador": "Seguridad",
                 "opciones":[
                     {
-                        "id":"1",
+                        "id":"11",
                         "titulo":"Usuarios", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"usuario"
                     },
                     {
-                        "id":"2",
-                        "titulo":"Perfil", // TITULO DE TARJETA
+                        "id":"12",
+                        "titulo":"Perfiles", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
-                        "direccion":"perfilCliente"
+                        "direccion":"perfil"
                     },
                     {
-                        "id":"3",
+                        "id":"13",
                         "titulo":"Agrupadores", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"agrupador"
                     },
                     {
-                        "id":"3",
+                        "id":"14",
                         "titulo":"Opciones de Menu", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
                         "direccion":"opcionMenu"

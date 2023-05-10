@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
 import {FormularioDesembolso} from './FormularioDesembolso';
 import {FormularioMovGenerico} from './FormularioMovGenerico';
-// import {FormularioDesembolso} from './FormularioDesembolso';
+import {FormularioPagoCuota} from './FormularioPagoCuota';
 import {FormularioApertura} from '../caja/FormularioApertura';
 import {FormularioCierre} from '../caja/FormularioCierre';
 import Peticiones from '../../helpers/peticiones';
@@ -46,7 +46,7 @@ export const Panel = () => {
                 return (<FormularioDesembolso cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
                 break;
             case 'cuota':
-
+                return (<FormularioPagoCuota cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
                 break;
             case 'generico':
                 return (<FormularioMovGenerico cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
@@ -127,7 +127,7 @@ export const Panel = () => {
                                 <h1>Movimientos</h1>
                             </Row>
                             <Row className="d-flex flex-row">
-                                <Col sm={9}>
+                                <Col sm={8}>
 
                                 </Col>
 
@@ -137,7 +137,11 @@ export const Panel = () => {
 
                                 </Col>
                                 <Col sm={1}>
-                                    <Button variant="primary" style={{width:"100%"}} onClick={ ()=>{ setFormSeleccionado('generico');setEstadoForm(!estadoForm);} }>Pago Cuota</Button>
+                                    <Button variant="secondary" style={{width:"100%"}} onClick={ ()=>{ setFormSeleccionado('generico');setEstadoForm(!estadoForm);} }>Movimiento</Button>
+
+                                </Col>
+                                <Col sm={1}>
+                                    <Button variant="success" style={{width:"100%"}} onClick={ ()=>{ setFormSeleccionado('cuota');setEstadoForm(!estadoForm);} }>Pago Cuota</Button>
 
                                 </Col>
                                 <Col sm={1} >
@@ -159,7 +163,7 @@ export const Panel = () => {
                 </Row>
 
             </Container>
-            <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
+            <Modal show={estadoForm} size="lg" animation={false} scrollable={true} onHide={()=>setEstadoForm(!estadoForm)}>
                 <Modal.Header closeButton>
                 <Modal.Title>Datos Movimientos</Modal.Title>
                 </Modal.Header>

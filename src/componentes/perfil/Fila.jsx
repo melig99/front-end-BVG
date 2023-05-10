@@ -6,7 +6,7 @@ const  Fila = (prop) => {
     const {dato,eliminar,ver} = prop;
     return (
         <tr>
-            <td>{dato.nombre}</td>
+            <td>{dato.descripcion}</td>
             <td>{dato.observacion}</td>
             { (prop.eliminar && <td>
                                     <button onClick={()=>{eliminar(dato.id)}} style={{backgroundColor: "red", border: "solid 1px white"}}>
