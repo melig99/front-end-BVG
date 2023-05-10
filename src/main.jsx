@@ -16,8 +16,10 @@ import {Panel as PanelSolicitudDirectorio}  from './componentes/solicitudDirecto
 import {Panel as PanelPerfilCliente} from './componentes/perfilCliente/Panel'
 import {Panel as PanelConceptosCaja} from './componentes/conceptosCaja/Panel'
 import {Panel as PanelCaja} from './componentes/caja/Panel'
+import {Panel as PanelAgrupador} from './componentes/agrupador/Panel'
+import {Panel as PanelOpcionMenu} from './componentes/opcionMenu/Panel'
 import {Panel as PanelOperacion} from './componentes/operacionesCuotas/Panel'
-
+import {Panel as PanelUsuario} from './componentes/usuario/Panel'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -38,7 +40,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route  path='perfilCliente' element={<PanelPerfilCliente/>} />
           <Route  path='conceptosCaja' element={<PanelConceptosCaja/>} />
           <Route  path='caja' element={<PanelCaja/>} />
+          <Route  path='agrupador' element={<PanelAgrupador/>} />
+          <Route  path='opcionMenu' element={<PanelOpcionMenu/>} />
           <Route  path='operacion' element={<PanelOperacion/>} />
+          <Route  path='usuario' element={<PanelUsuario/>} />
         </Route>
       </Route>
     </Routes>

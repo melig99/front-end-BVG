@@ -7,7 +7,8 @@ const localBD = () =>{
         localStorage.setItem("usuario",JSON.stringify({
             "nombre":datos.usuario,
             "perfil":datos.perfil,
-            "token" : datos.token
+            "token" : datos.token,
+            "id" : 1
         }));
         return true
     }
@@ -62,8 +63,9 @@ const localBD = () =>{
         return JSON.parse(caja)
     }
     const cerrarCaja = (promesa,alerta) =>{
-        //pendiente
+        promesa.then((a)=>console.log(a)).catch((e)=>console.log(e));
+        localStorage.removeItem("caja");
     }
-    return ({"obtenerUsuario":obtenerUsuario,"iniciarSesion":iniciarSesion,"cerrarSesion":cerrarSesion,"abrirCaja":abrirCaja,"obtenerCaja":obtenerCaja})
+    return ({"obtenerUsuario":obtenerUsuario,"iniciarSesion":iniciarSesion,"cerrarSesion":cerrarSesion,"abrirCaja":abrirCaja,"obtenerCaja":obtenerCaja,"cerrarCaja":cerrarCaja})
 }
 export default localBD

@@ -89,6 +89,35 @@ const Menu = () => {
 
                 ]
             },
+            {   "agrupador": "Seguridad",
+                "opciones":[
+                    {
+                        "id":"1",
+                        "titulo":"Usuarios", // TITULO DE TARJETA
+                        "imagen":"4.jpeg", //URL
+                        "direccion":"usuario"
+                    },
+                    {
+                        "id":"2",
+                        "titulo":"Perfil", // TITULO DE TARJETA
+                        "imagen":"4.jpeg", //URL
+                        "direccion":"perfilCliente"
+                    },
+                    {
+                        "id":"3",
+                        "titulo":"Agrupadores", // TITULO DE TARJETA
+                        "imagen":"4.jpeg", //URL
+                        "direccion":"agrupador"
+                    },
+                    {
+                        "id":"3",
+                        "titulo":"Opciones de Menu", // TITULO DE TARJETA
+                        "imagen":"4.jpeg", //URL
+                        "direccion":"opcionMenu"
+                    },
+
+                ]
+            },
         ]
     }
     const [listaOpciones,setListaOpciones] = useState(tempCliente);
