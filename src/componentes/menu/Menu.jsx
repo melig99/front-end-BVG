@@ -99,9 +99,9 @@ const Menu = () => {
                     },
                     {
                         "id":"12",
-                        "titulo":"Perfil", // TITULO DE TARJETA
+                        "titulo":"Perfiles", // TITULO DE TARJETA
                         "imagen":"4.jpeg", //URL
-                        "direccion":"perfilCliente"
+                        "direccion":"perfil"
                     },
                     {
                         "id":"13",
