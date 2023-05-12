@@ -107,28 +107,27 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
             "cuotas":[]
         }
         for (let cuota of listaCuotasPagar) {
-            form.cuotas.push({"id":cuota.id,"saldo":cuota.saldo})
+            form.cuotas.push({"id":cuota.id,"saldo":cuota.saldo,"id_solicitud":cuota.solicitud_id});
         }
         console.log(form)
 
-        // guardarNuevoJson('api/operaciones/pagarCuotas',form).then(
-        //     (a)=>{
-        //         if(a.cod==0){
-        //             console.log(a,"Guardado correctamente")
-        //             cambiarModalAlerta("Guardado Correctamente");
-        //             e.target.reset();
-        //         }else{
-        //             console.log(a)
-        //             cambiarModalAlerta(a.msg);
-        //         }
-        //     }
-        // ).catch(
-        //     (e)=>{
-        //         console.log(e)
-        //         cambiarModalAlerta(e.msg);
-        //     }
-        // )
-        // e.target.reset();
+        guardarNuevoJson('api/operaciones/pagarCuotas',form).then(
+            (a)=>{
+                if(a.cod==0){
+                    console.log(a,"Guardado correctamente")
+                    cambiarModalAlerta("Guardado Correctamente");
+                    e.target.reset();
+                }else{
+                    console.log(a)
+                    cambiarModalAlerta(a.msg);
+                }
+            }
+        ).catch(
+            (e)=>{
+                console.log(e)
+                cambiarModalAlerta(e.msg);
+            }
+        )
     }
 
     const seleccionarCuota=(e)=>{
