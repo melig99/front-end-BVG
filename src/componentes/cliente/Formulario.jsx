@@ -24,7 +24,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
             'tel_cliente': [
                 { "telefono_cliente": e.target.telefono1.value },
                 { "telefono_cliente": e.target.telefono2.value },
-                { "telefono_cliente": e.target.telefono3.value },
+                { "telefono_cliente": e.target.telefono3.value }
             ],
             'f_nacimiento': e.target.f_nacimiento.value,
             'direccion': e.target.direccion.value,
@@ -254,7 +254,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                 <Col md>
                     <Form.Group className='mb-2'>
                         <Form.Label>Telefono 3</Form.Label>
-                        <Form.Control placeholder="Ingrese telefono 2 " id="telefono2" defaultValue={((datosCliente.telefono.length > 2) ? datosCliente.telefono[2].telefono : "" )} />
+                        <Form.Control placeholder="Ingrese telefono 3 " id="telefono3" defaultValue={((datosCliente.telefono.length > 2) ? datosCliente.telefono[2].telefono : "" )} />
                     </Form.Group>
                 </Col>
             </Row>

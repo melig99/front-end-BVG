@@ -6,23 +6,24 @@ import Table from 'react-bootstrap/Table';
 
 export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
   const [listaOpcionMenu, setListaOpcionMenu] = useState([])
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [listaAccesos, setListaAccesos] = useState([])
   const [, guardarNuevoJson, obtenerUnicoRegistro, , endpointLibre, modificarRegistroJson] = Peticiones();
   const vacio = {
-    "id": 0,
-    "nombre": "",
-    "observacion": ""
+    "descripcion": "",
+    "observacion": "",
+    "accesos": []
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = {
-      'nombre': e.target.nombre.value,
-      'observacion': e.target.observacion.value,
+      "descripcion": e.target.descripcion.value,
+      "observacion": e.target.observacion.value,
+      "accesos": []
     }
     console.log(form)
     if (idSelec === "") {
-      guardarNuevoJson('api/barrio', form).then(
+      guardarNuevoJson('api/perfil', form).then(
         (a) => {
           if (a.cod == 0) {
             console.log(a, "Guardado correctamente")
@@ -39,7 +40,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         }
       )
     } else {
-      modificarRegistroJson('api/barrio', idSelec, form).then(
+      modificarRegistroJson('api/perfil', idSelec, form).then(
         (a) => {
           console.log(a.cod, " a.cod")
           if (a.cod == 0) {
@@ -62,6 +63,20 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     setDatosBarrio(vacio)
   }
 
+  const seleccionarAccesos = (e) => {
+    let temp = listaAccesos;
+    if (e.target.checked) {
+      console.log(e.target.value)
+      let test = { "opcion_id": e.target.value, "acceso": true }
+      temp.push(test);
+      setListaAccesos(temp)
+    } else {
+      temp = temp.filter((fila) => fila.opcion_id != e.target.value);
+      setListaAccesos(temp)
+    }
+    console.log("listaAccesos ", listaAccesos);
+  }
+
   console.log("idselec: ", idSelec)
 
   const [datosBarrio, setDatosBarrio] = useState({
@@ -81,7 +96,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
 
   const cargarForm = async () => {
     console.log(idSelec);
-    let datosCrudo = (await obtenerUnicoRegistro('api/barrio/u', idSelec)).datos[0]
+    let datosCrudo = (await obtenerUnicoRegistro('api/perfil/u', idSelec)).datos[0]
     console.log(datosCrudo, "datos solicitud")
     setDatosBarrio(datosCrudo)
   }
@@ -93,6 +108,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
   const cargarListas = async () => {
     //Extrae Datos de la BD para Opcion Menu y Agrupadores
     let options = (await endpointLibre("api/opcionMenu", "GET")).datos
+    console.log(options)
     setListaOpcionMenu(ordenarTabla(options))
   }
 
@@ -103,16 +119,15 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     for (let i in optiones) {
       if (dscAg != optiones[i].dsc_id) {
         dscAg = optiones[i].dsc_id
-        arrays.unshift({ "Agrupador": optiones[i].dsc_agrupador, "cont": 1, "Opciones": [{ "descripcion": optiones[i].descripcion }] })
+        arrays.unshift({ "Agrupador": optiones[i].dsc_agrupador, "cont": 1, "Opciones": [{ "descripcion": optiones[i].descripcion, "id": optiones[i].id }] })
       } else {
         arrays[0].cont++
-        arrays[0].Opciones.push({ "descripcion": optiones[i].descripcion })
+        arrays[0].Opciones.push({ "descripcion": optiones[i].descripcion, "id": optiones[i].id })
       }
     }
     return arrays
   }
 
-  console.log("contador", listaOpcionMenu)
 
   return (
     <Tabs defaultActiveKey="perfil" id="uncontrolled-tab-example" className="mb-3">
@@ -161,7 +176,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                       return (
                         <tr>
                           <td>{filas.descripcion}</td>
-                          <td><Form.Check type="switch" /> </td>
+                          <td><Form.Check type="checkbox" id={`opcion-${filas.id}`} value={filas.id} onChange={seleccionarAccesos} /> </td>
                         </tr>
                       )
                     })}
@@ -170,33 +185,6 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
               })}
             </tbody>
           </Table>
-
-          {/* <Table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Edad</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td rowSpan={4}>Juan</td>
-              </tr>
-              <tr>
-                <td>Pérez</td>
-                <td>30</td>
-              </tr>
-              <tr>
-                <td>Gómez</td>
-                <td>25</td>
-              </tr>
-              <tr>
-                <td>González</td>
-                <td>28</td>
-              </tr>
-            </tbody>
-          </Table> */}
         </Form>
         <Row>
           <Button type='submit' variant="success" >Guardar</Button>
