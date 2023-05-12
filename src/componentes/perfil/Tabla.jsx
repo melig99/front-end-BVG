@@ -7,10 +7,10 @@ const  Tabla = ({datos,eliminar,ver}) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
     const cabecera=["Perfil", "Observacion", "Acciones"];
-    console.log(datos)
+    //console.log(datos)
   return (
     <>
-        <Table table striped hover>
+        <Table table striped hover >
             <thead style={{backgroundColor:"#154360", color: 'white'}}> 
                 <tr >
                     {
