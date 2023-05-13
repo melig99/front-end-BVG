@@ -10,7 +10,7 @@ const  Tabla = ({datos,ver}) => {
     console.log(datos)
   return (
     <>
-        <Table table table-striped table-hover >
+        <Table table striped hover >
             <thead style={{backgroundColor:"#154360", color: 'white'}}>
                 <tr >
                     {
