@@ -6,13 +6,22 @@ const Peticiones = () => {
     // const [imagenes,setImagenes] = useState([])
     // const [buscador,setBuscador] = useState("")
     const base =  "http://localhost:8000/"
+    const usuario =  JSON.parse((localStorage.getItem("usuario") ?? {}));
     // const [carga,setCarga] = useState(true)
     //FUNCIONES A UTILIZAR
     const obtenerPanel = async (modulo,setState,pagina=0,buscar="",filtros=[]) =>{
         // setCarga(true)
         // IDEA: Cambiar por constante de ambiente
+
         const url = base + modulo + "/"+pagina+"/"+((buscar!=="")?buscar : "")
-        const temp = await fetch(url)
+        console.log(usuario)
+        const temp = await fetch(url,{
+            "headers": {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${usuario.token}`
+             },
+        })
         const data = await temp.json();
        //console.log.log(url,"testting");
        //console.log.log(data,"testting");
@@ -25,7 +34,12 @@ const Peticiones = () => {
         // IDEA: Cambiar por constante de ambiente
         const url = base + modulo +"/"+id
        //console.log.log(url)
-        const temp = await fetch(url)
+        const temp = await fetch(url,{
+            "headers": {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${usuario.token}`
+          }})
         const data = await temp.json();
         return data
     }
@@ -36,7 +50,9 @@ const Peticiones = () => {
         const temp = await fetch(url, {
           "method": "POST",
           "headers": {
+            "Accept": "application/json",
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${usuario.token}`,
            },
             "body": JSON.stringify(datos)
         });
@@ -61,6 +77,7 @@ const Peticiones = () => {
           "method": "POST",
           "headers": {
             "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${usuario.token}`,
             "body": form
             }
         });
@@ -75,7 +92,9 @@ const Peticiones = () => {
         const temp = await fetch(url, {
           "method": "PUT",
           "headers": {
+            "Accept": "application/json",
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${usuario.token}`,
            },
             "body": JSON.stringify(datos)
         });
@@ -88,7 +107,11 @@ const Peticiones = () => {
         const url = base + modulo + "/" + id ;
         console.log(url)
         const temp = await fetch(url, {
-          "method": "DELETE",
+            "headers": {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${usuario.token}`,
+                "method": "DELETE",
+            }
         });
         const data = await temp.json();
         return data;
@@ -98,7 +121,9 @@ const Peticiones = () => {
         const url = base + modulo ;
         //console.log.log(url)
         const temp = await fetch(url, {
-          "method": metodo,
+            "Accept": "application/json",
+            "Authorization": `Bearer ${usuario.token}`,
+            "method": metodo,
         });
 
         const data = await temp.json();

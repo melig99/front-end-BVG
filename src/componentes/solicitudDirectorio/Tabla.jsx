@@ -16,7 +16,7 @@ const  Tabla = ({datos,ver}) => {
                     {
                         cabecera.map(
                             (dato) => {
-                             return  <th>{dato}</th>
+                             return  <th key={`col-${dato}`}>{dato}</th>
                             }
                         )
                     }

@@ -15,7 +15,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     "nombre": "",
     "apellido": "",
     "cedula": "",
-    "pass": "",
+    "password": "",
     "fecha_nacimiento": "",
     "email": "",
     "perfil_id": 0,
@@ -43,7 +43,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
       "nombre": e.target.nombre.value,
       "apellido": e.target.apellido.value,
       "cedula": e.target.cedula.value,
-      "pass": e.target.pass.value,
+      "password": e.target.pass.value,
       "fecha_nacimiento": e.target.fecha_nacimiento.value,
       "email": e.target.email.value,
       "perfil_id": e.target.perfil_id.value,
@@ -55,6 +55,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
           if (a.cod == 0) {
            console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
+            e.target.reset();
           } else {
            console.log(a)
             cambiarModalAlerta(a.msg);
@@ -73,7 +74,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
           if (a.cod == 0) {
            console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
-
+            e.target.reset();
           } else {
            console.log(a)
             cambiarModalAlerta(a.msg);
@@ -86,19 +87,19 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         }
       )
     }
-    e.target.reset();
+
     setDatosPerfil(vacio)
   }
 
  console.log("idselec: ", idSelec)
-  
+
 
   const [datosPerfil, setDatosPerfil] = useState({
     "nombre_usuario": "",
     "nombre": "",
     "apellido": "",
     "cedula": "",
-    "pass": "",
+    "password": "",
     "fecha_nacimiento": "",
     "email": "",
     "perfil_id": 0,
@@ -122,7 +123,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
   }
 
 
-  const obtenerPerfil = () => {   
+  const obtenerPerfil = () => {
     for (const key in listaPerfil) {
       if ((datosPerfil.perfil_id === listaPerfil[key].value)){
         return listaPerfil[key]
@@ -180,8 +181,8 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
               options={listaPerfil}
               isClearable={true}
               placeholder="Buscar Perfil"
+
               
-              value={obtenerPerfil() ? obtenerPerfil() : false}
             />
           </Form.Group>
         </Col>

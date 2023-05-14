@@ -7,15 +7,15 @@ const Login = () => {
     const [usuarioValido, cambiarUsuarioValido] = useState(false);
     const {iniciarSesion} = localBD()
 
-    const loguear=(e)=>{
+    const loguear=async (e)=>{
         e.preventDefault();
         const form = {
             'usuario':e.target.usuario.value,
-            'pass':e.target.pass.value,
+            'password':e.target.pass.value,
         }
         //condicionando mensajes
         if(1){
-            iniciarSesion(form);
+            await iniciarSesion(form);
             cambiarUsuarioValido(true)
         }else{
             //error
