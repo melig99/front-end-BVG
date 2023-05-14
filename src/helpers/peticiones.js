@@ -1,5 +1,7 @@
 // import useState from 'react'
 // import env from "react-dotenv";
+// import { useNavigate } from "react-router-dom";
+// const barco = useNavigate();
 
 const Peticiones = () => {
   //DATOS A UTILIZAR EN EL OBJETO CARDS

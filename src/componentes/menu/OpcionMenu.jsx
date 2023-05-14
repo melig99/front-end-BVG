@@ -9,7 +9,7 @@ const OpcionMenu = ({titulo,imagen,direccion}) => {
     return (
         <Link to={`/home/${direccion}`} >
             <Card style={{ width: '10rem' }} onClick={() => {navigate({direccion});console.log("clickeado")}}>
-                <Card.Img variant="top" src={image} />
+                <Card.Img variant="top" src={imagen} />
                 <Card.Body>
                     <Card.Title>{titulo}</Card.Title>
                 </Card.Body>
