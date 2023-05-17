@@ -18,9 +18,8 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
     const [estadoForm, setEstadoForm] = useState(false);
     const [solicitud, setSolicitud] = useState(false);
     const [usuario, setUsuario] = useState({ "nombre": "" })
-    const { obtenerUsuario } = localBD();
+    const { obtenerUsuario, obtenerCaja } = localBD();
     const [caja, setCaja] = useState([{"descripcion":""}]);
-    const { obtenerCaja } = localBD()
     const [saldoCaja,setSaldoCaja] = useState()
     const [datosCliente, setDatosCliente] = useState({ "id": "", "documento": "", "nombre_completo": "", "direccion": "" });
     const [datosCuota, setDatosCuota] = useState(
@@ -103,7 +102,6 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
         const form = {
             "caja": caja?.caja,
             "monto": totalCuotas,
-            "usuario_id": usuario?.id,
             "cuotas":[]
         }
         for (let cuota of listaCuotasPagar) {

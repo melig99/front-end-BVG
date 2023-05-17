@@ -21,6 +21,8 @@ import {Panel as PanelOpcionMenu} from './componentes/opcionMenu/Panel'
 import {Panel as PanelOperacion} from './componentes/operacionesCuotas/Panel'
 import {Panel as PanelUsuario} from './componentes/usuario/Panel'
 import {Panel as PanelPerfil} from './componentes/perfil/Panel'
+import {Panel as PanelDocumento} from './componentes/documento/Panel'
+
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -46,6 +48,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route  path='operacion' element={<PanelOperacion/>} />
           <Route  path='usuario' element={<PanelUsuario/>} />
           <Route  path='perfil' element={<PanelPerfil/>} />
+          <Route  path='documento' element={<PanelDocumento/>} />
         </Route>
       </Route>
     </Routes>
