@@ -16,9 +16,8 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
     const [estadoForm, setEstadoForm] = useState(false);
     const [solicitud, setSolicitud] = useState(false);
     const [usuario, setUsuario] = useState({ "nombre": "" })
-    const { obtenerUsuario } = localBD();
+    const { obtenerUsuario, obtenerCaja } = localBD();
     const [caja, setCaja] = useState([{"descripcion":""}]);
-    const { obtenerCaja } = localBD()
     const [saldoCaja,setSaldoCaja] = useState()
     const [datosCliente, setDatosCliente] = useState({ "id": "", "documento": "", "nombre_completo": "", "direccion": "" });
     const [datosSolicitud, setDatosSolicitud] = useState(
@@ -112,7 +111,6 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
             "caja": caja?.caja, 
             "monto": datosSolicitud?.monto_credito,
             "solicitud_id": datosSolicitud?.id,
-            "usuario_id": usuario?.id
         }
         console.log(form)
         guardarNuevoJson('api/operaciones/desembolsar',form).then(
