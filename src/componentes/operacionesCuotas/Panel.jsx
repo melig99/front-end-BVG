@@ -58,25 +58,26 @@ export const Panel = () => {
             'observacion':datosForm.observacion,
         }
         console.log(form);
-        guardarNuevoJson('api/barrio',form).then(
-            async (a)=>{
-                if(a.cod==0){
-                    cambiarModalAlerta("Guardado Correctamente");
-                    setEstadoForm(false)
-
-                }else{
-                    cambiarModalAlerta(a.msg);
-                }
-            }
-        ).catch(
-            (e)=>{
-                console.log(e)
-                cambiarModalAlerta(e.msg);
-            }
-        )
+        // guardarNuevoJson('api/barrio',form).then(
+        //     async (a)=>{
+        //         if(a.cod==0){
+        //             cambiarModalAlerta("Guardado Correctamente");
+        //             setEstadoForm(false)
+        //
+        //         }else{
+        //             cambiarModalAlerta(a.msg);
+        //         }
+        //     }
+        // ).catch(
+        //     (e)=>{
+        //         console.log(e)
+        //         cambiarModalAlerta(e.msg);
+        //     }
+        // )
 
 
     }
+
     useEffect(()=>{
         obtenerPanel("api/operaciones",setDatos)
         try {

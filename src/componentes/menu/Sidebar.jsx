@@ -9,8 +9,14 @@ import {
 } from 'cdbreact';
 import { NavLink } from 'react-router-dom';
 import { CgFileDocument, CgUserList, CgCreditCard, CgCalendarDates, CgReadme, CgLock } from "react-icons/cg";
+import localBD from '../../helpers/localBD';
 
 const Sidebar = () => {
+    const {obtenerMenu} = localBD();
+    let tempCliente =obtenerMenu();
+    console.log(tempCliente)
+
+
     return (
         <div style={{ display: 'flex', overflow: 'scroll initial'}}>
           <CDBSidebar textColor="#fff" backgroundColor="#154360">
@@ -19,24 +25,15 @@ const Sidebar = () => {
             </CDBSidebarHeader>
             <CDBSidebarContent className="sidebar-content">
               <CDBSidebarMenu>
-                <NavLink to="/"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
-                  <CDBSidebarMenuItem><CgFileDocument className='m-2 item'/>Documentos</CDBSidebarMenuItem>
-                </NavLink>
-                <NavLink to="/home/menu/1" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
-                  <CDBSidebarMenuItem ><CgUserList className='m-2 item'/>Cliente</CDBSidebarMenuItem>
-                </NavLink>
-                <NavLink to="/home/menu/2" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
-                  <CDBSidebarMenuItem ><CgCreditCard className='m-2 item'/>Credito</CDBSidebarMenuItem>
-                </NavLink>
-                <NavLink to="/home/menu/3" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
-                  <CDBSidebarMenuItem ><CgCalendarDates className='m-2 item'/>Caja</CDBSidebarMenuItem>
-                </NavLink>
-                <NavLink to="/home/menu/4"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
-                <CDBSidebarMenuItem ><CgLock className='m-2 item'/>Seguridad</CDBSidebarMenuItem>
-                </NavLink>
-                <NavLink to="/"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
-                  <CDBSidebarMenuItem ><CgReadme className='m-2 item' />Reportes</CDBSidebarMenuItem>
-                </NavLink>
+              {tempCliente.map((agrupador,i)=>{
+                  console.log(`navLink -> /home/menu/${agrupador.id}`)
+                  return (
+                      <NavLink to={`/home/menu/${agrupador.id}`}  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+                        <CDBSidebarMenuItem><agrupador.icono className='m-2 item'/>{agrupador.descripcion}</CDBSidebarMenuItem>
+                      </NavLink>
+                  )
+              })}
+
               </CDBSidebarMenu>
             </CDBSidebarContent>
             <CDBSidebarFooter style={{ textAlign: 'center' }}>
@@ -55,3 +52,25 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+/*
+
+<NavLink to="/"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+  <CDBSidebarMenuItem><CgFileDocument className='m-2 item'/>Documentos</CDBSidebarMenuItem>
+</NavLink>
+<NavLink to="/home/menu/1" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+  <CDBSidebarMenuItem ><CgUserList className='m-2 item'/>Cliente</CDBSidebarMenuItem>
+</NavLink>
+<NavLink to="/home/menu/2" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+  <CDBSidebarMenuItem ><CgCreditCard className='m-2 item'/>Credito</CDBSidebarMenuItem>
+</NavLink>
+<NavLink to="/home/menu/3" className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+  <CDBSidebarMenuItem ><CgCalendarDates className='m-2 item'/>Caja</CDBSidebarMenuItem>
+</NavLink>
+<NavLink to="/home/menu/4"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+<CDBSidebarMenuItem ><CgLock className='m-2 item'/>Seguridad</CDBSidebarMenuItem>
+</NavLink>
+<NavLink to="/"  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+  <CDBSidebarMenuItem ><CgReadme className='m-2 item' />Reportes</CDBSidebarMenuItem>
+</NavLink>
+
+ */

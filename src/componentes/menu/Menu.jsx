@@ -9,116 +9,7 @@ const Menu = () => {
     const params= useParams()
     let tempCliente =obtenerMenu()
     console.log(tempCliente)
-    console.log(params)
-    //CONSTANTE PARA MENU DE CLIENTES
-    // let tempCliente = [
-    //         {
-    //             "descripcion": "Clientes",
-    //             "opciones":[
-    //                 {
-    //                     "id":"1",
-    //                     "descripcion":"Clientes", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"cliente"
-    //                 },
-    //                 {
-    //                     "id":"2",
-    //                     "descripcion":"Perfil Cliente", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"perfilCliente"
-    //                 },
-    //                 {
-    //                     "id":"3",
-    //                     "descripcion":"Barrio", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"barrio"
-    //                 },
-    //             ]
-    //         },
-    //         {
-    //             "descripcion": "Credito",
-    //             "opciones":[
-    //                 {
-    //                     "id":"4",
-    //                     "descripcion":"Tipo Plazo", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"tipoPlazo"
-    //                 },
-    //                 {
-    //                     "id":"6",
-    //                     "descripcion":"Solicitud Agente", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"solicitudAgente"
-    //                 },
-    //                 {
-    //                     "id":"5",
-    //                     "descripcion":"Solitud Analisis", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"solicitudAnalista"
-    //                 },
-    //                 {
-    //                     "id":"7",
-    //                     "descripcion":"Solicitud Directorio", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"solicitudDirectorio"
-    //                 },
-    //
-    //             ]
-    //         },
-    //         {
-    //             "descripcion": "Caja",
-    //             "opciones":[
-    //                 {
-    //                     "id":"8",
-    //                     "descripcion":"Conceptos", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"conceptosCaja"
-    //                 },
-    //                 {
-    //                     "id":"9",
-    //                     "descripcion":"Cajas", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"caja"
-    //                 },
-    //                 {
-    //                     "id":"10",
-    //                     "descripcion":"Movimientos", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"operacion"
-    //                 },
-    //
-    //             ]
-    //         },
-    //         {   "descripcion": "Seguridad",
-    //             "opciones":[
-    //                 {
-    //                     "id":"11",
-    //                     "descripcion":"Usuarios", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"usuario"
-    //                 },
-    //                 {
-    //                     "id":"12",
-    //                     "descripcion":"Perfiles", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"perfil"
-    //                 },
-    //                 {
-    //                     "id":"13",
-    //                     "descripcion":"Agrupadores", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"agrupador"
-    //                 },
-    //                 {
-    //                     "id":"14",
-    //                     "descripcion":"Opciones de Menu", // TITULO DE TARJETA
-    //                     "dir_imagen":"4.jpeg", //URL
-    //                     "direccion":"opcionMenu"
-    //                 },
-    //
-    //             ]
-    //         },
-    //     ]
+
     const [listaOpciones,setListaOpciones] = useState(tempCliente);
 
     useEffect(()=>{
@@ -148,3 +39,113 @@ const Menu = () => {
 }
 
 export default Menu
+
+//CONSTANTE PARA MENU DE CLIENTES
+// let tempCliente = [
+//         {
+//             "descripcion": "Clientes",
+//             "opciones":[
+//                 {
+//                     "id":"1",
+//                     "descripcion":"Clientes", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"cliente"
+//                 },
+//                 {
+//                     "id":"2",
+//                     "descripcion":"Perfil Cliente", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"perfilCliente"
+//                 },
+//                 {
+//                     "id":"3",
+//                     "descripcion":"Barrio", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"barrio"
+//                 },
+//             ]
+//         },
+//         {
+//             "descripcion": "Credito",
+//             "opciones":[
+//                 {
+//                     "id":"4",
+//                     "descripcion":"Tipo Plazo", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"tipoPlazo"
+//                 },
+//                 {
+//                     "id":"6",
+//                     "descripcion":"Solicitud Agente", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"solicitudAgente"
+//                 },
+//                 {
+//                     "id":"5",
+//                     "descripcion":"Solitud Analisis", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"solicitudAnalista"
+//                 },
+//                 {
+//                     "id":"7",
+//                     "descripcion":"Solicitud Directorio", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"solicitudDirectorio"
+//                 },
+//
+//             ]
+//         },
+//         {
+//             "descripcion": "Caja",
+//             "opciones":[
+//                 {
+//                     "id":"8",
+//                     "descripcion":"Conceptos", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"conceptosCaja"
+//                 },
+//                 {
+//                     "id":"9",
+//                     "descripcion":"Cajas", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"caja"
+//                 },
+//                 {
+//                     "id":"10",
+//                     "descripcion":"Movimientos", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"operacion"
+//                 },
+//
+//             ]
+//         },
+//         {   "descripcion": "Seguridad",
+//             "opciones":[
+//                 {
+//                     "id":"11",
+//                     "descripcion":"Usuarios", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"usuario"
+//                 },
+//                 {
+//                     "id":"12",
+//                     "descripcion":"Perfiles", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"perfil"
+//                 },
+//                 {
+//                     "id":"13",
+//                     "descripcion":"Agrupadores", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"agrupador"
+//                 },
+//                 {
+//                     "id":"14",
+//                     "descripcion":"Opciones de Menu", // TITULO DE TARJETA
+//                     "dir_imagen":"4.jpeg", //URL
+//                     "direccion":"opcionMenu"
+//                 },
+//
+//             ]
+//         },
+//     ]

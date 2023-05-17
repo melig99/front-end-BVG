@@ -121,11 +121,14 @@ const Peticiones = () => {
 
     const endpointLibre = async (modulo,metodo)=>{
         const url = base + modulo ;
-        //console.log.log(url)
+        console.log(url)
         const temp = await fetch(url, {
-            "Accept": "application/json",
-            "Authorization": `Bearer ${usuario.token}`,
             "method": metodo,
+            "headers":{
+                "Accept": "application/json",
+                "Authorization": `Bearer ${usuario.token}`,
+
+            }
         });
 
         const data = await temp.json();
