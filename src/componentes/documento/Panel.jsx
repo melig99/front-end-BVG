@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react';
 import Tabla from './Tabla';
-import {Formulario} from './Formulario';
 import Peticiones from '../../helpers/peticiones';
 import {Col,Container,Row,Modal,Button} from 'react-bootstrap';
 import {ModalAlerta,ModalConfirmacion} from '../Utiles';
@@ -14,9 +13,8 @@ export const Panel = () => {
     const [state, setState] = useState(false)
    
     const eliminarFila = async (id)=>{
-        //console.log(id)
-        let temp = await eliminarRegistro('api/perfil',id)
-        //console.log(temp,"temp")
+        let temp = await eliminarRegistro('api/documento/{pag?}',id)
+        console.log(temp)
         if(temp.cod==0){
             cambiarModalAlerta("Eliminado Correctamente")
         }else{
@@ -29,19 +27,19 @@ export const Panel = () => {
     const verFormulario=(id)=>{
         //setverFom({"callback":()=>ver(id)})
         setEstadoForm(true)
-        //console.log("ingresado id: ",id)
+        console.log("ingresado id: ",id)
         setSelecionado(id)
     }
 
     useEffect(()=>{
-        obtenerPanel("api/perfil",setDatos)
+        obtenerPanel("api/documento/{pag?}",setDatos)
     },[]);
 
     // SECCION PARA ACTIVAR ALERTAS
     const [modalAlerta,setModalAlerta] = useState({"estado":false,"msg":""});
     const cambiarModalAlerta=(msg)=>{
         setModalAlerta({"estado":!modalAlerta.estado,"msg":msg})
-        //console.log(modalAlerta)
+        console.log(modalAlerta)
         recargar()
     }
 
@@ -49,11 +47,11 @@ export const Panel = () => {
     const [modalConfirmacion,setModalConfirmacion] = useState({"estado":false,"msg":"","callback":()=>{}});
     const cambiarModalConfirmacion=(msg,id)=>{
         setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
-        //console.log(modalConfirmacion)
+        console.log(modalConfirmacion)
     }
 
     const recargar =() =>{
-        obtenerPanel("api/perfil",setDatos)
+        obtenerPanel("api/documento/{pag?}",setDatos)
         setState(true)
     }
 
@@ -64,19 +62,11 @@ export const Panel = () => {
                     <Col>
                         <Container fluid={true} id="acciones">
                             <Row>
-                                <h1>Perfiles</h1>
+                                <h1>Documentos</h1>
                             </Row>
-                            <Row>
-                                <Col sm={4}>
-
-                                </Col>
-                                <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>{setSelecionado("");(setEstadoForm(!estadoForm))}}>Nuevo Perfil</Button>
-                                </Col>
-                            </Row>
-                            <br/>
                         </Container>
                     </Col>
+
                 </Row>
                 <Row>
                     <Container fluid={true}>
@@ -84,14 +74,13 @@ export const Panel = () => {
                             <br/>
                             <Tabla datos={datos}  eliminar = {(id)=>{ cambiarModalConfirmacion("¿Esta seguro de que desea eliminar ?",id)}} ver = {(id)=> {verFormulario(id)}} />
                         </Row>
-
                     </Container>
                 </Row>
 
             </Container>
-            <Modal show={estadoForm} size="lg" animation={false} scrollable={true} onHide={()=>setEstadoForm(!estadoForm)}>
+            <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
                 <Modal.Header closeButton>
-                <Modal.Title>Datos Perfiles</Modal.Title>
+                <Modal.Title>Datos Barrios</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSelec={selecionado} />

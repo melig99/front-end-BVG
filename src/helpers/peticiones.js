@@ -1,21 +1,32 @@
 // import useState from 'react'
 // import env from "react-dotenv";
+// import { useNavigate } from "react-router-dom";
+// const barco = useNavigate();
 
 const Peticiones = () => {
   //DATOS A UTILIZAR EN EL OBJETO CARDS
     // const [imagenes,setImagenes] = useState([])
     // const [buscador,setBuscador] = useState("")
-    const base =  "http://localhost:8000/"
+    const base =  "http://alberto.valurq.com/"
+    const usuario =  JSON.parse((localStorage.getItem("usuario") ?? {}));
     // const [carga,setCarga] = useState(true)
     //FUNCIONES A UTILIZAR
     const obtenerPanel = async (modulo,setState,pagina=0,buscar="",filtros=[]) =>{
         // setCarga(true)
         // IDEA: Cambiar por constante de ambiente
+
         const url = base + modulo + "/"+pagina+"/"+((buscar!=="")?buscar : "")
-        const temp = await fetch(url)
+        console.log(usuario)
+        const temp = await fetch(url,{
+            "headers": {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${usuario.token}`
+             },
+        })
         const data = await temp.json();
-       console.log(url,"testting");
-       console.log(data,"testting");
+       //console.log.log(url,"testting");
+       //console.log.log(data,"testting");
         setState(data)
         // setCarga(false)
     }
@@ -24,26 +35,33 @@ const Peticiones = () => {
         // setCarga(true)
         // IDEA: Cambiar por constante de ambiente
         const url = base + modulo +"/"+id
-       console.log(url)
-        const temp = await fetch(url)
+       //console.log.log(url)
+        const temp = await fetch(url,{
+            "headers": {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${usuario.token}`
+          }})
         const data = await temp.json();
         return data
     }
 
     const guardarNuevoJson = async (modulo,datos)=>{
         const url = base + modulo ;
-       console.log(url)
+       //console.log.log(url)
         const temp = await fetch(url, {
           "method": "POST",
           "headers": {
+            "Accept": "application/json",
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${usuario.token}`,
            },
             "body": JSON.stringify(datos)
         });
-       console.log(temp);
+       //console.log.log(temp);
         // const res = await fetch(url)
         const data = await temp.json();
-       console.log(data);
+       //console.log.log(data);
         return data;
     }
 
@@ -61,11 +79,12 @@ const Peticiones = () => {
           "method": "POST",
           "headers": {
             "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${usuario.token}`,
             "body": form
             }
         });
         const data = await temp.json();
-       console.log(data);
+       //console.log.log(data);
         return data;
 
     }
@@ -75,7 +94,9 @@ const Peticiones = () => {
         const temp = await fetch(url, {
           "method": "PUT",
           "headers": {
+            "Accept": "application/json",
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${usuario.token}`,
            },
             "body": JSON.stringify(datos)
         });
@@ -86,11 +107,15 @@ const Peticiones = () => {
 
     const eliminarRegistro = async (modulo,id)=>{
         const url = base + modulo + "/" + id ;
+        console.log(url)
         const temp = await fetch(url, {
-          "method": "DELETE",
+            "headers": {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${usuario.token}`,
+                "method": "DELETE",
+            }
         });
-        const res = await fetch(url)
-        const data = await res.json();
+        const data = await temp.json();
         return data;
     }
 
@@ -98,11 +123,15 @@ const Peticiones = () => {
         const url = base + modulo ;
         console.log(url)
         const temp = await fetch(url, {
-          "method": metodo,
+            "method": metodo,
+            "headers":{
+                "Accept": "application/json",
+                "Authorization": `Bearer ${usuario.token}`,
+
+            }
         });
 
-        const res = await fetch(url)
-        const data = await res.json();
+        const data = await temp.json();
         return data;
     }
     return [obtenerPanel,guardarNuevoJson,obtenerUnicoRegistro,eliminarRegistro,endpointLibre,modificarRegistroJson]

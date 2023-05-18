@@ -18,9 +18,8 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
     const [estadoForm, setEstadoForm] = useState(false);
     const [solicitud, setSolicitud] = useState(false);
     const [usuario, setUsuario] = useState({ "nombre": "" })
-    const { obtenerUsuario } = localBD();
+    const { obtenerUsuario, obtenerCaja } = localBD();
     const [caja, setCaja] = useState([{"descripcion":""}]);
-    const { obtenerCaja } = localBD()
     const [saldoCaja,setSaldoCaja] = useState()
     const [datosCliente, setDatosCliente] = useState({ "id": "", "documento": "", "nombre_completo": "", "direccion": "" });
     const [datosCuota, setDatosCuota] = useState(
@@ -103,32 +102,30 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
         const form = {
             "caja": caja?.caja,
             "monto": totalCuotas,
-            "usuario_id": usuario?.id,
             "cuotas":[]
         }
         for (let cuota of listaCuotasPagar) {
-            form.cuotas.push({"id":cuota.id,"saldo":cuota.saldo})
+            form.cuotas.push({"id":cuota.id,"saldo":cuota.saldo,"id_solicitud":cuota.solicitud_id});
         }
         console.log(form)
 
-        // guardarNuevoJson('api/operaciones/pagarCuotas',form).then(
-        //     (a)=>{
-        //         if(a.cod==0){
-        //             console.log(a,"Guardado correctamente")
-        //             cambiarModalAlerta("Guardado Correctamente");
-        //             e.target.reset();
-        //         }else{
-        //             console.log(a)
-        //             cambiarModalAlerta(a.msg);
-        //         }
-        //     }
-        // ).catch(
-        //     (e)=>{
-        //         console.log(e)
-        //         cambiarModalAlerta(e.msg);
-        //     }
-        // )
-        // e.target.reset();
+        guardarNuevoJson('api/operaciones/pagarCuotas',form).then(
+            (a)=>{
+                if(a.cod==0){
+                    console.log(a,"Guardado correctamente")
+                    cambiarModalAlerta("Guardado Correctamente");
+                    e.target.reset();
+                }else{
+                    console.log(a)
+                    cambiarModalAlerta(a.msg);
+                }
+            }
+        ).catch(
+            (e)=>{
+                console.log(e)
+                cambiarModalAlerta(e.msg);
+            }
+        )
     }
 
     const seleccionarCuota=(e)=>{

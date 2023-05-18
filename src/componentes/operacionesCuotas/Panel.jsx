@@ -34,26 +34,21 @@ export const Panel = () => {
         setDatosForm(temp);
     }
     const abrirForm =()=>{
-        switch (formSeleccionado) {
-            case 'apertura':
+            console.log(formSeleccionado)
+            if(formSeleccionado== 'apertura'){
                 return (<FormularioApertura cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
-                break;
-            case 'cierre':
+            }else if(formSeleccionado== 'cierre'){
                 return (<FormularioCierre cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
-                break;
-            case 'desembolso':
-
+            }else if(formSeleccionado== 'desembolso' && caja!=null){
                 return (<FormularioDesembolso cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
-                break;
-            case 'cuota':
+            }else if(formSeleccionado== 'cuota' && caja!=null){
                 return (<FormularioPagoCuota cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
-                break;
-            case 'generico':
+            }else if(formSeleccionado== 'generico' && caja!=null){
                 return (<FormularioMovGenerico cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
-                break;
-            default:
+            }else{
+                return false
+            }
 
-        }
     }
 
     const enviarForm = ()=>{
@@ -63,25 +58,26 @@ export const Panel = () => {
             'observacion':datosForm.observacion,
         }
         console.log(form);
-        guardarNuevoJson('api/barrio',form).then(
-            async (a)=>{
-                if(a.cod==0){
-                    cambiarModalAlerta("Guardado Correctamente");
-                    setEstadoForm(false)
-
-                }else{
-                    cambiarModalAlerta(a.msg);
-                }
-            }
-        ).catch(
-            (e)=>{
-                console.log(e)
-                cambiarModalAlerta(e.msg);
-            }
-        )
+        // guardarNuevoJson('api/barrio',form).then(
+        //     async (a)=>{
+        //         if(a.cod==0){
+        //             cambiarModalAlerta("Guardado Correctamente");
+        //             setEstadoForm(false)
+        //
+        //         }else{
+        //             cambiarModalAlerta(a.msg);
+        //         }
+        //     }
+        // ).catch(
+        //     (e)=>{
+        //         console.log(e)
+        //         cambiarModalAlerta(e.msg);
+        //     }
+        // )
 
 
     }
+
     useEffect(()=>{
         obtenerPanel("api/operaciones",setDatos)
         try {
@@ -145,7 +141,7 @@ export const Panel = () => {
 
                                 </Col>
                                 <Col sm={1} >
-                                    <Button variant="primary" style={{width:"100%"}} onClick={()=>{setFormSeleccionado('desembolso'),setEstadoForm(!estadoForm)}}>Desembolso</Button>
+                                    <Button variant="primary" style={{width:"100%"}} onClick={()=>{setFormSeleccionado('desembolso');setEstadoForm(!estadoForm);}}>Desembolso</Button>
                                 </Col>
                             </Row>
                             <br/>

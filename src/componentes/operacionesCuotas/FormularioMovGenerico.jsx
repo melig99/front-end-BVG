@@ -16,9 +16,8 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
     const [estadoForm, setEstadoForm] = useState(false);
     const [solicitud, setSolicitud] = useState(false);
     const [usuario, setUsuario] = useState({ "nombre": "" })
-    const { obtenerUsuario } = localBD();
     const [caja, setCaja] = useState([{"descripcion":""}]);
-    const { obtenerCaja } = localBD()
+    const { obtenerCaja, obtenerUsuario } = localBD()
     const [saldoCaja,setSaldoCaja] = useState()
     const [datosCliente, setDatosCliente] = useState({ "id": "", "documento": "", "nombre_completo": "", "direccion": "" });
     const [datosSolicitud, setDatosSolicitud] = useState(
@@ -96,7 +95,6 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
             "caja": caja?.caja,
             "monto": e.target.monto.value,
             "concepto":e.target.concepto.value,
-            "usuario_id": usuario?.id
         }
         console.log(form)
         guardarNuevoJson('api/operaciones/movimientoGenerico',form).then(

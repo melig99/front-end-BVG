@@ -6,71 +6,91 @@ import Table from 'react-bootstrap/Table';
 
 export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
   const [listaOpcionMenu, setListaOpcionMenu] = useState([])
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [listaAccesos, setListaAccesos] = useState([])
   const [, guardarNuevoJson, obtenerUnicoRegistro, , endpointLibre, modificarRegistroJson] = Peticiones();
+  const [isEnabled, setIsEnabled] = useState(true);
   const vacio = {
-    "id": 0,
-    "nombre": "",
-    "observacion": ""
+    "descripcion": "",
+    "observacion": "",
+    "accesos": []
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const form = {
-      'nombre': e.target.nombre.value,
-      'observacion': e.target.observacion.value,
+      "descripcion": e.target.descripcion.value,
+      "observacion": e.target.observacion.value,
+      "accesos": listaAccesos,
     }
-    console.log(form)
+    if(form.observacion == ""){
+      delete form.observacion
+    }
+    console.log(form.observacion )
     if (idSelec === "") {
-      guardarNuevoJson('api/barrio', form).then(
+      guardarNuevoJson('api/perfil', form).then(
         (a) => {
           if (a.cod == 0) {
-            console.log(a, "Guardado correctamente")
+            //console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
+            e.target.reset();
           } else {
-            console.log(a)
+            //console.log(a)
             cambiarModalAlerta(a.msg);
           }
         }
       ).catch(
         (e) => {
-          console.log(e)
+          //console.log(e)
           cambiarModalAlerta(e.msg);
         }
       )
     } else {
-      modificarRegistroJson('api/barrio', idSelec, form).then(
+      modificarRegistroJson('api/perfil', idSelec, form).then(
         (a) => {
-          console.log(a.cod, " a.cod")
+          //console.log(a.cod, " a.cod")
           if (a.cod == 0) {
-            console.log(a, "Guardado correctamente")
+            //console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
 
           } else {
-            console.log(a)
+            //console.log(a)
             cambiarModalAlerta(a.msg);
           }
         }
       ).catch(
         (a) => {
-          console.log(a)
+          //console.log(a)
           cambiarModalAlerta(a.msg);
         }
       )
     }
-    e.target.reset();
-    setDatosBarrio(vacio)
+    setDatosPerfil(vacio)
+  }
+
+  const seleccionarAccesos = (e) => {
+    let temp = listaAccesos;
+    if (e.target.checked) {
+      //console.log(e.target.value)
+      let test = { "opcion_id": e.target.value, "acceso": true }
+      temp.push(test);
+      setListaAccesos(temp)
+    } else {
+      temp = temp.filter((fila) => fila.opcion_id != e.target.value);
+      setListaAccesos(temp)
+    }
+    //console.log("listaAccesos ", listaAccesos);
   }
 
   console.log("idselec: ", idSelec)
 
-  const [datosBarrio, setDatosBarrio] = useState({
-    "id": 0,
-    "nombre": "",
-    "observacion": ""
+  const [datosPerfil, setDatosPerfil] = useState({
+    "descripcion": "",
+    "observacion": "",
+    "accesos": []
   })
 
-  console.log("barrio: " + JSON.stringify(datosBarrio))
+  console.log("barrio: " + JSON.stringify(datosPerfil))
 
   useEffect(() => {
     if (idSelec != "") {
@@ -80,10 +100,11 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
 
 
   const cargarForm = async () => {
-    console.log(idSelec);
-    let datosCrudo = (await obtenerUnicoRegistro('api/barrio/u', idSelec)).datos[0]
-    console.log(datosCrudo, "datos solicitud")
-    setDatosBarrio(datosCrudo)
+    //console.log(idSelec);
+    let datosCrudo = (await obtenerUnicoRegistro('api/perfil/u', idSelec)).datos[0]
+    //console.log(datosCrudo, "datos crudo")
+    setDatosPerfil(datosCrudo)
+    setIsEnabled(false)
   }
 
   useEffect(() => {
@@ -93,6 +114,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
   const cargarListas = async () => {
     //Extrae Datos de la BD para Opcion Menu y Agrupadores
     let options = (await endpointLibre("api/opcionMenu", "GET")).datos
+    //console.log(options)
     setListaOpcionMenu(ordenarTabla(options))
   }
 
@@ -103,26 +125,25 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     for (let i in optiones) {
       if (dscAg != optiones[i].dsc_id) {
         dscAg = optiones[i].dsc_id
-        arrays.unshift({ "Agrupador": optiones[i].dsc_agrupador, "cont": 1, "Opciones": [{ "descripcion": optiones[i].descripcion }] })
+        arrays.unshift({ "Agrupador": optiones[i].dsc_agrupador, "cont": 1, "Opciones": [{ "descripcion": optiones[i].descripcion, "id": optiones[i].id }] })
       } else {
         arrays[0].cont++
-        arrays[0].Opciones.push({ "descripcion": optiones[i].descripcion })
+        arrays[0].Opciones.push({ "descripcion": optiones[i].descripcion, "id": optiones[i].id })
       }
     }
     return arrays
   }
 
-  console.log("contador", listaOpcionMenu)
 
   return (
     <Tabs defaultActiveKey="perfil" id="uncontrolled-tab-example" className="mb-3">
       <Tab eventKey="perfil" title="Perfil">
-        <Form onSubmit={handleSubmit}>
+        <Form id="formGeneral" onSubmit={handleSubmit}>
           <Row className="g-2">
             <Col md>
               <Form.Group className='mb-2'>
                 <Form.Label>Nombre del perfil</Form.Label>
-                <Form.Control type="text" id="descripcion" />
+                <Form.Control type="text" id="descripcion" defaultValue={datosPerfil.descripcion} disabled={!isEnabled}/>
               </Form.Group>
             </Col>
           </Row>
@@ -134,6 +155,8 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                   id="observacion"
                   as="textarea"
                   style={{ height: '100px' }}
+                  defaultValue={datosPerfil.observacion}
+                  disabled={!isEnabled}
                 />
               </Form.Group>
             </Col>
@@ -141,65 +164,36 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         </Form>
       </Tab>
       <Tab eventKey="accesos" title="Accesos">
-        <Form onSubmit={handleSubmit}>
-          <Table bordered>
-            <thead>
-              <tr>
-                <th>Agrupadores</th>
-                <th>Opcion de menu</th>
-                <th>Accesos</th>
-              </tr>
-            </thead>
-            <tbody>
-              {listaOpcionMenu.map((fila) => {
-                return (
-                  <>
-                    <tr key={fila.Agrupador} >
-                      <td rowSpan={fila.cont + 1}  >{fila.Agrupador}</td>
-                    </tr>
-                    {fila.Opciones.map((filas) => {
-                      return (
-                        <tr>
-                          <td>{filas.descripcion}</td>
-                          <td><Form.Check type="switch" /> </td>
-                        </tr>
-                      )
-                    })}
-                  </>
-                )
-              })}
-            </tbody>
-          </Table>
-
-          {/* <Table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Edad</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td rowSpan={4}>Juan</td>
-              </tr>
-              <tr>
-                <td>Pérez</td>
-                <td>30</td>
-              </tr>
-              <tr>
-                <td>Gómez</td>
-                <td>25</td>
-              </tr>
-              <tr>
-                <td>González</td>
-                <td>28</td>
-              </tr>
-            </tbody>
-          </Table> */}
-        </Form>
+        <Table bordered>
+          <thead>
+            <tr>
+              <th>Agrupadores</th>
+              <th>Opcion de menu</th>
+              <th>Accesos</th>
+            </tr>
+          </thead>
+          <tbody>
+            {listaOpcionMenu.map((fila) => {
+              return (
+                <>
+                  <tr key={fila.Agrupador} >
+                    <td rowSpan={fila.cont + 1}  >{fila.Agrupador}</td>
+                  </tr>
+                  {fila.Opciones.map((filas) => {
+                    return (
+                      <tr>
+                        <td>{filas.descripcion}</td>
+                        <td><Form.Check type="switch" id={`opcion-${filas.id}`} value={filas.id} onChange={seleccionarAccesos} /> </td>
+                      </tr>
+                    )
+                  })}
+                </>
+              )
+            })}
+          </tbody>
+        </Table>
         <Row>
-          <Button type='submit' variant="success" >Guardar</Button>
+          <Button type='submit' variant="success" form="formGeneral" >Guardar</Button>
         </Row>
       </Tab>
     </Tabs>

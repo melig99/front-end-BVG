@@ -87,7 +87,6 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
             'tipo_plazo':e.target.tipo_plazo.value,
             'cant_cuotas':e.target.cant_cuotas.value,
             'inicio_cuota':e.target.inicio_cuota.value,
-            'usuario_id':"1",
             'ref_personales':referenciasPersonales,
             'ref_comerciales':referenciasComerciales,
         }
