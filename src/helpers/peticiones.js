@@ -7,7 +7,7 @@ const Peticiones = () => {
   //DATOS A UTILIZAR EN EL OBJETO CARDS
     // const [imagenes,setImagenes] = useState([])
     // const [buscador,setBuscador] = useState("")
-    const base =  "http://localhost:8000/"
+    const base =  "http://alberto.valurq.com/"
     const usuario =  JSON.parse((localStorage.getItem("usuario") ?? {}));
     // const [carga,setCarga] = useState(true)
     //FUNCIONES A UTILIZAR
