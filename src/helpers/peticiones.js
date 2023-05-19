@@ -21,7 +21,7 @@ const Peticiones = () => {
             "headers": {
               "Accept": "application/json",
               "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "https://alberto.valurq.com/"
+              "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
               "Authorization": `Bearer ${usuario.token}`
              },
         })
@@ -41,6 +41,7 @@ const Peticiones = () => {
             "headers": {
               "Accept": "application/json",
               "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
               "Authorization": `Bearer ${usuario.token}`
           }})
         const data = await temp.json();
@@ -55,6 +56,7 @@ const Peticiones = () => {
           "headers": {
             "Accept": "application/json",
             "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
             "Authorization": `Bearer ${usuario.token}`,
            },
             "body": JSON.stringify(datos)
@@ -80,6 +82,7 @@ const Peticiones = () => {
           "method": "POST",
           "headers": {
             "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
             "Authorization": `Bearer ${usuario.token}`,
             "body": form
             }
@@ -97,6 +100,7 @@ const Peticiones = () => {
           "headers": {
             "Accept": "application/json",
             "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
             "Authorization": `Bearer ${usuario.token}`,
            },
             "body": JSON.stringify(datos)
@@ -112,6 +116,7 @@ const Peticiones = () => {
         const temp = await fetch(url, {
             "headers": {
                 "Accept": "application/json",
+                "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
                 "Authorization": `Bearer ${usuario.token}`,
                 "method": "DELETE",
             }
@@ -127,6 +132,7 @@ const Peticiones = () => {
             "method": metodo,
             "headers":{
                 "Accept": "application/json",
+                "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
                 "Authorization": `Bearer ${usuario.token}`,
 
             }
