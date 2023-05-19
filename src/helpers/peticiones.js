@@ -21,6 +21,7 @@ const Peticiones = () => {
             "headers": {
               "Accept": "application/json",
               "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "https://alberto.valurq.com/"
               "Authorization": `Bearer ${usuario.token}`
              },
         })
