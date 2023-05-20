@@ -19,9 +19,9 @@ const Tabla = ({ datos, eliminar, ver }) => {
         }
     }
 
-    useEffect(() => {
+   useEffect(() => {
         visibles()
-    }, []);
+    }, [datos]);
     return (
         <>
             <Table striped hover>

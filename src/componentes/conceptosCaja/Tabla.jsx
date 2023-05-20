@@ -13,9 +13,9 @@ const Tabla = ({ datos, eliminar, ver }) => {
 
     const [visible, setVisible] = useState(false)
 
-    useEffect(() => {
+   useEffect(() => {
         visibles()
-    }, []);
+    }, [datos]);
 
     const visibles = () => {
         if (datos?.datos.length < 1 || datos?.datos.length === 0) {

@@ -14,7 +14,7 @@ const Tabla = ({ datos, ver }) => {
 
     useEffect(() => {
         visibles()
-    }, []);
+    }, [datos]);
 
     const visibles = () => {
         if (datos?.datos.length < 1 || datos?.datos.length === 0) {

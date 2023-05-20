@@ -12,10 +12,7 @@ const Tabla = ({ datos, eliminar, ver }) => {
     console.log(datos)
     const [visible, setVisible] = useState(false)
 
-    useEffect(() => {
-        visibles()
-    }, []);
-
+    
     const visibles = () => {
         if (datos?.datos.length < 1 || datos?.datos.length === 0) {
             setVisible(true)
@@ -23,7 +20,11 @@ const Tabla = ({ datos, eliminar, ver }) => {
             setVisible(false)
         }
     }
-
+    
+    useEffect(() => {
+        visibles()
+    }, [datos]);
+       
     return (
         <>
             <Table striped hover >
