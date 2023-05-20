@@ -18,8 +18,10 @@ const Tabla = ({ datos, eliminar, ver }) => {
     }, []);
 
     const visibles = () => {
-        if (datos?.datos < 1) {
+        if (datos?.datos.length < 1 || datos?.datos.length === 0) {
             setVisible(true)
+        }else{
+            setVisible(false)
         }
     }
 
@@ -50,7 +52,7 @@ const Tabla = ({ datos, eliminar, ver }) => {
             {
                 visible &&
                 <div style={{ color: 'gray', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <h4>No se encuentraron datos</h4>
+                    <h4>No se encontraron datos</h4>
                 </div>
             }
         </>

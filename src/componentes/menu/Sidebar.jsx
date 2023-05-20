@@ -29,7 +29,7 @@ const Sidebar = () => {
                   console.log(`navLink -> /home/menu/${agrupador.id}`)
                   return (
                       <NavLink to={`/home/menu/${agrupador.id}`}  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
-                        <CDBSidebarMenuItem><agrupador.icono className='m-2 item'/>{agrupador.descripcion}</CDBSidebarMenuItem>
+                        <CDBSidebarMenuItem><CgFileDocument className='m-2 item'/>{agrupador.descripcion}</CDBSidebarMenuItem>
                       </NavLink>
                   )
               })}
