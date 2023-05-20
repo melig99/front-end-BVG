@@ -35,15 +35,15 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
         try {
             let cajaBD = obtenerCaja()
             setCaja(cajaBD)
-            console.log(cajaBD, "caja <-")
+             console.log(cajaBD, "caja <-")
             obtenerSaldoCaja(cajaBD.caja);
-            console.log("obt usuario")
+             console.log("obt usuario")
             let temp = obtenerUsuario()
-            console.log(temp);
+             console.log(temp);
             setUsuario(temp);
         } catch (e) {
             setCaja(null)
-            console.log(e)
+             console.log(e)
         }
         
     }, [])
@@ -53,11 +53,11 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
         //Extrae Datos de la BD para CLIENTE
         let variable = []
         let options = await endpointLibre("api/cliente", "GET")
-        console.log(options)
+         console.log(options)
         for (let i of options.datos) {
             variable.push({ 'label': i.nombre, 'value': i.id, "documento": i.documento, "nombre_completo": i.nombre + " " + i.apellido, "direccion": i.direccion })
         }
-        console.log(variable)
+         console.log(variable)
         setListaCliente(variable)
     }
 
@@ -70,12 +70,12 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
 
     const cargarCliente = () => {
         const idSeleccionado = (selectedOption != null ? selectedOption.value : "")
-        console.log("idCliente ", idSeleccionado)
-        console.log("lista ", listaCliente)
-        console.log("solicitud ", datosSolicitud)
-        console.log(idSeleccionado)
+         console.log("idCliente ", idSeleccionado)
+         console.log("lista ", listaCliente)
+         console.log("solicitud ", datosSolicitud)
+         console.log(idSeleccionado)
         const id = listaCliente.find(item => item.value === idSeleccionado)
-        console.log("holaaaaaaaa", id)
+         console.log("holaaaaaaaa", id)
         if (id) {
             setDatosCliente({ "documento": id.documento, "nombre_completo": id.nombre_completo, "direccion": id.direccion })
         }
@@ -83,25 +83,25 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
     }
 
     const cargarSolicitud = async () => {
-        console.log(idSeleccionado)
+         console.log(idSeleccionado)
         let options = await endpointLibre("api/solicitud/aprobado/cliente/" + selectedOption?.value, "GET")
-        console.log("options ", options)
+         console.log("options ", options)
         if (options.cod === "00") {
             for (let i of options.datos) {
                 setDatosSolicitud({ "id": i.id, "monto_credito": i.monto_credito, "interes": i.interes, "descripcion_plazo": i.descripcion_plazo, "cant_cuotas": i.cant_cuotas })
             }
             setSolicitud(false)
         } else {
-            console.log("else")
+             console.log("else")
             setSolicitud(true)
         }
     }
 
     const obtenerSaldoCaja = async (idSelec) =>{
        // const idSelec = caja.caja
-        console.log(idSelec)
+         console.log(idSelec)
         let datosCrudo = (await obtenerUnicoRegistro('api/caja/u', idSelec)).datos[0]
-        console.log(datosCrudo, "saldo caja")
+         console.log(datosCrudo, "saldo caja")
         setSaldoCaja(datosCrudo)
     }
 
@@ -112,21 +112,21 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
             "monto": datosSolicitud?.monto_credito,
             "solicitud_id": datosSolicitud?.id,
         }
-        console.log(form)
+         console.log(form)
         guardarNuevoJson('api/operaciones/desembolsar',form).then(
             (a)=>{
                 if(a.cod==0){
-                    console.log(a,"Guardado correctamente")
+                     console.log(a,"Guardado correctamente")
                     cambiarModalAlerta("Guardado Correctamente");
                     e.target.reset();
                 }else{
-                    console.log(a)
+                     console.log(a)
                     cambiarModalAlerta(a.msg);
                 }
             }
         ).catch(
             (e)=>{
-                console.log(e)
+                 console.log(e)
                 cambiarModalAlerta(e.msg);
             }
         )

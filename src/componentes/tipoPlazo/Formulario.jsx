@@ -21,40 +21,40 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
             'dias_vencimiento':e.target.dias_vencimiento.value,
             'interes':e.target.interes.value,
         }
-        console.log(form)
+         console.log(form)
         if(idSelec === ""){
             guardarNuevoJson('api/tipoPlazo',form).then(
               (a)=>{
                 if(a.cod==0){
-                  console.log(a,"Guardado correctamente")
+                   console.log(a,"Guardado correctamente")
                   cambiarModalAlerta("Guardado Correctamente");
                 }else{
-                  console.log(a)
+                   console.log(a)
                   cambiarModalAlerta(a.msg);
                 }
               }
             ).catch(
               (e)=>{
-                console.log(e)
+                 console.log(e)
                 cambiarModalAlerta(e.msg);
               }
             )
           }else{
             modificarRegistroJson('api/tipoPlazo',idSelec,form).then(
               (a)=>{
-                console.log(a.cod," a.cod")
+                 console.log(a.cod," a.cod")
                 if(a.cod==0){
-                  console.log(a,"Guardado correctamente")
+                   console.log(a,"Guardado correctamente")
                   cambiarModalAlerta("Guardado Correctamente");
       
                 }else{
-                  console.log(a)
+                   console.log(a)
                   cambiarModalAlerta(a.msg);
                 }
               }
             ).catch(
               (a)=>{
-                console.log(a)
+                 console.log(a)
                 cambiarModalAlerta(a.msg);
               }
             )
@@ -63,7 +63,7 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
           setDatosPlazo(vacio)
     }
 
-    console.log("idselec: ",idSelec)
+     console.log("idselec: ",idSelec)
 
     const [datosPlazo,setDatosPlazo] = useState({
 			"id": 0,
@@ -73,7 +73,7 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
 			"interes": ""
     })
   
-    console.log("barrio: " +JSON.stringify(datosPlazo))
+     console.log("barrio: " +JSON.stringify(datosPlazo))
   
       useEffect(()=>{
       if(idSelec != ""){
@@ -83,9 +83,9 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
   
     
     const cargarForm = async ()=>{
-      console.log(idSelec);
+       console.log(idSelec);
       let datosCrudo =  (await obtenerUnicoRegistro('api/tipoPlazo/u',idSelec)).datos[0]
-      console.log(datosCrudo,"datos solicitud")
+       console.log(datosCrudo,"datos solicitud")
       setDatosPlazo (datosCrudo)
     }
     

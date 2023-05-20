@@ -8,7 +8,7 @@ const OpcionMenu = ({titulo,imagen,direccion}) => {
     let navigate = useNavigate()
     return (
         <Link to={`/home/${direccion}`} >
-            <Card style={{ width: '10rem' }} onClick={() => {navigate({direccion});console.log("clickeado")}}>
+            <Card style={{ width: '10rem' }} onClick={() => {navigate({direccion}); console.log("clickeado")}}>
                 <Card.Img variant="top" src={imagen} />
                 <Card.Body>
                     <Card.Title>{titulo}</Card.Title>

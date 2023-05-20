@@ -15,7 +15,7 @@ export const Panel = () => {
    
     const eliminarFila = async (id)=>{
         let temp = await eliminarRegistro('api/barrio',id)
-        console.log(temp)
+         console.log(temp)
         if(temp.cod==0){
             cambiarModalAlerta("Eliminado Correctamente")
         }else{
@@ -28,7 +28,7 @@ export const Panel = () => {
     const verFormulario=(id)=>{
         //setverFom({"callback":()=>ver(id)})
         setEstadoForm(true)
-        console.log("ingresado id: ",id)
+         console.log("ingresado id: ",id)
         setSelecionado(id)
     }
 
@@ -40,7 +40,7 @@ export const Panel = () => {
     const [modalAlerta,setModalAlerta] = useState({"estado":false,"msg":""});
     const cambiarModalAlerta=(msg)=>{
         setModalAlerta({"estado":!modalAlerta.estado,"msg":msg})
-        console.log(modalAlerta)
+         console.log(modalAlerta)
         recargar()
     }
 
@@ -48,7 +48,7 @@ export const Panel = () => {
     const [modalConfirmacion,setModalConfirmacion] = useState({"estado":false,"msg":"","callback":()=>{}});
     const cambiarModalConfirmacion=(msg,id)=>{
         setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
-        console.log(modalConfirmacion)
+         console.log(modalConfirmacion)
     }
 
     const recargar =() =>{

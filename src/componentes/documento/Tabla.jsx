@@ -8,9 +8,9 @@ const Tabla = ({ datos, ver }) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
     const cabecera = ["Nombre Documento", "Fecha Vencimiento", "Acciones"];
-    //console.log(datos?.datos)
+    // console.log(datos?.datos)
     const [visible, setVisible] = useState(false)
-    console.log(datos?.datos.length,'len')
+     console.log(datos?.datos.length,'len')
     
    useEffect(() => {
         visibles()

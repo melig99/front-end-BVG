@@ -8,13 +8,13 @@ const Menu = () => {
     const {obtenerMenu} = localBD();
     const params= useParams()
     let tempCliente =obtenerMenu()
-    console.log(tempCliente)
+     console.log(tempCliente)
 
     const [listaOpciones,setListaOpciones] = useState(tempCliente);
 
     useEffect(()=>{
         // tempCliente = obtenerMenu();
-        console.log(listaOpciones[params.id-1].opciones)
+         console.log(listaOpciones[params.id-1].opciones)
         setListaOpciones(tempCliente);
     },[]);
 

@@ -12,7 +12,7 @@ export const Panel = () => {
     const verFormulario=(id)=>{
         //setverFom({"callback":()=>ver(id)})
         setEstadoForm(true)
-        console.log("ingresado id: ",id)
+         console.log("ingresado id: ",id)
         setSelecionado(id)
     }
 

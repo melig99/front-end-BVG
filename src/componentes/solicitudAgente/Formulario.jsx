@@ -30,42 +30,42 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         for (let i of options.datos){
             variable.push({'label':i.nombre,'value':i.id})
         }
-        console.log(variable)
+         console.log(variable)
         setListaCliente (variable)
         //Extrae Datos de la BD para TIPO DOCUMENTO
         variable = [];
         options =  await endpointLibre("api/tipoPlazo","GET")
-        console.log(options)
+         console.log(options)
         for (let i of options.datos){
             variable.push({'label':i.descripcion,'value':i.id,'interes':i.interes})
         }
-        console.log(variable)
+         console.log(variable)
         setListaTipoPlazo (variable)
     }
 
     const actualizarReferenciasPersonales=(e)=>{
         e.preventDefault();
-        console.log("Formulario Ref Personales")
+         console.log("Formulario Ref Personales")
 
-        console.log([e.target.cliente.value ,e.target.relacion.value]);
+         console.log([e.target.cliente.value ,e.target.relacion.value]);
         let temp = listaCliente.find((a)=>a.value==e.target.cliente.value);
         let arrTemp = referenciasPersonales;
         arrTemp.push({"cliente_id":temp.value,"nombre":temp.label,"relacion_cliente":e.target.relacion.value})
         setReferenciasPersonales(arrTemp)
-        console.log(referenciasPersonales);
+         console.log(referenciasPersonales);
     }
 
     const actualizarReferenciasComerciales=(e)=>{
         e.preventDefault();
         let campos =e.target;
-        console.log("Formulario Ref Comerciales")
+         console.log("Formulario Ref Comerciales")
 
-        console.log([e.target.entidad.value, e.target.estado.value, e.target.monto_cuota.value, e.target.cuotas_totales.value, e.target.cuotas_pendientes.value]);
+         console.log([e.target.entidad.value, e.target.estado.value, e.target.monto_cuota.value, e.target.cuotas_totales.value, e.target.cuotas_pendientes.value]);
         let arrTemp = referenciasComerciales;
         arrTemp.push({"entidad":campos.entidad.value,"estado":campos.estado.value,"monto_cuota":campos.monto_cuota.value,"cuotas_totales":campos.cuotas_totales.value,"cuotas_pendientes":campos.cuotas_pendientes.value})
 
         setReferenciasComerciales(arrTemp)
-        console.log(referenciasComerciales);
+         console.log(referenciasComerciales);
     }
 
     const actualizarTipoPlazo = (e)=>{
@@ -90,29 +90,29 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
             'ref_personales':referenciasPersonales,
             'ref_comerciales':referenciasComerciales,
         }
-        console.log(form)
+         console.log(form)
         guardarNuevoJson('api/solicitud',form).then(
             (a)=>{
                 if(a.cod==0){
-                    console.log(a,"Guardado correctamente")
+                     console.log(a,"Guardado correctamente")
                     cambiarModalAlerta("Guardado Correctamente");
                     e.target.reset();
                 }else{
-                    console.log(a)
+                     console.log(a)
                     cambiarModalAlerta(a.msg);
                 }
             }
         ).catch(
             (e)=>{
-                console.log(e)
+                 console.log(e)
                 cambiarModalAlerta(e.msg);
             }
         )
     }
     const actualizarForm=(e)=>{
         e.preventDefault();
-        console.log("Formulario 2")
-        console.log(e.target)
+         console.log("Formulario 2")
+         console.log(e.target)
     }
 
 

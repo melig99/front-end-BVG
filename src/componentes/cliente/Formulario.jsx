@@ -31,40 +31,40 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
             'observacion': e.target.observacion.value,
             'barrio': e.target.barrio.value,
         }
-        console.log(form)
+         console.log(form)
         if (idSelec === "") {
             guardarNuevoJson('api/cliente', form).then(
                 (a) => {
                     if (a.cod == 0) {
-                        console.log(a, "Guardado correctamente")
+                         console.log(a, "Guardado correctamente")
                         cambiarModalAlerta("Guardado Correctamente");
                     } else {
-                        console.log(a)
+                         console.log(a)
                         cambiarModalAlerta(a.msg);
                     }
                 }
             ).catch(
                 (e) => {
-                    console.log(e)
+                     console.log(e)
                     cambiarModalAlerta(e.msg);
                 }
             )
         } else {
             modificarRegistroJson('api/cliente', idSelec, form).then(
                 (a) => {
-                    console.log(a.cod, " a.cod")
+                     console.log(a.cod, " a.cod")
                     if (a.cod == 0) {
-                        console.log(a, "Guardado correctamente")
+                         console.log(a, "Guardado correctamente")
                         cambiarModalAlerta("Guardado Correctamente");
 
                     } else {
-                        console.log(a)
+                         console.log(a)
                         cambiarModalAlerta(a.msg);
                     }
                 }
             ).catch(
                 (a) => {
-                    console.log(a)
+                     console.log(a)
                     cambiarModalAlerta(a.msg);
                 }
             )
@@ -85,7 +85,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         for (let i of options?.datos) {
             variable.push({ 'label': i.nombre, 'value': i.id })
         }
-        console.log(variable)
+         console.log(variable)
         setListaBarrio(variable)
         //Extrae Datos de la BD para ESTADO CIVIL
         variable = [];
@@ -93,7 +93,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         for (let i of options?.datos) {
             variable.push({ 'label': i.descripcion, 'value': i.id })
         }
-        console.log(variable)
+         console.log(variable)
         setListaCivil(variable)
         //Extrae Datos de la BD para TIPO DOCUMENTO
         variable = [];
@@ -101,13 +101,13 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         for (let i of options?.datos) {
             variable.push({ 'label': i.descripcion, 'value': i.id })
         }
-        console.log(variable)
+         console.log(variable)
         setListaTipoDocumento(variable)
     }
-    //console.log(datos.map(datos))
-    console.log("option selec", selectedOption)
+    // console.log(datos.map(datos))
+     console.log("option selec", selectedOption)
 
-    console.log("idselec: ", idSelec)
+     console.log("idselec: ", idSelec)
 
     const [datosCliente, setDatosCliente] = useState({
         "id": 0,
@@ -129,7 +129,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         "estado_civil": 0,
     })
 
-    //console.log("Cliente: " +JSON.stringify(datosCliente))
+    // console.log("Cliente: " +JSON.stringify(datosCliente))
 
     useEffect(() => {
         if (idSelec != "") {
@@ -139,9 +139,9 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
 
 
     const cargarForm = async () => {
-        console.log(idSelec);
+         console.log(idSelec);
         let datosCrudo = (await obtenerUnicoRegistro('api/cliente/u', idSelec)).datos[0]
-        console.log(datosCrudo, "datos solicitud")
+         console.log(datosCrudo, "datos solicitud")
         setDatosCliente(datosCrudo)
     }
 

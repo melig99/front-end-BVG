@@ -17,7 +17,7 @@ const  MenuSuperior = () => {
     useEffect(()=>{
         try {
             let temp = obtenerUsuario()
-            console.log(temp);
+             console.log(temp);
             setUsuario(temp);
         } catch (e) {
             console.error("error al logueo",e)
