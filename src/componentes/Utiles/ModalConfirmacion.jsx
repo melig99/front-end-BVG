@@ -6,7 +6,7 @@ const ModalConfirmacion  = ({valores}) => {
     const [estado,setEstadoModal] = useState(true);
 
     useEffect(()=>{
-        // console.log(valores);
+        //  console.log(valores);
         setEstadoModal(valores.estado);
     },[valores]);
     const cerrar = ()=>{

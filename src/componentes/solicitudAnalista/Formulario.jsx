@@ -46,27 +46,27 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
 
     const actualizarReferenciasPersonales=(e)=>{
         e.preventDefault();
-        console.log("Formulario Ref Personales")
+         console.log("Formulario Ref Personales")
 
-        console.log([e.target.cliente.value ,e.target.relacion.value]);
+         console.log([e.target.cliente.value ,e.target.relacion.value]);
         let temp = listaCliente.find((a)=>a.value==e.target.cliente.value);
         let arrTemp = referenciasPersonales;
         arrTemp.push({"cliente_id":temp.value,"nombre":temp.label,"relacion_cliente":e.target.relacion.value})
         setReferenciasPersonales(arrTemp)
-        console.log(referenciasPersonales);
+         console.log(referenciasPersonales);
     }
 
     const actualizarReferenciasComerciales=(e)=>{
         e.preventDefault();
         let campos =e.target;
-        console.log("Formulario Ref Comerciales")
+         console.log("Formulario Ref Comerciales")
 
-        console.log([e.target.entidad.value, e.target.estado.value, e.target.monto_cuota.value, e.target.cuotas_totales.value, e.target.cuotas_pendientes.value]);
+         console.log([e.target.entidad.value, e.target.estado.value, e.target.monto_cuota.value, e.target.cuotas_totales.value, e.target.cuotas_pendientes.value]);
         let arrTemp = referenciasComerciales;
         arrTemp.push({"entidad":campos.entidad.value,"estado":campos.estado.value,"monto_cuota":campos.monto_cuota.value,"cuotas_totales":campos.cuotas_totales.value,"cuotas_pendientes":campos.cuotas_pendientes.value})
 
         setReferenciasComerciales(arrTemp)
-        console.log(referenciasComerciales);
+         console.log(referenciasComerciales);
     }
 
     useEffect(()=>{
@@ -77,12 +77,12 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
     },[idSeleccionado])
 
     const cargarForm = async ()=>{
-        console.log(idSeleccionado);
+         console.log(idSeleccionado);
         let ds =  (await endpointLibre(`api/solicitudUnico/${idSeleccionado}`,"GET"))
-        console.log(ds,"datos solicitud")
+         console.log(ds,"datos solicitud")
         let refPersonales = [];
         for (const ref of ds.datos.solicitud.referencia_personal) {
-            console.log(ref.cliente.nombre)
+             console.log(ref.cliente.nombre)
             refPersonales.push({"cliente_id":`${ref.cliente_id}`,"nombre":`${ref.cliente.nombre} ${ref.cliente.apellido}`,"relacion_cliente":`${ref.relacion_cliente}`})
         }
         setDatosSolicitud (ds.datos.solicitud)
@@ -92,11 +92,11 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
         setAnalisis(ds.datos.analisis)
         setCuotero(ds.datos.cuotero);
         setEstadosPosibles(ds.datos.reglas);
-        console.log(referenciasPersonales,"datos refPersonal")
-        console.log(historialEstado,"datos historialEstado")
-        console.log(referenciasComerciales,"datos refPersonal")
-        console.log(analisis,"datos analisis")
-        console.log(estadosPosibles,"datos estados posibles")
+         console.log(referenciasPersonales,"datos refPersonal")
+         console.log(historialEstado,"datos historialEstado")
+         console.log(referenciasComerciales,"datos refPersonal")
+         console.log(analisis,"datos analisis")
+         console.log(estadosPosibles,"datos estados posibles")
 
     }
     const cargarListas = async()=>{
@@ -120,21 +120,21 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
             'estado_id':SELECT_ESTADO.value,
             'observacion':OBSERVACION.value,
         }
-        console.log(form)
+         console.log(form)
         modificarRegistroJson('api/solicitud',idSeleccionado,form).then(
             (a)=>{
                 if(a.cod==0){
-                    console.log(a,"Guardado correctamente")
+                     console.log(a,"Guardado correctamente")
                     cambiarModalAlerta("Guardado Correctamente");
                     e.target.reset();
                 }else{
-                    console.log(a)
+                     console.log(a)
                     cambiarModalAlerta(a.msg);
                 }
             }
         ).catch(
             (e)=>{
-                console.log(e)
+                 console.log(e)
                 cambiarModalAlerta(e.msg);
             }
         )

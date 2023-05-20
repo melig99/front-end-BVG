@@ -9,21 +9,22 @@ const Tabla = ({ datos, eliminar, ver }) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
     const cabecera = ["Perfil", "Observacion", "Acciones"];
-    //console.log(datos)
+    // console.log(datos)
     const [visible, setVisible] = useState(false)
 
-   useEffect(() => {
-        visibles()
-    }, [datos]);
 
     const visibles = () => {
         if (datos?.datos.length < 1 || datos?.datos.length === 0) {
             setVisible(true)
-        }else{
+        } else {
             setVisible(false)
         }
     }
-    
+
+    useEffect(() => {
+        visibles()
+    }, [datos]);
+
     return (
         <>
             <Table striped hover >

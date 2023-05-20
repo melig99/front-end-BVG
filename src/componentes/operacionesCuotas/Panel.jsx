@@ -21,7 +21,7 @@ export const Panel = () => {
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
     const eliminarFila = async (id)=>{
         let temp = await eliminarRegistro('api/solicitud',id)
-        console.log(temp)
+         console.log(temp)
         if(temp.cod==0){
             cambiarModalAlerta("Eliminado Correctamente")
         }else{
@@ -34,7 +34,7 @@ export const Panel = () => {
         setDatosForm(temp);
     }
     const abrirForm =()=>{
-            console.log(formSeleccionado)
+             console.log(formSeleccionado)
             if(formSeleccionado== 'apertura'){
                 return (<FormularioApertura cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
             }else if(formSeleccionado== 'cierre'){
@@ -52,12 +52,12 @@ export const Panel = () => {
     }
 
     const enviarForm = ()=>{
-        console.log(guardarNuevoJson)
+         console.log(guardarNuevoJson)
         const form = {
             'nombre':datosForm.nombre,
             'observacion':datosForm.observacion,
         }
-        console.log(form);
+         console.log(form);
         // guardarNuevoJson('api/barrio',form).then(
         //     async (a)=>{
         //         if(a.cod==0){
@@ -70,7 +70,7 @@ export const Panel = () => {
         //     }
         // ).catch(
         //     (e)=>{
-        //         console.log(e)
+        //          console.log(e)
         //         cambiarModalAlerta(e.msg);
         //     }
         // )
@@ -83,9 +83,9 @@ export const Panel = () => {
         try {
             let cajaBD = obtenerCaja()
             setCaja(cajaBD)
-            console.log(cajaBD,"caja <-")
+             console.log(cajaBD,"caja <-")
         } catch (e) {
-            console.log(e)
+             console.log(e)
         }
     },[]);
 
@@ -93,10 +93,10 @@ export const Panel = () => {
         try {
             let cajaBD = obtenerCaja()
             setCaja(cajaBD)
-            console.log(cajaBD,"caja <-")
+             console.log(cajaBD,"caja <-")
         } catch (e) {
             setCaja(null)
-            console.log(e)
+             console.log(e)
         }
     },[estadoForm])
 
@@ -104,14 +104,14 @@ export const Panel = () => {
     const [modalAlerta,setModalAlerta] = useState({"estado":false,"msg":""});
     const cambiarModalAlerta=(msg)=>{
         setModalAlerta({"estado":!modalAlerta.estado,"msg":msg})
-        console.log(modalAlerta)
+         console.log(modalAlerta)
     }
 
     // SECCION PARA ACTIVAR ALERT CONFIRMACION
     const [modalConfirmacion,setModalConfirmacion] = useState({"estado":false,"msg":"","callback":()=>{}});
     const cambiarModalConfirmacion=(msg,id)=>{
         setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
-        console.log(modalConfirmacion)
+         console.log(modalConfirmacion)
     }
     return (
         <>

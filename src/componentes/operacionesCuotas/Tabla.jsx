@@ -9,7 +9,7 @@ const Tabla = ({ datos, ver }) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
     const cabecera = ["Caja", "Concepto", "Monto", "Fecha Operacion", "Nro Solicitud", "Cajero"];
-    console.log(datos)
+     console.log(datos)
 
     const [visible, setVisible] = useState(false)
 

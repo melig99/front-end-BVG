@@ -38,14 +38,14 @@ export const Formulario = ({idSeleccionado}) => {
     },[idSeleccionado])
 
 	const cargarForm = async ()=>{
-        // console.log(idSeleccionado);
+        //  console.log(idSeleccionado);
         let datosCrudo =  (await obtenerUnicoRegistro('api/perfilCliente',idSeleccionado)).datos
-        console.log(datosCrudo,"datos solicitud")
+         console.log(datosCrudo,"datos solicitud")
         setDatosPerfil (datosCrudo)
     }
 
     const generarTabla = (datosParametro)=>{
-        // console.log(datosParametro)
+        //  console.log(datosParametro)
         let cantDatos = datosParametro.parametros.length;
         return (
             <Table  hover bordered >

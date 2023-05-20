@@ -24,42 +24,42 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
             'icono':e.target.icono.value,
             'agrupador_id':e.target.agrupador.value,
         }
-        console.log(form,"Formulario")
+         console.log(form,"Formulario")
         if(idSelec === ""){
             guardarNuevoJson('api/opcionMenu',form).then(
                 (a)=>{
                     if(a.cod==0){
-                        console.log(a,"Guardado correctamente")
+                         console.log(a,"Guardado correctamente")
                         cambiarModalAlerta("Guardado Correctamente");
                         e.target.reset();
                     }else{
-                        console.log(a)
+                         console.log(a)
                         cambiarModalAlerta(a.msg);
                     }
                 }
             ).catch(
                 (e)=>{
-                    console.log(e)
+                     console.log(e)
                     cambiarModalAlerta(e.msg);
                 }
             )
         }else{
             modificarRegistroJson('api/opcionMenu',idSelec,form).then(
                 (a)=>{
-                    console.log(a.cod," a.cod")
+                     console.log(a.cod," a.cod")
                     if(a.cod==0){
-                        console.log(a,"Guardado correctamente")
+                         console.log(a,"Guardado correctamente")
                         cambiarModalAlerta("Guardado Correctamente");
                         e.target.reset();
 
                     }else{
-                        console.log(a)
+                         console.log(a)
                         cambiarModalAlerta(a.msg);
                     }
                 }
             ).catch(
                 (a)=>{
-                    console.log(a)
+                     console.log(a)
                     cambiarModalAlerta(a.msg);
                 }
             )
@@ -92,14 +92,14 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
         for (let i of options?.datos) {
             variable.push({ 'label': i.descripcion, 'value': i.id })
         }
-        console.log(variable)
+         console.log(variable)
         setListaAgrupador(variable)
     }
 
     const cargarForm = async ()=>{
-        console.log(idSelec);
+         console.log(idSelec);
         let datosCrudo =  (await obtenerUnicoRegistro('api/opcionMenu/u',idSelec)).datos[0]
-        console.log(datosCrudo,"datos solicitud")
+         console.log(datosCrudo,"datos solicitud")
         setDatosOpcionMenu(datosCrudo)
     }
 
