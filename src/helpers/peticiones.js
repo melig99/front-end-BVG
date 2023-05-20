@@ -15,7 +15,8 @@ const Peticiones = () => {
         // setCarga(true)
         // IDEA: Cambiar por constante de ambiente
 
-        const url = base + modulo + "/"+pagina+"/"+((buscar!=="")?buscar : "")
+        //const url = base + modulo + "/"+pagina+"/"+((buscar!=="")?buscar : "")
+        const url = base + modulo;
         console.log(usuario)
         const temp = await fetch(url,{
             "headers": {
