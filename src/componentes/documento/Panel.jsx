@@ -7,22 +7,7 @@ import {ModalAlerta,ModalConfirmacion} from '../Utiles';
 
 export const Panel = () => {
     const [datos,setDatos] = useState({"pagina_actual":0,"cantidad_paginas":0,"datos":[]});
-    const [estadoForm,setEstadoForm] = useState(false);
-    const [datosForm,setDatosForm] = useState({});
-    const [obtenerPanel,guardarNuevoJson,obtenerUnicoRegistro,eliminarRegistro,] = Peticiones();
-    const [state, setState] = useState(false)
-   
-    const eliminarFila = async (id)=>{
-        let temp = await eliminarRegistro('api/documento/{pag?}',id)
-        console.log(temp)
-        if(temp.cod==0){
-            cambiarModalAlerta("Eliminado Correctamente")
-        }else{
-            cambiarModalAlerta(temp.msg);
-        }
-    }
-
-    const [selecionado,setSelecionado] = useState({"id":0});
+    const [obtenerPanel,,,,] = Peticiones();
 
     const verFormulario=(id)=>{
         //setverFom({"callback":()=>ver(id)})
@@ -35,26 +20,7 @@ export const Panel = () => {
         obtenerPanel("api/documento/{pag?}",setDatos)
     },[]);
 
-    // SECCION PARA ACTIVAR ALERTAS
-    const [modalAlerta,setModalAlerta] = useState({"estado":false,"msg":""});
-    const cambiarModalAlerta=(msg)=>{
-        setModalAlerta({"estado":!modalAlerta.estado,"msg":msg})
-        console.log(modalAlerta)
-        recargar()
-    }
-
-    // SECCION PARA ACTIVAR ALERT CONFIRMACION
-    const [modalConfirmacion,setModalConfirmacion] = useState({"estado":false,"msg":"","callback":()=>{}});
-    const cambiarModalConfirmacion=(msg,id)=>{
-        setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
-        console.log(modalConfirmacion)
-    }
-
-    const recargar =() =>{
-        obtenerPanel("api/documento/{pag?}",setDatos)
-        setState(true)
-    }
-
+   
     return (
         <>
             <Container>
@@ -64,6 +30,8 @@ export const Panel = () => {
                             <Row>
                                 <h1>Documentos</h1>
                             </Row>
+                            <br/>
+                            <br/>
                         </Container>
                     </Col>
 
@@ -72,25 +40,12 @@ export const Panel = () => {
                     <Container fluid={true}>
                         <Row>
                             <br/>
-                            <Tabla datos={datos}  eliminar = {(id)=>{ cambiarModalConfirmacion("¿Esta seguro de que desea eliminar ?",id)}} ver = {(id)=> {verFormulario(id)}} />
+                            <Tabla datos={datos}  ver = {(id)=> {verFormulario(id)}} />
                         </Row>
                     </Container>
                 </Row>
 
             </Container>
-            <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
-                <Modal.Header closeButton>
-                <Modal.Title>Datos Barrios</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSelec={selecionado} />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={()=>{setEstadoForm(!estadoForm)}} >Cerrar</Button>
-                </Modal.Footer>
-            </Modal>
-            <ModalAlerta valores={modalAlerta} ></ModalAlerta>
-            <ModalConfirmacion valores={modalConfirmacion} ></ModalConfirmacion>
         </>
     )
 }
