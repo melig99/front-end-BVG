@@ -72,20 +72,20 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
   console.log("barrio: " +JSON.stringify(datosBarrio))
 
 	useEffect(()=>{
-    if(idSelec != ""){
-      cargarForm()
-    }
-  },[idSelec])
+        if(idSelec != ""){
+          cargarForm()
+        }
+    },[idSelec])
 
-  
+
   const cargarForm = async ()=>{
     console.log(idSelec);
     let datosCrudo =  (await obtenerUnicoRegistro('api/barrio/u',idSelec)).datos[0]
     console.log(datosCrudo,"datos solicitud")
     setDatosBarrio (datosCrudo)
   }
-     
-     
+
+
 
   return(
     <Form onSubmit={handleSubmit}>
