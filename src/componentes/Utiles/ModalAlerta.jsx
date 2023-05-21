@@ -7,7 +7,7 @@ const ModalAlerta = ({valores}) => {
 
 
     useEffect(()=>{
-        // console.log(valores);
+        //  console.log(valores);
         setEstadoModal(valores.estado);
     },[valores]);
     const cerrar = ()=>{

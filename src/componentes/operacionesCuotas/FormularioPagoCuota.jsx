@@ -32,15 +32,15 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
         try {
             let cajaBD = obtenerCaja()
             setCaja(cajaBD)
-            console.log(cajaBD, "caja <-")
+             console.log(cajaBD, "caja <-")
             obtenerSaldoCaja(cajaBD.caja);
-            console.log("obt usuario")
+             console.log("obt usuario")
             let temp = obtenerUsuario()
-            console.log(temp);
+             console.log(temp);
             setUsuario(temp);
         } catch (e) {
             setCaja(null)
-            console.log(e)
+             console.log(e)
         }
 
     }, [])
@@ -50,11 +50,11 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
         //Extrae Datos de la BD para CLIENTE
         let variable = []
         let options = await endpointLibre("api/cliente", "GET")
-        console.log(options)
+         console.log(options)
         for (let i of options.datos) {
             variable.push({ 'label': i.nombre, 'value': i.id, "documento": i.documento, "nombre_completo": i.nombre + " " + i.apellido, "direccion": i.direccion })
         }
-        console.log(variable)
+         console.log(variable)
         setListaCliente(variable)
     }
 
@@ -67,7 +67,7 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
 
     const cargarCliente = () => {
         const idSeleccionado = (selectedOption != null ? selectedOption.value : "")
-        console.log(idSeleccionado)
+         console.log(idSeleccionado)
         const id = listaCliente.find(item => item.value === idSeleccionado)
         if (id) {
             setDatosCliente({ "documento": id.documento, "nombre_completo": id.nombre_completo, "direccion": id.direccion })
@@ -76,24 +76,24 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
     }
 
     const cargarCuotas = async () => {
-        console.log(idSeleccionado)
+         console.log(idSeleccionado)
         let cuotas = await endpointLibre("api/solicitud/cuotas/l/" + selectedOption?.value, "GET")
-        console.log("cuotas ", cuotas)
+         console.log("cuotas ", cuotas)
         let listaCuotas = [];
         if (cuotas.cod === "00") {
             setDatosCuota(cuotas.datos);
             // setSolicitud(false)
         } else {
-            console.log("else")
+             console.log("else")
             setSolicitud(true)
         }
     }
 
     const obtenerSaldoCaja = async (idSelec) =>{
        // const idSelec = caja.caja
-        console.log(idSelec)
+         console.log(idSelec)
         let datosCrudo = (await obtenerUnicoRegistro('api/caja/u', idSelec)).datos[0]
-        console.log(datosCrudo, "saldo caja")
+         console.log(datosCrudo, "saldo caja")
         setSaldoCaja(datosCrudo)
     }
 
@@ -107,22 +107,22 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
         for (let cuota of listaCuotasPagar) {
             form.cuotas.push({"id":cuota.id,"saldo":cuota.saldo,"id_solicitud":cuota.solicitud_id});
         }
-        console.log(form)
+         console.log(form)
 
         guardarNuevoJson('api/operaciones/pagarCuotas',form).then(
             (a)=>{
                 if(a.cod==0){
-                    console.log(a,"Guardado correctamente")
+                     console.log(a,"Guardado correctamente")
                     cambiarModalAlerta("Guardado Correctamente");
                     e.target.reset();
                 }else{
-                    console.log(a)
+                     console.log(a)
                     cambiarModalAlerta(a.msg);
                 }
             }
         ).catch(
             (e)=>{
-                console.log(e)
+                 console.log(e)
                 cambiarModalAlerta(e.msg);
             }
         )
@@ -131,7 +131,7 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
     const seleccionarCuota=(e)=>{
         let temp = listaCuotasPagar;
         if(e.target.checked){
-            console.log(e.target.value)
+             console.log(e.target.value)
             let test = datosCuota.find((fila )=> {return fila.id ==e.target.value});
             temp.push(test);
             setlistaCuotasPagar(temp)
@@ -143,7 +143,7 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
         temp.forEach((cuota) => {
             total+=parseInt (cuota.saldo)
         });
-        console.log(total);
+         console.log(total);
         setTotalCuotas(total)
 
 

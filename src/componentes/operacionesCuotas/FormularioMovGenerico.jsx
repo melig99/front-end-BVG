@@ -35,15 +35,15 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
         try {
             let cajaBD = obtenerCaja()
             setCaja(cajaBD)
-            console.log(cajaBD, "caja <-")
+             console.log(cajaBD, "caja <-")
             obtenerSaldoCaja(cajaBD.caja);
-            console.log("obt usuario")
+             console.log("obt usuario")
             let temp = obtenerUsuario()
-            console.log(temp);
+             console.log(temp);
             setUsuario(temp);
         } catch (e) {
             setCaja(null)
-            console.log(e)
+             console.log(e)
         }
 
     }, [])
@@ -53,13 +53,13 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
         //Extrae Datos de la BD para CLIENTE
         let variable = []
         let options = await endpointLibre("api/conceptoCaja", "GET")
-        console.log(options)
+         console.log(options)
         for (let i of options.datos) {
             if(i.id != 1 && i.id != 2){
                 variable.push({ 'label': i.descripcion, 'value': i.id, "tipo": i.tipo});
             }
         }
-        console.log(variable)
+         console.log(variable)
         setListaConcepto(variable)
     }
 
@@ -69,12 +69,12 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
 
     const cargarConceptos = () => {
         const idSeleccionado = (selectedOption != null ? selectedOption.value : "")
-        console.log("idCliente ", idSeleccionado)
-        console.log("lista ", listaConcepto)
-        console.log("solicitud ", datosSolicitud)
-        console.log(idSeleccionado)
+         console.log("idCliente ", idSeleccionado)
+         console.log("lista ", listaConcepto)
+         console.log("solicitud ", datosSolicitud)
+         console.log(idSeleccionado)
         const id = listaConcepto.find(item => item.value === idSeleccionado)
-        console.log("holaaaaaaaa", id)
+         console.log("holaaaaaaaa", id)
         if (id) {
             setDatosCliente({ "documento": id.documento, "nombre_completo": id.nombre_completo, "direccion": id.direccion })
         }
@@ -83,9 +83,9 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
 
     const obtenerSaldoCaja = async (idSelec) =>{
        // const idSelec = caja.caja
-        console.log(idSelec)
+         console.log(idSelec)
         let datosCrudo = (await obtenerUnicoRegistro('api/caja/u', idSelec)).datos[0]
-        console.log(datosCrudo, "saldo caja")
+         console.log(datosCrudo, "saldo caja")
         setSaldoCaja(datosCrudo)
     }
 
@@ -96,21 +96,21 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
             "monto": e.target.monto.value,
             "concepto":e.target.concepto.value,
         }
-        console.log(form)
+         console.log(form)
         guardarNuevoJson('api/operaciones/movimientoGenerico',form).then(
             (a)=>{
                 if(a.cod==0){
-                    console.log(a,"Guardado correctamente")
+                     console.log(a,"Guardado correctamente")
                     cambiarModalAlerta("Guardado Correctamente");
                     e.target.reset();
                 }else{
-                    console.log(a)
+                     console.log(a)
                     cambiarModalAlerta(a.msg);
                 }
             }
         ).catch(
             (e)=>{
-                console.log(e)
+                 console.log(e)
                 cambiarModalAlerta(e.msg);
             }
         )

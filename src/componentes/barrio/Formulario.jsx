@@ -19,40 +19,40 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
       'nombre':e.target.nombre.value,
       'observacion':e.target.observacion.value,
     }
-    console.log(form)
+     console.log(form)
     if(idSelec === ""){
       guardarNuevoJson('api/barrio',form).then(
         (a)=>{
           if(a.cod==0){
-            console.log(a,"Guardado correctamente")
+             console.log(a,"Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
           }else{
-            console.log(a)
+             console.log(a)
             cambiarModalAlerta(a.msg);
           }
         }
       ).catch(
         (e)=>{
-          console.log(e)
+           console.log(e)
           cambiarModalAlerta(e.msg);
         }
       )
     }else{
       modificarRegistroJson('api/barrio',idSelec,form).then(
         (a)=>{
-          console.log(a.cod," a.cod")
+           console.log(a.cod," a.cod")
           if(a.cod==0){
-            console.log(a,"Guardado correctamente")
+             console.log(a,"Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
 
           }else{
-            console.log(a)
+             console.log(a)
             cambiarModalAlerta(a.msg);
           }
         }
       ).catch(
         (a)=>{
-          console.log(a)
+           console.log(a)
           cambiarModalAlerta(a.msg);
         }
       )
@@ -61,7 +61,7 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
     setDatosBarrio(vacio)
   }
 
-  console.log("idselec: ",idSelec)
+   console.log("idselec: ",idSelec)
 
   const [datosBarrio,setDatosBarrio] = useState({
     "id": 0,
@@ -69,7 +69,7 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
     "observacion": ""
   })
 
-  console.log("barrio: " +JSON.stringify(datosBarrio))
+   console.log("barrio: " +JSON.stringify(datosBarrio))
 
 	useEffect(()=>{
         if(idSelec != ""){
@@ -79,9 +79,9 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
 
 
   const cargarForm = async ()=>{
-    console.log(idSelec);
+     console.log(idSelec);
     let datosCrudo =  (await obtenerUnicoRegistro('api/barrio/u',idSelec)).datos[0]
-    console.log(datosCrudo,"datos solicitud")
+     console.log(datosCrudo,"datos solicitud")
     setDatosBarrio (datosCrudo)
   }
 

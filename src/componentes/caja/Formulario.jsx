@@ -18,40 +18,40 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
             'saldo_acutal':e.target.factor_divisor.value,
             'pin':e.target.pin.value,
         }
-        console.log(form)
+         console.log(form)
         if(idSelec === ""){
             guardarNuevoJson('api/caja',form).then(
               (a)=>{
                 if(a.cod==0){
-                  console.log(a,"Guardado correctamente")
+                   console.log(a,"Guardado correctamente")
                   cambiarModalAlerta("Guardado Correctamente");
                 }else{
-                  console.log(a)
+                   console.log(a)
                   cambiarModalAlerta(a.msg);
                 }
               }
             ).catch(
               (e)=>{
-                console.log(e)
+                 console.log(e)
                 cambiarModalAlerta(e.msg);
               }
             )
           }else{
             modificarRegistroJson('api/caja',idSelec,form).then(
               (a)=>{
-                console.log(a.cod," a.cod")
+                 console.log(a.cod," a.cod")
                 if(a.cod==0){
-                  console.log(a,"Guardado correctamente")
+                   console.log(a,"Guardado correctamente")
                   cambiarModalAlerta("Guardado Correctamente");
 
                 }else{
-                  console.log(a)
+                   console.log(a)
                   cambiarModalAlerta(a.msg);
                 }
               }
             ).catch(
               (a)=>{
-                console.log(a)
+                 console.log(a)
                 cambiarModalAlerta(a.msg);
               }
             )
@@ -60,7 +60,7 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
           setDatosCaja(vacio)
     }
 
-    console.log("idselec: ",idSelec)
+     console.log("idselec: ",idSelec)
 
     const [datosCaja,setDatosCaja] = useState({
 			"id": 0,
@@ -79,9 +79,9 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
 
 
     const cargarForm = async ()=>{
-      console.log(idSelec);
+       console.log(idSelec);
       let datosCrudo =  (await obtenerUnicoRegistro('api/caja/u',idSelec)).datos[0]
-      console.log(datosCrudo,"datos solicitud")
+       console.log(datosCrudo,"datos solicitud")
       setDatosCaja (datosCrudo)
     }
 

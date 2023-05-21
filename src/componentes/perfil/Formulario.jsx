@@ -23,44 +23,44 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
       "observacion": e.target.observacion.value,
       "accesos": listaAccesos,
     }
-    if(form.observacion == ""){
+    if (form.observacion == "") {
       delete form.observacion
     }
-    console.log(form.observacion )
+    console.log(form.observacion)
     if (idSelec === "") {
       guardarNuevoJson('api/perfil', form).then(
         (a) => {
           if (a.cod == 0) {
-            //console.log(a, "Guardado correctamente")
+            // console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
             e.target.reset();
           } else {
-            //console.log(a)
+            // console.log(a)
             cambiarModalAlerta(a.msg);
           }
         }
       ).catch(
         (e) => {
-          //console.log(e)
+          // console.log(e)
           cambiarModalAlerta(e.msg);
         }
       )
     } else {
       modificarRegistroJson('api/perfil', idSelec, form).then(
         (a) => {
-          //console.log(a.cod, " a.cod")
+          // console.log(a.cod, " a.cod")
           if (a.cod == 0) {
-            //console.log(a, "Guardado correctamente")
+            // console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
 
           } else {
-            //console.log(a)
+            // console.log(a)
             cambiarModalAlerta(a.msg);
           }
         }
       ).catch(
         (a) => {
-          //console.log(a)
+          // console.log(a)
           cambiarModalAlerta(a.msg);
         }
       )
@@ -71,7 +71,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
   const seleccionarAccesos = (e) => {
     let temp = listaAccesos;
     if (e.target.checked) {
-      //console.log(e.target.value)
+      // console.log(e.target.value)
       let test = { "opcion_id": e.target.value, "acceso": true }
       temp.push(test);
       setListaAccesos(temp)
@@ -79,7 +79,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
       temp = temp.filter((fila) => fila.opcion_id != e.target.value);
       setListaAccesos(temp)
     }
-    //console.log("listaAccesos ", listaAccesos);
+    // console.log("listaAccesos ", listaAccesos);
   }
 
   console.log("idselec: ", idSelec)
@@ -100,11 +100,19 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
 
 
   const cargarForm = async () => {
-    //console.log(idSelec);
-    let datosCrudo = (await obtenerUnicoRegistro('api/perfil/u', idSelec)).datos[0]
-    //console.log(datosCrudo, "datos crudo")
-    setDatosPerfil(datosCrudo)
     setIsEnabled(false)
+    // console.log(idSelec);
+    let datosCrudo = (await obtenerUnicoRegistro('api/perfil/u', idSelec)).datos[0]
+    // console.log(datosCrudo, "datos crudo")
+    let arrays = []
+    datosCrudo.accesos.map( item => {
+      if(item.acceso){
+        arrays.push( { "opcion_id": item.opcion_id, "acceso": true })
+      }
+    })
+    setListaAccesos(arrays)
+    setDatosPerfil(datosCrudo)
+
   }
 
   useEffect(() => {
@@ -114,11 +122,11 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
   const cargarListas = async () => {
     //Extrae Datos de la BD para Opcion Menu y Agrupadores
     let options = (await endpointLibre("api/opcionMenu", "GET")).datos
-    //console.log(options)
+    // console.log(options)
     setListaOpcionMenu(ordenarTabla(options))
   }
 
-
+  // si es que la opcion que se recorre esta como true cagar 
   const ordenarTabla = (optiones) => {
     const arrays = []
     let dscAg = 0
@@ -143,7 +151,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
             <Col md>
               <Form.Group className='mb-2'>
                 <Form.Label>Nombre del perfil</Form.Label>
-                <Form.Control type="text" id="descripcion" defaultValue={datosPerfil.descripcion} disabled={!isEnabled}/>
+                <Form.Control type="text" id="descripcion" defaultValue={datosPerfil.descripcion} disabled={!isEnabled} />
               </Form.Group>
             </Col>
           </Row>
@@ -155,9 +163,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                   id="observacion"
                   as="textarea"
                   style={{ height: '100px' }}
-                  defaultValue={datosPerfil.observacion}
-                  disabled={!isEnabled}
-                />
+                  defaultValue={datosPerfil.observacion} />
               </Form.Group>
             </Col>
           </Row>
@@ -183,7 +189,15 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                     return (
                       <tr>
                         <td>{filas.descripcion}</td>
-                        <td><Form.Check type="switch" id={`opcion-${filas.id}`} value={filas.id} onChange={seleccionarAccesos} /> </td>
+                        <td>
+                          <Form.Check
+                            type="switch"
+                            id={`opcion-${filas.id}`}
+                            value={filas.id}
+                            onChange={seleccionarAccesos}
+                            defaultChecked={datosPerfil.accesos.some(acceso => acceso.opcion_id === filas.id && acceso.acceso)}
+                          />
+                        </td>
                       </tr>
                     )
                   })}

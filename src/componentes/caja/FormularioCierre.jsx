@@ -23,7 +23,7 @@ export const FormularioCierre = ({cambiarModalAlerta,idSelec}) => {
             'pin':e.target.pin.value,
             'saldo':e.target.saldo.value,
         }
-        console.log(e.target.caja.value + " caja id")
+         console.log(e.target.caja.value + " caja id")
         if(e.target.caja.value !== ""){
             cerrarCaja(guardarNuevoJson('api/cierre/caja/'+e.target.caja.value,form),cambiarModalAlerta)
 
@@ -43,7 +43,7 @@ export const FormularioCierre = ({cambiarModalAlerta,idSelec}) => {
         for (let i of options.datos){
           variable.push({'label':i.descripcion,'value':i.id})
         }
-        console.log(variable)
+         console.log(variable)
         setListaCaja (variable)
     }
 
@@ -59,9 +59,9 @@ export const FormularioCierre = ({cambiarModalAlerta,idSelec}) => {
 
 
     const cargarForm = async ()=>{
-        console.log(idSelec);
+         console.log(idSelec);
         let datosCrudo =  (await obtenerUnicoRegistro('api/caja/u',idSelec)).datos[0]
-        console.log(datosCrudo,"datos solicitud")
+         console.log(datosCrudo,"datos solicitud")
         setDatosPlazo (datosCrudo)
     }
 

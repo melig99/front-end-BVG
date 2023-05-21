@@ -14,7 +14,7 @@ import localBD from '../../helpers/localBD';
 const Sidebar = () => {
     const {obtenerMenu} = localBD();
     let tempCliente =obtenerMenu();
-    console.log(tempCliente)
+     console.log(tempCliente)
 
 
     return (
@@ -26,7 +26,7 @@ const Sidebar = () => {
             <CDBSidebarContent className="sidebar-content">
               <CDBSidebarMenu>
               {tempCliente.map((agrupador,i)=>{
-                  console.log(`navLink -> /home/menu/${agrupador.id}`)
+                   console.log(`navLink -> /home/menu/${agrupador.id}`)
                   return (
                       <NavLink to={`/home/menu/${agrupador.id}`}  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                         <CDBSidebarMenuItem><CgFileDocument className='m-2 item'/>{agrupador.descripcion}</CDBSidebarMenuItem>
