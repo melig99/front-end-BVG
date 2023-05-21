@@ -17,6 +17,7 @@ export const Panel = () => {
     const [formSeleccionado,setFormSeleccionado] = useState();
     const [caja,setCaja] = useState(null);
     const {obtenerCaja} = localBD()
+    const [state, setState] = useState(false)
 
     const [obtenerPanel,guardarNuevoJson,,eliminarRegistro,] = Peticiones();
     const eliminarFila = async (id)=>{
@@ -105,6 +106,7 @@ export const Panel = () => {
     const cambiarModalAlerta=(msg)=>{
         setModalAlerta({"estado":!modalAlerta.estado,"msg":msg})
          console.log(modalAlerta)
+         recargar()
     }
 
     // SECCION PARA ACTIVAR ALERT CONFIRMACION
@@ -112,6 +114,11 @@ export const Panel = () => {
     const cambiarModalConfirmacion=(msg,id)=>{
         setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":msg,"callback":()=>eliminarFila(id)})
          console.log(modalConfirmacion)
+    }
+
+    const recargar =() =>{
+        obtenerPanel("api/operaciones",setDatos)
+        setState(true)
     }
     return (
         <>

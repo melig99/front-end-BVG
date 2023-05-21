@@ -10,11 +10,15 @@ const Menu = () => {
     let tempCliente =obtenerMenu()
      console.log(tempCliente)
 
-    const [listaOpciones,setListaOpciones] = useState(tempCliente);
+
+    const [listaOpciones,setListaOpciones] = useState([]);
+    const [opcionesMenu,setOpcionesMenu] = useState([]);
 
     useEffect(()=>{
-        // tempCliente = obtenerMenu();
-         console.log(listaOpciones[params.id-1].opciones)
+        tempCliente = obtenerMenu();
+        let opciones = tempCliente.find((fila)=>{ return (fila.id == params.id) }) 
+        console.log(opciones, params.id ,tempCliente[0] )
+        setOpcionesMenu(opciones.opciones)
         setListaOpciones(tempCliente);
     },[]);
 
@@ -22,9 +26,9 @@ const Menu = () => {
         <>
             <Container>
                 <Row>
-                    {
+                {
                         // listaOpciones.datos[params.id-1].opciones.map((valor,i)=>{
-                    listaOpciones[params.id-1].opciones.map((valor,i)=>{
+                            opcionesMenu.map((valor,i)=>{
                             return(
                             <Col lg={2} key={`col-${valor.id}`} >
                                 <OpcionMenu key={`card-${valor.id}`} titulo={valor.descripcion} imagen={valor.dir_imagen} direccion={valor.direccion}/>
