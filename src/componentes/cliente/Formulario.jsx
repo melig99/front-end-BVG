@@ -9,7 +9,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     const [listaCivil, setListaCivil] = useState([])
     const [listaTipoDocumento, setListaTipoDocumento] = useState([])
     const [selectedOption, setSelectedOption] = useState(null);
-    const [, guardarNuevoJson, obtenerUnicoRegistro, , endpointLibre, modificarRegistroJson] = Peticiones();
+    const [, guardarNuevoJson, obtenerUnicoRegistro, , endpointLibre, modificarRegistroJson,guardarNuevoArchivo] = Peticiones();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,23 +21,26 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
             'correo': e.target.correo.value,
             'estado_civil': e.target.estado_civil.value,
             'sexo': e.target.sexo.value,
-            'tel_cliente': [
+            'tel_cliente': JSON.stringify([
                 { "telefono_cliente": e.target.telefono1.value },
                 { "telefono_cliente": e.target.telefono2.value },
                 { "telefono_cliente": e.target.telefono3.value }
-            ],
+            ]),
             'f_nacimiento': e.target.f_nacimiento.value,
             'direccion': e.target.direccion.value,
             'observacion': e.target.observacion.value,
             'barrio': e.target.barrio.value,
+            "dir_imagen":e.target.dir_imagen.files[0],
+            "venc_cedula":e.target.fechaVenc.value
         }
          console.log(form)
         if (idSelec === "") {
-            guardarNuevoJson('api/cliente', form).then(
+            guardarNuevoArchivo('api/cliente', form).then(
                 (a) => {
                     if (a.cod == 0) {
                          console.log(a, "Guardado correctamente")
                         cambiarModalAlerta("Guardado Correctamente");
+                        e.target.reset();
                     } else {
                          console.log(a)
                         cambiarModalAlerta(a.msg);
@@ -69,8 +72,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                 }
             )
         }
-        e.target.reset();
-        setDatosCliente(vacio)
+        // setDatosCliente(vacio)
     }
 
 
@@ -255,6 +257,20 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                     <Form.Group className='mb-2'>
                         <Form.Label>Telefono 3</Form.Label>
                         <Form.Control placeholder="Ingrese telefono 3 " id="telefono3" defaultValue={((datosCliente.telefono.length > 2) ? datosCliente.telefono[2].telefono : "" )} />
+                    </Form.Group>
+                </Col>
+            </Row>
+            <Row className="g-2">
+                <Col>
+                    <Form.Group className='mb-2'>
+                        <Form.Label>Cedula</Form.Label>
+                        <Form.Control type="file" id="dir_imagen" name="dir_imagen" defaultValue={datosCliente.dir_imagen} />
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group className='mb-2'>
+                        <Form.Label>Vencimiento</Form.Label>
+                        <Form.Control type="date" id="fechaVenc" name="fechaVenc" defaultValue={datosCliente.venc} />
                     </Form.Group>
                 </Col>
             </Row>
