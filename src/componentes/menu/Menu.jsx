@@ -20,7 +20,7 @@ const Menu = () => {
         console.log(opciones, params.id ,tempCliente[0] )
         setOpcionesMenu(opciones.opciones)
         setListaOpciones(tempCliente);
-    },[]);
+    },[params]);
 
     return (
         <>
