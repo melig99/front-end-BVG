@@ -17,7 +17,7 @@ export const Panel = () => {
     }
 
     useEffect(()=>{
-        obtenerPanel("api/documento/{pag?}",setDatos)
+        obtenerPanel("api/documento",setDatos)
     },[]);
 
    
