@@ -8,7 +8,8 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     const [listaBarrio, setListaBarrio] = useState([])
     const [listaCivil, setListaCivil] = useState([])
     const [listaTipoDocumento, setListaTipoDocumento] = useState([])
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [barrioSelect, setBarrioSelect] = useState(null);
+    const [estadoCivilSelect, setEstadoCivilSelect] = useState(null);
     const [, guardarNuevoJson, obtenerUnicoRegistro, , endpointLibre, modificarRegistroJson,guardarNuevoArchivo] = Peticiones();
 
     const handleSubmit = (e) => {
@@ -83,12 +84,14 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     const cargarListas = async () => {
         //Extrae Datos de la BD para BARRIO
         let variable = []
+        let lBarrio,lCivil;
         let options = await endpointLibre("api/barrio", "GET")
         for (let i of options?.datos) {
             variable.push({ 'label': i.nombre, 'value': i.id })
         }
          console.log(variable)
-        setListaBarrio(variable)
+        lBarrio = variable;
+        await setListaBarrio(variable)
         //Extrae Datos de la BD para ESTADO CIVIL
         variable = [];
         options = await endpointLibre("api/estadoCivil", "GET")
@@ -96,20 +99,20 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
             variable.push({ 'label': i.descripcion, 'value': i.id })
         }
          console.log(variable)
-        setListaCivil(variable)
+        lCivil = variable
+        await setListaCivil(variable)
         //Extrae Datos de la BD para TIPO DOCUMENTO
         variable = [];
         options = await endpointLibre("api/tipoDocumento", "GET")
         for (let i of options?.datos) {
             variable.push({ 'label': i.descripcion, 'value': i.id })
         }
-         console.log(variable)
-        setListaTipoDocumento(variable)
+        console.log(variable)
+        await setListaTipoDocumento(variable)
+        if (idSelec != "") {
+            cargarForm(lBarrio,lCivil)
+        }
     }
-    // console.log(datos.map(datos))
-     console.log("option selec", selectedOption)
-
-     console.log("idselec: ", idSelec)
 
     const [datosCliente, setDatosCliente] = useState({
         "id": 0,
@@ -131,20 +134,21 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         "estado_civil": 0,
     })
 
-    // console.log("Cliente: " +JSON.stringify(datosCliente))
-
-    useEffect(() => {
-        if (idSelec != "") {
-            cargarForm()
-        }
-    }, [idSelec])
-
-
-    const cargarForm = async () => {
-         console.log(idSelec);
+    const cargarForm = async (lBarrio,lCivil) => {
+        console.log(idSelec);
         let datosCrudo = (await obtenerUnicoRegistro('api/cliente/u', idSelec)).datos[0]
-         console.log(datosCrudo, "datos solicitud")
+        console.log(datosCrudo, "datos solicitud")
+        let tempBarrio = lBarrio.find((elemento)=>{return elemento.value == datosCrudo.barrio});
+        let tempECivil = lCivil.find((elemento)=>{return elemento.value == datosCrudo.estado_civil});
+
+        console.log(lBarrio)
+        console.log(tempBarrio)
+        console.log(tempECivil)
+
+        setEstadoCivilSelect(tempECivil)
+        setBarrioSelect(tempBarrio)
         setDatosCliente(datosCrudo)
+
     }
 
 
@@ -187,11 +191,11 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                         <Select
                             name="barrio"
                             id="barrio"
-                            onChange={setSelectedOption}
+                            onChange={setBarrioSelect}
                             options={listaBarrio}
                             placeholder="Buscar barrio"
                             isClearable={true}
-                            defaultValue={datosCliente.barrio}
+                            value={barrioSelect}
                         />
                     </Form.Group>
                 </Col>
@@ -216,10 +220,11 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                             name="estado_civil"
                             id="estado_civil"
                             defaultValue={listaCivil[0]}
-                            onChange={setSelectedOption}
+                            onChange={setEstadoCivilSelect}
                             options={listaCivil}
                             isClearable={true}
                             placeholder="Buscar estado civil"
+                            value={estadoCivilSelect}
                             //defaultValue={datosCliente.estado_civil}
                         />
                     </Form.Group>
