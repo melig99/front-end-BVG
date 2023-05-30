@@ -8,6 +8,7 @@ const Peticiones = () => {
     // const [imagenes,setImagenes] = useState([])
     // const [buscador,setBuscador] = useState("")
     const base =  "https://alberto.valurq.com/"
+    // const base =  "http://localhost:8000/"
     let usuario;
     try {
         usuario =  JSON.parse((localStorage.getItem("usuario") ?? {"token":"error"}));
@@ -157,10 +158,10 @@ const Peticiones = () => {
             const url = base + modulo + "/" + id ;
             console.log(url)
             const temp = await fetch(url, {
+                "method": "DELETE",
                 "headers": {
                     "Accept": "application/json",
                     "Authorization": `Bearer ${usuario.token}`,
-                    "method": "DELETE",
                 }
             });
             const data = await temp.json();
