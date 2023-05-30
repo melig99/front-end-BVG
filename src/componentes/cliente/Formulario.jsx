@@ -8,8 +8,9 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     const [listaBarrio, setListaBarrio] = useState([])
     const [listaCivil, setListaCivil] = useState([])
     const [listaTipoDocumento, setListaTipoDocumento] = useState([])
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [, guardarNuevoJson, obtenerUnicoRegistro, , endpointLibre, modificarRegistroJson] = Peticiones();
+    const [barrioSelect, setBarrioSelect] = useState(null);
+    const [estadoCivilSelect, setEstadoCivilSelect] = useState(null);
+    const [, guardarNuevoJson, obtenerUnicoRegistro, , endpointLibre, modificarRegistroJson,guardarNuevoArchivo] = Peticiones();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,23 +22,26 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
             'correo': e.target.correo.value,
             'estado_civil': e.target.estado_civil.value,
             'sexo': e.target.sexo.value,
-            'tel_cliente': [
+            'tel_cliente': JSON.stringify([
                 { "telefono_cliente": e.target.telefono1.value },
                 { "telefono_cliente": e.target.telefono2.value },
                 { "telefono_cliente": e.target.telefono3.value }
-            ],
+            ]),
             'f_nacimiento': e.target.f_nacimiento.value,
             'direccion': e.target.direccion.value,
             'observacion': e.target.observacion.value,
             'barrio': e.target.barrio.value,
+            "dir_imagen":e.target.dir_imagen.files[0],
+            "venc_cedula":e.target.fechaVenc.value
         }
          console.log(form)
         if (idSelec === "") {
-            guardarNuevoJson('api/cliente', form).then(
+            guardarNuevoArchivo('api/cliente', form).then(
                 (a) => {
                     if (a.cod == 0) {
                          console.log(a, "Guardado correctamente")
                         cambiarModalAlerta("Guardado Correctamente");
+                        e.target.reset();
                     } else {
                          console.log(a)
                         cambiarModalAlerta(a.msg);
@@ -69,8 +73,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                 }
             )
         }
-        e.target.reset();
-        setDatosCliente(vacio)
+        // setDatosCliente(vacio)
     }
 
 
@@ -81,12 +84,14 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     const cargarListas = async () => {
         //Extrae Datos de la BD para BARRIO
         let variable = []
+        let lBarrio,lCivil;
         let options = await endpointLibre("api/barrio", "GET")
         for (let i of options?.datos) {
             variable.push({ 'label': i.nombre, 'value': i.id })
         }
          console.log(variable)
-        setListaBarrio(variable)
+        lBarrio = variable;
+        await setListaBarrio(variable)
         //Extrae Datos de la BD para ESTADO CIVIL
         variable = [];
         options = await endpointLibre("api/estadoCivil", "GET")
@@ -94,20 +99,20 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
             variable.push({ 'label': i.descripcion, 'value': i.id })
         }
          console.log(variable)
-        setListaCivil(variable)
+        lCivil = variable
+        await setListaCivil(variable)
         //Extrae Datos de la BD para TIPO DOCUMENTO
         variable = [];
         options = await endpointLibre("api/tipoDocumento", "GET")
         for (let i of options?.datos) {
             variable.push({ 'label': i.descripcion, 'value': i.id })
         }
-         console.log(variable)
-        setListaTipoDocumento(variable)
+        console.log(variable)
+        await setListaTipoDocumento(variable)
+        if (idSelec != "") {
+            cargarForm(lBarrio,lCivil)
+        }
     }
-    // console.log(datos.map(datos))
-     console.log("option selec", selectedOption)
-
-     console.log("idselec: ", idSelec)
 
     const [datosCliente, setDatosCliente] = useState({
         "id": 0,
@@ -129,20 +134,21 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         "estado_civil": 0,
     })
 
-    // console.log("Cliente: " +JSON.stringify(datosCliente))
-
-    useEffect(() => {
-        if (idSelec != "") {
-            cargarForm()
-        }
-    }, [idSelec])
-
-
-    const cargarForm = async () => {
-         console.log(idSelec);
+    const cargarForm = async (lBarrio,lCivil) => {
+        console.log(idSelec);
         let datosCrudo = (await obtenerUnicoRegistro('api/cliente/u', idSelec)).datos[0]
-         console.log(datosCrudo, "datos solicitud")
+        console.log(datosCrudo, "datos solicitud")
+        let tempBarrio = lBarrio.find((elemento)=>{return elemento.value == datosCrudo.barrio});
+        let tempECivil = lCivil.find((elemento)=>{return elemento.value == datosCrudo.estado_civil});
+
+        console.log(lBarrio)
+        console.log(tempBarrio)
+        console.log(tempECivil)
+
+        setEstadoCivilSelect(tempECivil)
+        setBarrioSelect(tempBarrio)
         setDatosCliente(datosCrudo)
+
     }
 
 
@@ -185,11 +191,11 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                         <Select
                             name="barrio"
                             id="barrio"
-                            onChange={setSelectedOption}
+                            onChange={setBarrioSelect}
                             options={listaBarrio}
                             placeholder="Buscar barrio"
                             isClearable={true}
-                            defaultValue={datosCliente.barrio}
+                            value={barrioSelect}
                         />
                     </Form.Group>
                 </Col>
@@ -214,10 +220,11 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                             name="estado_civil"
                             id="estado_civil"
                             defaultValue={listaCivil[0]}
-                            onChange={setSelectedOption}
+                            onChange={setEstadoCivilSelect}
                             options={listaCivil}
                             isClearable={true}
                             placeholder="Buscar estado civil"
+                            value={estadoCivilSelect}
                             //defaultValue={datosCliente.estado_civil}
                         />
                     </Form.Group>
@@ -255,6 +262,20 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                     <Form.Group className='mb-2'>
                         <Form.Label>Telefono 3</Form.Label>
                         <Form.Control placeholder="Ingrese telefono 3 " id="telefono3" defaultValue={((datosCliente.telefono.length > 2) ? datosCliente.telefono[2].telefono : "" )} />
+                    </Form.Group>
+                </Col>
+            </Row>
+            <Row className="g-2">
+                <Col>
+                    <Form.Group className='mb-2'>
+                        <Form.Label>Cedula</Form.Label>
+                        <Form.Control type="file" id="dir_imagen" name="dir_imagen" defaultValue={datosCliente.dir_imagen} />
+                    </Form.Group>
+                </Col>
+                <Col>
+                    <Form.Group className='mb-2'>
+                        <Form.Label>Vencimiento</Form.Label>
+                        <Form.Control type="date" id="fechaVenc" name="fechaVenc" defaultValue={datosCliente.venc} />
                     </Form.Group>
                 </Col>
             </Row>

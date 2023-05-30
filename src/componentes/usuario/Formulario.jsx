@@ -20,9 +20,23 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     "email": "",
     "perfil_id": 0,
   }
+  const [datosPerfil, setDatosPerfil] = useState({
+    "nombre_usuario": "",
+    "nombre": "",
+    "apellido": "",
+    "cedula": "",
+    "password": "",
+    "fecha_nacimiento": "",
+    "email": "",
+    "perfil_id": 0,
+    "restablecer_pass": true
+  })
 
   useEffect(() => {
     cargarListas();
+    if (idSelec != "") {
+      cargarForm()
+    }
   }, []);
 
   const cargarListas = async () => {
@@ -43,10 +57,12 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
       "nombre": e.target.nombre.value,
       "apellido": e.target.apellido.value,
       "cedula": e.target.cedula.value,
-      "password": e.target.pass.value,
       "fecha_nacimiento": e.target.fecha_nacimiento.value,
       "email": e.target.email.value,
       "perfil_id": e.target.perfil_id.value,
+    }
+    if(idSelec == ""){
+        form["password"]= e.target.pass.value;
     }
     console.log(form)
     if (idSelec === "") {
@@ -91,34 +107,12 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     setDatosPerfil(vacio)
   }
 
-  console.log("idselec: ", idSelec)
-
-
-  const [datosPerfil, setDatosPerfil] = useState({
-    "nombre_usuario": "",
-    "nombre": "",
-    "apellido": "",
-    "cedula": "",
-    "password": "",
-    "fecha_nacimiento": "",
-    "email": "",
-    "perfil_id": 0,
-    "restablecer_pass": true
-  })
-
-  console.log("usuario: " + JSON.stringify(datosPerfil))
-
-  useEffect(() => {
-    if (idSelec != "") {
-      cargarForm()
-    }
-  }, [idSelec])
-
-
   const cargarForm = async () => {
     console.log(idSelec);
     let datosCrudo = (await obtenerUnicoRegistro('api/usuario/u', idSelec)).datos[0]
     console.log(datosCrudo, "datos solicitud")
+    console.log({'label':datosCrudo.perfil.descripcion,'value':datosCrudo.perfil.id})
+    setSelectedOption({'label':datosCrudo.perfil.descripcion,'value':datosCrudo.perfil.id})
     setDatosPerfil(datosCrudo)
   }
 
@@ -133,7 +127,6 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
 
   }
 
-  console.log("aaaa ",obtenerPerfil())
   return (
     <Form onSubmit={handleSubmit}>
       <Row className="g-2">
@@ -179,10 +172,9 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
               id="perfil_id"
               onChange={setSelectedOption}
               options={listaPerfil}
+              value={selectedOption}
               isClearable={true}
               placeholder="Buscar Perfil"
-
-              
             />
           </Form.Group>
         </Col>
@@ -196,13 +188,16 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         </Col>
         <Col md>
           <Form.Group className='mb-2'>
-            <Form.Label>Contraseña </Form.Label>
-            <Form.Control
-              type={showPass ? "text" : "password"}
-              placeholder="Ingrese una contraseña"
-              id="pass"
-              defaultValue={datosPerfil.pass}
-            />
+            {idSelec =="" &&
+                <>
+                    <Form.Label>Contraseña </Form.Label>
+                    <Form.Control
+                      type={showPass ? "text" : "password"}
+                      placeholder="Ingrese una contraseña"
+                      id="pass"
+                    />
+                </>
+            }
           </Form.Group>
         </Col>
       </Row>

@@ -8,141 +8,193 @@ const Peticiones = () => {
     // const [imagenes,setImagenes] = useState([])
     // const [buscador,setBuscador] = useState("")
     const base =  "https://alberto.valurq.com/"
-    const usuario =  JSON.parse((localStorage.getItem("usuario") ?? {}));
+    // const base =  "http://localhost:8000/"
+    let usuario;
+    try {
+        usuario =  JSON.parse((localStorage.getItem("usuario") ?? {"token":"error"}));
+
+    } catch (e) {
+        console.log(e)
+    } finally {
+
+    }
+
     // const [carga,setCarga] = useState(true)
     //FUNCIONES A UTILIZAR
     const obtenerPanel = async (modulo,setState,pagina=0,buscar="",filtros=[]) =>{
         // setCarga(true)
         // IDEA: Cambiar por constante de ambiente
 
-        //const url = base + modulo + "/"+pagina+"/"+((buscar!=="")?buscar : "")
-        const url = base + modulo;
-        console.log(usuario)
-        const temp = await fetch(url,{
-            "headers": {
-              "Accept": "application/json",
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
-              "Authorization": `Bearer ${usuario.token}`
-             },
-        })
-        const data = await temp.json();
-       //console.log.log(url,"testting");
-       //console.log.log(data,"testting");
-        setState(data)
-        // setCarga(false)
+        // const url = base + modulo + "/"+pagina+"/"+((buscar!=="")?buscar : "")
+        try {
+            const url = base + modulo ;
+            console.log(usuario)
+            const temp = await fetch(url,{
+                "headers": {
+                  "Accept": "application/json",
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${usuario.token}`
+                 },
+            })
+            const data = await temp.json();
+           //console.log.log(url,"testting");
+           //console.log.log(data,"testting");
+            setState(data)
+            // setCarga(false)
+        } catch (e) {
+            console.log(e)
+        } finally {
+
+        }
     }
 
     const obtenerUnicoRegistro = async (modulo,id) =>{
-        // setCarga(true)
-        // IDEA: Cambiar por constante de ambiente
-        const url = base + modulo +"/"+id
-       //console.log.log(url)
-        const temp = await fetch(url,{
-            "headers": {
-              "Accept": "application/json",
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
-              "Authorization": `Bearer ${usuario.token}`
-          }})
-        const data = await temp.json();
-        return data
+        try {
+            // setCarga(true)
+            // IDEA: Cambiar por constante de ambiente
+            const url = base + modulo +"/"+id
+           //console.log.log(url)
+            const temp = await fetch(url,{
+                "headers": {
+                  "Accept": "application/json",
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${usuario.token}`
+              }})
+            const data = await temp.json();
+            return data
+        } catch (e) {
+            console.log(e)
+        } finally {
+
+        }
     }
 
     const guardarNuevoJson = async (modulo,datos)=>{
-        const url = base + modulo ;
-       //console.log.log(url)
-        const temp = await fetch(url, {
-          "method": "POST",
-          "headers": {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
-            "Authorization": `Bearer ${usuario.token}`,
-           },
-            "body": JSON.stringify(datos)
-        });
-       //console.log.log(temp);
-        // const res = await fetch(url)
-        const data = await temp.json();
-       //console.log.log(data);
-        return data;
+        try {
+            const url = base + modulo ;
+           //console.log.log(url)
+            const temp = await fetch(url, {
+              "method": "POST",
+              "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${usuario.token}`,
+               },
+                "body": JSON.stringify(datos)
+            });
+           //console.log.log(temp);
+            // const res = await fetch(url)
+            const data = await temp.json();
+           //console.log.log(data);
+            return data;
+        } catch (e) {
+            console.log(e)
+        } finally {
+
+        }
     }
 
     const guardarNuevoArchivo = async (modulo,datos)=>{
+        try {
 
-        const form = new FormData();
+            const form = new FormData();
 
-        for (var indice in datos) {
-            if (datos.hasOwnProperty(indice)) {
-                form.append(indice, datos[indice]);
+            for (let indice in datos) {
+                if (datos.hasOwnProperty(indice)) {
+                    console.log(datos[indice])
+                    if (Array.isArray(datos[indice])) {
+                        form.append(indice,JSON.stringify(datos[indice]))
+                    } else {
+                        form.append(indice,datos[indice])
+                    }
+                }
             }
+            const url = base + modulo ;
+            console.log(form)
+            const temp = await fetch(url, {
+              "method": "POST",
+              "body": form,
+              "headers": {
+                // "Content-Type":"multipart/form-data",
+                "Authorization": `Bearer ${usuario.token}`,
+                }
+            });
+            const data = await temp.json();
+           //console.log.log(data);
+            return data;
+        } catch (e) {
+            console.log(e)
+        } finally {
+
         }
-        const url = base + modulo ;
-        const temp = await fetch(url, {
-          "method": "POST",
-          "headers": {
-            "Content-Type": "multipart/form-data",
-            "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
-            "Authorization": `Bearer ${usuario.token}`,
-            "body": form
-            }
-        });
-        const data = await temp.json();
-       //console.log.log(data);
-        return data;
-
     }
 
     const modificarRegistroJson = async (modulo,id,datos)=>{
-        const url = base + modulo + "/" + id ;
-        const temp = await fetch(url, {
-          "method": "PUT",
-          "headers": {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
-            "Authorization": `Bearer ${usuario.token}`,
-           },
-            "body": JSON.stringify(datos)
-        });
-        const data = await temp.json()
-        return data;
+        try {
+            const url = base + modulo + "/" + id ;
+            const temp = await fetch(url, {
+                "method": "PUT",
+                "headers": {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${usuario.token}`,
+                },
+                "body": JSON.stringify(datos)
+            });
+            const data = await temp.json()
+            return data;
+
+        } catch (e) {
+            console.log(e)
+        } finally {
+
+        }
 
     }
 
     const eliminarRegistro = async (modulo,id)=>{
-        const url = base + modulo + "/" + id ;
-        console.log(url)
-        const temp = await fetch(url, {
-            "headers": {
-                "Accept": "application/json",
-                "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
-                "Authorization": `Bearer ${usuario.token}`,
+        try {
+
+            const url = base + modulo + "/" + id ;
+            console.log(url)
+            const temp = await fetch(url, {
                 "method": "DELETE",
-            }
-        });
-        const data = await temp.json();
-        return data;
+                "headers": {
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${usuario.token}`,
+                }
+            });
+            const data = await temp.json();
+            return data;
+        } catch (e) {
+            console.log(e)
+        } finally {
+
+        }
     }
 
     const endpointLibre = async (modulo,metodo)=>{
         const url = base + modulo ;
         console.log(url)
-        const temp = await fetch(url, {
-            "method": metodo,
-            "headers":{
-                "Accept": "application/json",
-                "Access-Control-Allow-Origin": "https://alberto.valurq.com/",
-                "Authorization": `Bearer ${usuario.token}`,
+        try {
+            const temp = await fetch(url, {
+                "method": metodo,
+                "headers":{
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${usuario.token}`,
+                }
+            });
 
-            }
-        });
+            const data = await temp.json();
+            return data;
 
-        const data = await temp.json();
-        return data;
+        } catch (e) {
+            console.log(e)
+        } finally {
+
+        }
     }
-    return [obtenerPanel,guardarNuevoJson,obtenerUnicoRegistro,eliminarRegistro,endpointLibre,modificarRegistroJson]
+    return [obtenerPanel,guardarNuevoJson,obtenerUnicoRegistro,eliminarRegistro,endpointLibre,modificarRegistroJson,guardarNuevoArchivo]
 }
 
 export default Peticiones
