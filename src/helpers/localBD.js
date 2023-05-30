@@ -7,6 +7,7 @@ const localBD = () =>{
           "method": "POST",
           "headers": {
             "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "https://alberto.valurq.com/"
            },
             "body": JSON.stringify(datos)
         });

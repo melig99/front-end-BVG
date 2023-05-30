@@ -126,7 +126,6 @@ const Peticiones = () => {
         } finally {
 
         }
-
     }
 
     const modificarRegistroJson = async (modulo,id,datos)=>{
@@ -182,7 +181,6 @@ const Peticiones = () => {
                 "headers":{
                     "Accept": "application/json",
                     "Authorization": `Bearer ${usuario.token}`,
-
                 }
             });
 
