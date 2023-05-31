@@ -1,5 +1,6 @@
 const localBD = () =>{
-    const base =  "https://alberto.valurq.com/"
+    // const base =  "https://alberto.valurq.com/"
+    const base =  "http://localhost:8000/"
 
     const iniciarSesion = async (datos)=> {
         //temporal
@@ -19,6 +20,7 @@ const localBD = () =>{
                 "perfil": data.success.perfil,
                 "token" : data.success.token,
             }));
+            localStorage.removeItem("caja");
             localStorage.setItem("menu",JSON.stringify(data.success.menu))
             return true
         }else{
@@ -26,6 +28,7 @@ const localBD = () =>{
         }
     }
     const cerrarSesion = ()=>{
+        localStorage.removeItem("caja");
         localStorage.clear();
         return true
     }
@@ -53,19 +56,19 @@ const localBD = () =>{
 
     const abrirCaja=(promesa,alerta)=>{
         promesa.then(
-          (a)=>{
-            if(a.cod==0){
-              console.log(a.datos,"Caja abierta correctamente")
-              alerta("Caja abierta correctamente");
-              localStorage.setItem("caja",JSON.stringify({
-                  "caja":a.datos.id,
-                  "descripcion":a.datos.descripcion
-              }))
-            }else{
-              console.log(a)
-              alerta(a.msg);
+            (a)=>{
+                if(a.cod==0){
+                    console.log(a.datos,"Caja abierta correctamente")
+                    alerta("Caja abierta correctamente");
+                    localStorage.setItem("caja",JSON.stringify({
+                        "caja":a.datos.id,
+                        "descripcion":a.datos.descripcion
+                    }))
+                }else{
+                    console.log(a)
+                    alerta(a.msg);
+                }
             }
-          }
         ).catch(
           (e)=>{
             console.log(e)
@@ -84,10 +87,12 @@ const localBD = () =>{
         }
         return JSON.parse(caja)
     }
+    
     const cerrarCaja = (promesa,alerta) =>{
         promesa.then((a)=>console.log(a)).catch((e)=>console.log(e));
         localStorage.removeItem("caja");
     }
+
     return ({"obtenerUsuario":obtenerUsuario,"iniciarSesion":iniciarSesion,"cerrarSesion":cerrarSesion,"abrirCaja":abrirCaja,"obtenerCaja":obtenerCaja,"cerrarCaja":cerrarCaja,"obtenerMenu":obtenerMenu})
 }
 export default localBD

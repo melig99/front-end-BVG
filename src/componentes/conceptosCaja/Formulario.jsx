@@ -91,10 +91,10 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
       <Row className="g-2">
         <Form.Group className='mb-2'>
           <Form.Label>Tipo</Form.Label>
-          <Form.Select id="tipo"  defaultValue={datosConcepto.tipo}>
+          <Form.Select id="tipo" defaultValue={datosConcepto.tipo}>
             <option>Seleccione Opcion...</option>
-            <option>ENTRADA</option>
-            <option>SALIDA</option>
+            <option value="ENTRADA" selected={(datosConcepto.tipo=="ENTRADA") }>ENTRADA</option>
+            <option value="SALIDA" selected={(datosConcepto.tipo=="SALIDA") }>SALIDA</option>
           </Form.Select>
         </Form.Group>
       </Row>
