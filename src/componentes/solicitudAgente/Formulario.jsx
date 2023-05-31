@@ -20,17 +20,15 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
         cargarListas();
     },[]);
 
-
-
-
     const cargarListas = async()=>{
         //Extrae Datos de la BD para CLIENTE
         let variable = []
         let options =  await endpointLibre("api/cliente","GET")
+        console.log(options);
         for (let i of options.datos){
-            variable.push({'label':i.nombre,'value':i.id})
+            variable.push({'label':i.documento+"-"+i.nombre+" "+i.apellido,'value':i.id})
         }
-         console.log(variable)
+        console.log(variable)
         setListaCliente (variable)
         //Extrae Datos de la BD para TIPO DOCUMENTO
         variable = [];
@@ -137,6 +135,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                             </Form.Group>
                         </Col>
                         <Col md>
+                            <Form.Label style={{opacity:"0"}}>.</Form.Label><br/>
                             <Button variant="primary" onClick={()=>setEstadoForm(!estadoForm)}>Nuevo Cliente</Button>
                         </Col>
                     </Row>
@@ -167,7 +166,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Interes Moratorio</Form.Label>
-                                <Form.Control  placeholder="Ingrese apellidos" id="interes_moratorio" name="interes_moratorio" />
+                                <Form.Control  placeholder="Ingrese interes moratorio" id="interes_moratorio" name="interes_moratorio" />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -175,13 +174,13 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Monto Credito</Form.Label>
-                                <Form.Control  placeholder="Ingrese ingresos actuales" id="monto_credito" />
+                                <Form.Control  placeholder="Ingrese monto del credito" id="monto_credito" />
                             </Form.Group>
                         </Col>
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Gastos Administrativos</Form.Label>
-                                <Form.Control  placeholder="Ingrese gastosAdministrativos" id="gastos_administrativos"  name="gastos_administrativos" />
+                                <Form.Control  placeholder="Ingrese gastos administrativos" id="gastos_administrativos"  name="gastos_administrativos" />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -189,13 +188,13 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Cantidad Cuotas</Form.Label>
-                                <Form.Control id="cant_cuotas"  name="cant_cuotas" />
+                                <Form.Control id="cant_cuotas"  name="cant_cuotas" placeholder="Cantidad de cuotas del credito" />
                             </Form.Group>
                         </Col>
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Inicio Cuotas</Form.Label>
-                                <Form.Control   id="inicio_cuota"  name="inicio_cuota" />
+                                <Form.Control   id="inicio_cuota"  name="inicio_cuota" placeholder="Fecha de inicio de cobros" />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -204,7 +203,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
             <Tab eventKey="refPersonal" title="Referencia Personal">
                 <Form id="formRefPers" onSubmit={actualizarReferenciasPersonales}>
                     <Row className="g-2">
-                        <Col md={8}>
+                        <Col md={6}>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Cliente</Form.Label>
                                 <Select
@@ -214,7 +213,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                                     onChange={setSelectedOption}
                                     options={listaCliente}
                                     isClearable = {true}
-                                    placeholder="Buscar cliente"
+                                    placeholder="Buscar referencia personal"
                                     />
                             </Form.Group>
                         </Col>
@@ -224,17 +223,13 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                                 <Form.Control  placeholder="Vecino,primo,pariente..." id="relacion" />
                             </Form.Group>
                         </Col>
-
-                    </Row>
-                    <Row>
-                        <Col md={10}>
-
-                        </Col>
                         <Col md={2}>
                             <Form.Group className='mb-2'>
-                                <Button type='submit' form="formRefPers" variant="success" >Guardar</Button>
+                                <Form.Label style={{opacity:"0"}}>.</Form.Label><br/>
+                                <Button type='submit' form="formRefPers" variant="primary" >Agregar</Button>
                             </Form.Group>
                         </Col>
+
                     </Row>
                 </Form>
                 <Row>
@@ -246,7 +241,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {referenciasPersonales.map((fila)=>{return ( <tr> <td>{fila.nombre}</td><td>{fila.relacion}</td></tr>)})}
+                            {referenciasPersonales.map((fila)=>{return ( <tr> <td>{fila.nombre}</td><td>{fila.relacion_cliente}</td></tr>)})}
                         </tbody>
                     </Table>
                 </Row>
@@ -254,13 +249,13 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
             <Tab eventKey="refComercial" title="Referencia Comercial">
                 <Form id="formRefCom" onSubmit={actualizarReferenciasComerciales}>
                     <Row>
-                        <Col md>
+                        <Col md={8}>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Entidad</Form.Label>
-                                <Form.Control placeholder="Ingrese nombres" id="entidad" />
+                                <Form.Control placeholder="Nombre de Entidad" id="entidad" />
                             </Form.Group>
                         </Col>
-                        <Col md>
+                        <Col md={4}>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Estado</Form.Label>
                                     <Form.Select id="estado">
@@ -271,32 +266,28 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         </Col>
                     </Row>
                     <Row>
-                        <Col md>
+                        <Col md={6}>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Monto cuota</Form.Label>
-                                <Form.Control  placeholder="Ingrese ingresos actuales" id="monto_cuota" />
+                                <Form.Control  placeholder="Ingrese monto de cuota deuda" id="monto_cuota" />
                             </Form.Group>
-                        </Col>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Cuotas Pendientes</Form.Label>
-                                <Form.Control  placeholder="Ingrese apellidos" id="cuotas_pendientes" />
-                            </Form.Group>
-                        </Col>
-                        <Col md>
-                            <Form.Group className='mb-2'>
-                                <Form.Label>Cuotas Totales</Form.Label>
-                                <Form.Control  placeholder="Ingrese apellidos" id="cuotas_totales" />
-                            </Form.Group>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={10}>
-
                         </Col>
                         <Col md={2}>
                             <Form.Group className='mb-2'>
-                                <Button type='submit' form="formRefCom" variant="success" >Guardar</Button>
+                                <Form.Label>Cuotas Pend.</Form.Label>
+                                <Form.Control  placeholder="Pendientes" id="cuotas_pendientes" />
+                            </Form.Group>
+                        </Col>
+                        <Col md={2}>
+                            <Form.Group className='mb-2'>
+                                <Form.Label>Cuotas Totales</Form.Label>
+                                <Form.Control  placeholder="Totales" id="cuotas_totales" />
+                            </Form.Group>
+                        </Col>
+                        <Col md={2}>
+                            <Form.Group className='mb-2'>
+                                <Form.Label style={{opacity:"0"}}>.</Form.Label><br/>
+                                <Button type='submit' form="formRefCom" variant="primary" style={{width:"100%"}} >Agregar</Button>
                             </Form.Group>
                         </Col>
                     </Row>

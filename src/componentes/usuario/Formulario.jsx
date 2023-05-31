@@ -62,7 +62,8 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
       "perfil_id": e.target.perfil_id.value,
     }
     if(idSelec == ""){
-        form["password"]= e.target.pass.value;
+        form["password"]= e.target.pass.value,
+        form["password_confirmation"]= e.target.password_confirmation.value
     }
     console.log(form)
     if (idSelec === "") {
@@ -195,6 +196,21 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                       type={showPass ? "text" : "password"}
                       placeholder="Ingrese una contraseña"
                       id="pass"
+                    />
+                </>
+            }
+          </Form.Group>
+        </Col>
+        <Col md>
+          <Form.Group className='mb-2'>
+            {idSelec =="" &&
+                <>
+                    <Form.Label>Confirmar contraseña </Form.Label>
+                    <Form.Control
+                      type={showPass ? "text" : "password"}
+                      placeholder="Confirme su contraseña"
+                      id="password_confirmation"
+                      name="password_confirmation"
                     />
                 </>
             }

@@ -15,7 +15,6 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
         e.preventDefault();
         const form = {
             'descripcion':e.target.tipo_plazo.value,
-            'saldo_acutal':e.target.factor_divisor.value,
             'pin':e.target.pin.value,
         }
          console.log(form)
@@ -97,12 +96,6 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
                 <Form.Group className='mb-2'>
                     <Form.Label>Pin</Form.Label>
                     <Form.Control type="password" id="pin"  />
-                </Form.Group>
-            </Row>
-            <Row className="g-2">
-                <Form.Group className='mb-2'>
-                    <Form.Label>Saldo</Form.Label>
-                    <Form.Control type="number" min="0" id="factor_divisor" defaultValue="0" readOnly />
                 </Form.Group>
             </Row>
             <Row>

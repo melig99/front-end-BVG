@@ -47,7 +47,12 @@ export const Panel = () => {
             }else if(formSeleccionado== 'generico' && caja!=null){
                 return (<FormularioMovGenerico cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
             }else{
-                return false
+                return (
+                    <>
+                        <h3>Caja no Abierta</h3>
+                        <p>Favor abrir la caja para realizar operaciones</p>
+                    </>
+                )
             }
 
     }

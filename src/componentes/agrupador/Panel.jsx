@@ -70,7 +70,7 @@ export const Panel = () => {
 
                                 </Col>
                                 <Col sm={8} className="d-flex flex-row-reverse">
-                                    <Button variant="primary" onClick={()=>{setSelecionado("");(setEstadoForm(!estadoForm))}}>Nuevo Barrio</Button>
+                                    <Button variant="primary" onClick={()=>{setSelecionado("");(setEstadoForm(!estadoForm))}}>Nuevo Agrupador</Button>
                                 </Col>
                             </Row>
                             <br/>
