@@ -8,6 +8,8 @@ import {ModalAlerta,ModalConfirmacion} from '../Utiles';
 export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
 
     const [listaCliente,setListaCliente] = useState([])
+    const [datosCuotero,setDatosCuotero] = useState({"tipo_plazo":"","cant_cuotas":"","monto_credito":""})
+    const [cuotero,setCuotero] = useState([])
     const [selectedOption, setSelectedOption] = useState(null);
     const [listaTipoPlazo,setListaTipoPlazo] = useState([])
     const [,guardarNuevoJson,,,endpointLibre ] = Peticiones();
@@ -59,17 +61,20 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
          console.log("Formulario Ref Comerciales")
 
          console.log([e.target.entidad.value, e.target.estado.value, e.target.monto_cuota.value, e.target.cuotas_totales.value, e.target.cuotas_pendientes.value]);
-        let arrTemp = referenciasComerciales;
-        arrTemp.push({"entidad":campos.entidad.value,"estado":campos.estado.value,"monto_cuota":campos.monto_cuota.value,"cuotas_totales":campos.cuotas_totales.value,"cuotas_pendientes":campos.cuotas_pendientes.value})
-
-        setReferenciasComerciales(arrTemp)
-         console.log(referenciasComerciales);
+        setReferenciasComerciales(
+            [
+              ...referenciasComerciales,
+              {"entidad":campos.entidad.value,"estado":campos.estado.value,"monto_cuota":campos.monto_cuota.value,"cuotas_totales":campos.cuotas_totales.value,"cuotas_pendientes":campos.cuotas_pendientes.value}
+          ])
     }
 
     const actualizarTipoPlazo = (e)=>{
         let temp = e.target.value;
         let elemento = listaTipoPlazo.find((fila)=>{return fila.value == temp});
         setTipoPlazo(elemento);
+        let cuotero = datosCuotero;
+        cuotero.tipo_plazo = e.target.value;
+        setDatosCuotero(cuotero);
 
     }
 
@@ -113,6 +118,21 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
          console.log(e.target)
     }
 
+    const handleCuotero = (e)=>{
+        let temp = datosCuotero;
+        temp[e.target.id] = e.target.value
+
+        setDatosCuotero(temp);
+    }
+    const actualizarCuotero = async ()=>{
+        // /api/solicitud/cuotero/interes/4/cuotas/12/monto/5000000
+        if(datosCuotero.tipo_plazo == "" || datosCuotero.cant_cuotas == "" || datosCuotero.monto_credito == ""){
+            cambiarModalAlerta("No se puede actualizar cuotero , falta cargar datos [Tipo plazo , Cantidad de cuotas o Monto del credito]");
+        }
+        let options =  await endpointLibre(`api/solicitud/cuotero/interes/${datosCuotero.tipo_plazo}/cuotas/${datosCuotero.cant_cuotas}/monto/${datosCuotero.monto_credito}`,"GET")
+        setCuotero(options.datos)
+
+    }
 
     return(
         <>
@@ -174,7 +194,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Monto Credito</Form.Label>
-                                <Form.Control  placeholder="Ingrese monto del credito" id="monto_credito" />
+                                <Form.Control  placeholder="Ingrese monto del credito" id="monto_credito" onChange={handleCuotero} />
                             </Form.Group>
                         </Col>
                         <Col md>
@@ -188,7 +208,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                         <Col md>
                             <Form.Group className='mb-2'>
                                 <Form.Label>Cantidad Cuotas</Form.Label>
-                                <Form.Control id="cant_cuotas"  name="cant_cuotas" placeholder="Cantidad de cuotas del credito" />
+                                <Form.Control id="cant_cuotas"  name="cant_cuotas" placeholder="Cantidad de cuotas del credito" onChange={handleCuotero} />
                             </Form.Group>
                         </Col>
                         <Col md>
@@ -241,7 +261,7 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {referenciasPersonales.map((fila)=>{return ( <tr> <td>{fila.nombre}</td><td>{fila.relacion_cliente}</td></tr>)})}
+                            {referenciasPersonales.map((fila)=>{return ( <tr key={fila.cliente_id}> <td>{fila.nombre}</td><td>{fila.relacion_cliente}</td></tr>)})}
                         </tbody>
                     </Table>
                 </Row>
@@ -304,15 +324,41 @@ export const Formulario = ({cambiarModalAlerta,idSeleccionado}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {referenciasComerciales.map((fila)=>{
-                                return (<tr key={`rcS-${fila.entidad}${fila.cuotas_pendientes}`}><td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota}</td><td>{fila.cuotas_pendientes+"/"+fila.cuotas_totales}</td></tr>)
+                            {referenciasComerciales.map((fila,i)=>{
+                                console.log(`rcS-${i}`)
+                                return (<tr key={`${i}-s`}><td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota}</td><td>{fila.cuotas_pendientes+"/"+fila.cuotas_totales}</td></tr>)
                             })}
                         </tbody>
                     </Table>
                 </Row>
             </Tab>
             <Tab eventKey="cuotero" title="Cuotero">
-
+                <Row>
+                <Col md={10}>
+                </Col>
+                <Col md={2}>
+                    <Form.Group className='mb-2'>
+                        <Button onClick={actualizarCuotero} variant="primary" style={{width:"100%"}} >Actualizar Cuotero</Button>
+                    </Form.Group>
+                </Col>
+                </Row>
+                <Row>
+                    <Table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                        <thead className="table-dark">
+                            <tr >
+                                <th>N</th>
+                                <th>Cuota</th>
+                                <th>Interes</th>
+                                <th>Neto</th>
+                                <th>Capital</th>
+                                <th>fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {cuotero.map((fila)=>{return ( <tr key={`cuo-${fila.n_cuota}`}> <td>{fila.n_cuota}</td><td>{fila.cuota}</td><td>{fila.interes}</td><td>{fila.neto}</td><td>{fila.capital}</td><td>{fila.vencimiento}</td></tr>)})}
+                        </tbody>
+                    </Table>
+                </Row>
             </Tab>
         </Tabs>
         <Row>

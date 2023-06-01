@@ -5,7 +5,7 @@ import Select from 'react-select';
 import { TiLockClosedOutline } from "react-icons/ti";
 
 
-export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
+export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
   const [listaPerfil, setListaPerfil] = useState([])
   const [selectedOption, setSelectedOption] = useState(false);
   const [showPass, setshowPass] = useState(false);
@@ -70,6 +70,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
       guardarNuevoJson('api/usuario', form).then(
         (a) => {
           if (a.cod == 0) {
+            estadoForm(false)
             console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
             e.target.reset();
@@ -89,6 +90,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         (a) => {
          //  console.log(a.cod, " a.cod")
           if (a.cod == 0) {
+            estadoForm(false)
             console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
             e.target.reset();

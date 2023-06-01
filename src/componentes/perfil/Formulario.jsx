@@ -4,7 +4,7 @@ import Peticiones from '../../helpers/peticiones';
 import Table from 'react-bootstrap/Table';
 
 
-export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
+export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
   const [listaOpcionMenu, setListaOpcionMenu] = useState([])
   const [listaAccesos, setListaAccesos] = useState([])
   const [, guardarNuevoJson, obtenerUnicoRegistro, , endpointLibre, modificarRegistroJson] = Peticiones();
@@ -31,6 +31,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
       guardarNuevoJson('api/perfil', form).then(
         (a) => {
           if (a.cod == 0) {
+            estadoForm(false)
             // console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
             e.target.reset();
@@ -50,6 +51,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         (a) => {
           // console.log(a.cod, " a.cod")
           if (a.cod == 0) {
+            estadoForm(false)
             // console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
 

@@ -3,14 +3,14 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import Peticiones from '../../helpers/peticiones';
 
-export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
+export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
 
     const [listaBarrio, setListaBarrio] = useState([])
     const [listaCivil, setListaCivil] = useState([])
     const [listaTipoDocumento, setListaTipoDocumento] = useState([])
     const [barrioSelect, setBarrioSelect] = useState(null);
     const [estadoCivilSelect, setEstadoCivilSelect] = useState(null);
-    const [, guardarNuevoJson, obtenerUnicoRegistro, , endpointLibre, modificarRegistroJson,guardarNuevoArchivo] = Peticiones();
+    const [, guardarNuevoJson, obtenerUnicoRegistro, , endpointLibre, modificarRegistroJson, guardarNuevoArchivo] = Peticiones();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -29,46 +29,48 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
             ]),
             'f_nacimiento': e.target.f_nacimiento.value,
             'direccion': e.target.direccion.value,
-            'observacion': e.target.observacion.value,
+            'observaciones': e.target.observaciones.value,
             'barrio': e.target.barrio.value,
-            "dir_imagen":e.target.dir_imagen.files[0],
-            "venc_cedula":e.target.fechaVenc.value
+            "dir_imagen": e.target.dir_imagen.files[0],
+            "venc_cedula": e.target.fechaVenc.value
         }
-         console.log(form)
+        console.log(form)
         if (idSelec === "") {
             guardarNuevoArchivo('api/cliente', form).then(
                 (a) => {
                     if (a.cod == 0) {
-                         console.log(a, "Guardado correctamente")
+                        estadoForm(false)
+                        console.log(a, "Guardado correctamente")
                         cambiarModalAlerta("Guardado Correctamente");
                         e.target.reset();
                     } else {
-                         console.log(a)
+                        console.log(a)
                         cambiarModalAlerta(a.msg);
                     }
                 }
             ).catch(
                 (e) => {
-                     console.log(e)
+                    console.log(e)
                     cambiarModalAlerta(e.msg);
                 }
             )
         } else {
             modificarRegistroJson('api/cliente', idSelec, form).then(
                 (a) => {
-                     console.log(a.cod, " a.cod")
+                    console.log(a.cod, " a.cod")
                     if (a.cod == 0) {
-                         console.log(a, "Guardado correctamente")
+                        estadoForm(false)
+                        console.log(a, "Guardado correctamente")
                         cambiarModalAlerta("Guardado Correctamente");
 
                     } else {
-                         console.log(a)
+                        console.log(a)
                         cambiarModalAlerta(a.msg);
                     }
                 }
             ).catch(
                 (a) => {
-                     console.log(a)
+                    console.log(a)
                     cambiarModalAlerta(a.msg);
                 }
             )
@@ -84,12 +86,12 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
     const cargarListas = async () => {
         //Extrae Datos de la BD para BARRIO
         let variable = []
-        let lBarrio,lCivil;
+        let lBarrio, lCivil;
         let options = await endpointLibre("api/barrio", "GET")
         for (let i of options?.datos) {
             variable.push({ 'label': i.nombre, 'value': i.id })
         }
-         console.log(variable)
+        console.log(variable)
         lBarrio = variable;
         await setListaBarrio(variable)
         //Extrae Datos de la BD para ESTADO CIVIL
@@ -98,7 +100,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         for (let i of options?.datos) {
             variable.push({ 'label': i.descripcion, 'value': i.id })
         }
-         console.log(variable)
+        console.log(variable)
         lCivil = variable
         await setListaCivil(variable)
         //Extrae Datos de la BD para TIPO DOCUMENTO
@@ -110,7 +112,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         console.log(variable)
         await setListaTipoDocumento(variable)
         if (idSelec != "") {
-            cargarForm(lBarrio,lCivil)
+            cargarForm(lBarrio, lCivil)
         }
     }
 
@@ -126,20 +128,20 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
         "direccion": "",
         "sexo": "",
         'telefono': [
-            { "telefono": ""},
-            { "telefono": ""},
-            { "telefono": ""},
+            { "telefono": "" },
+            { "telefono": "" },
+            { "telefono": "" },
         ],
         "observaciones": "",
         "estado_civil": 0,
     })
 
-    const cargarForm = async (lBarrio,lCivil) => {
+    const cargarForm = async (lBarrio, lCivil) => {
         console.log(idSelec);
         let datosCrudo = (await obtenerUnicoRegistro('api/cliente/u', idSelec)).datos[0]
         console.log(datosCrudo, "datos solicitud")
-        let tempBarrio = lBarrio.find((elemento)=>{return elemento.value == datosCrudo.barrio});
-        let tempECivil = lCivil.find((elemento)=>{return elemento.value == datosCrudo.estado_civil});
+        let tempBarrio = lBarrio.find((elemento) => { return elemento.value == datosCrudo.barrio });
+        let tempECivil = lCivil.find((elemento) => { return elemento.value == datosCrudo.estado_civil });
 
         console.log(lBarrio)
         console.log(tempBarrio)
@@ -225,7 +227,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                             isClearable={true}
                             placeholder="Buscar estado civil"
                             value={estadoCivilSelect}
-                            //defaultValue={datosCliente.estado_civil}
+                        //defaultValue={datosCliente.estado_civil}
                         />
                     </Form.Group>
                 </Col>
@@ -255,13 +257,13 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                 <Col md>
                     <Form.Group className='mb-2'>
                         <Form.Label>Telefono 2</Form.Label>
-                        <Form.Control placeholder="Ingrese telefono 2 " id="telefono2" defaultValue={((datosCliente.telefono.length > 1) ? datosCliente.telefono[1].telefono : "" )} />
+                        <Form.Control placeholder="Ingrese telefono 2 " id="telefono2" defaultValue={((datosCliente.telefono.length > 1) ? datosCliente.telefono[1].telefono : "")} />
                     </Form.Group>
                 </Col>
                 <Col md>
                     <Form.Group className='mb-2'>
                         <Form.Label>Telefono 3</Form.Label>
-                        <Form.Control placeholder="Ingrese telefono 3 " id="telefono3" defaultValue={((datosCliente.telefono.length > 2) ? datosCliente.telefono[2].telefono : "" )} />
+                        <Form.Control placeholder="Ingrese telefono 3 " id="telefono3" defaultValue={((datosCliente.telefono.length > 2) ? datosCliente.telefono[2].telefono : "")} />
                     </Form.Group>
                 </Col>
             </Row>
@@ -285,7 +287,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec }) => {
                     <Form.Control
                         as="textarea"
                         style={{ height: '100px' }}
-                        id="observacion"
+                        id="observaciones"
                         defaultValue={datosCliente.observaciones}
                     />
                 </Form.Group>
