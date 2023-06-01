@@ -19,6 +19,8 @@ export const Panel = () => {
         // console.log(temp,"temp")
         if(temp.cod==0){
             cambiarModalAlerta("Eliminado Correctamente")
+        }else if(temp.cod === 11){
+            cambiarModalAlerta(temp.msg);
         }else{
             cambiarModalAlerta(temp.msg);
         }

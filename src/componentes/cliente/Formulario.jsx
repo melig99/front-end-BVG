@@ -29,7 +29,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
             ]),
             'f_nacimiento': e.target.f_nacimiento.value,
             'direccion': e.target.direccion.value,
-            'observacion': e.target.observacion.value,
+            'observaciones': e.target.observaciones.value,
             'barrio': e.target.barrio.value,
             "dir_imagen": e.target.dir_imagen.files[0],
             "venc_cedula": e.target.fechaVenc.value
@@ -287,7 +287,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
                     <Form.Control
                         as="textarea"
                         style={{ height: '100px' }}
-                        id="observacion"
+                        id="observaciones"
                         defaultValue={datosCliente.observaciones}
                     />
                 </Form.Group>
