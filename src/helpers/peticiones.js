@@ -72,7 +72,8 @@ const Peticiones = () => {
     const guardarNuevoJson = async (modulo,datos)=>{
         try {
             const url = base + modulo ;
-           //console.log.log(url)
+            console.log(url)
+           console.log(usuario.token)
             const temp = await fetch(url, {
               "method": "POST",
               "headers": {
@@ -194,7 +195,7 @@ const Peticiones = () => {
 
         }
     }
-    return [obtenerPanel,guardarNuevoJson,obtenerUnicoRegistro,eliminarRegistro,endpointLibre,modificarRegistroJson,guardarNuevoArchivo]
+    return [obtenerPanel,guardarNuevoJson,obtenerUnicoRegistro,eliminarRegistro,endpointLibre,modificarRegistroJson,guardarNuevoArchivo,base]
 }
 
 export default Peticiones
