@@ -1,6 +1,6 @@
 const localBD = () =>{
-    // const base =  "https://alberto.valurq.com/"
-    const base =  "http://localhost:8000/"
+    const base =  "https://alberto.valurq.com/"
+    // const base =  "http://localhost:8000/"
 
     const iniciarSesion = async (datos)=> {
         //temporal
@@ -87,7 +87,7 @@ const localBD = () =>{
         }
         return JSON.parse(caja)
     }
-    
+
     const cerrarCaja = (promesa,alerta) =>{
         promesa.then((a)=>console.log(a)).catch((e)=>console.log(e));
         localStorage.removeItem("caja");
