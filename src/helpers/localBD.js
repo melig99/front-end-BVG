@@ -87,7 +87,7 @@ const localBD = () =>{
         }
         return JSON.parse(caja)
     }
-    
+
     const cerrarCaja = (promesa,alerta) =>{
         promesa.then((a)=>console.log(a)).catch((e)=>console.log(e));
         localStorage.removeItem("caja");

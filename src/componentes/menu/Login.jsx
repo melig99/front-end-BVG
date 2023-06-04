@@ -18,9 +18,14 @@ const Login = () => {
         //condicionando mensajes
         if (1) {
             let temp = await iniciarSesion(form);
+            cambiarUsuarioValido(true)
+            
             if (temp.cod == "00") {
+                console.log(temp)
                 cambiarUsuarioValido(true)
-            } else {
+            } else if(temp.cod=="11"){
+                console.log(temp)
+
                 cambiarUsuarioInvalido(true)
             }
         } else {
