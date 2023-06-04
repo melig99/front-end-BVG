@@ -1,6 +1,6 @@
 const localBD = () =>{
-    // const base =  "https://alberto.valurq.com/"
-    const base =  "http://localhost:8000/"
+    const base =  "https://alberto.valurq.com/"
+    // const base =  "http://localhost:8000/"
 
     const iniciarSesion = async (datos)=> {
         //temporal
