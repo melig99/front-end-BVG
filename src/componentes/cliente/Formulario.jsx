@@ -159,37 +159,37 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
             <Row className="g-2">
                 <Col md>
                     <Form.Group className='mb-2'>
-                        <Form.Label>Nombres</Form.Label>
-                        <Form.Control placeholder="Ingrese nombres" id="nombre" defaultValue={datosCliente.nombre} />
+                        <Form.Label>Nombres<b class="fw-bold text-danger">*</b></Form.Label>
+                        <Form.Control placeholder="Ingrese nombres" id="nombre" defaultValue={datosCliente.nombre} required/>
                     </Form.Group>
                 </Col>
                 <Col md>
                     <Form.Group className='mb-2'>
-                        <Form.Label>Apellidos</Form.Label>
-                        <Form.Control placeholder="Ingrese apellidos" id="apellido" defaultValue={datosCliente.apellido} />
+                        <Form.Label>Apellidos<b class="fw-bold text-danger">*</b></Form.Label>
+                        <Form.Control placeholder="Ingrese apellidos" id="apellido" defaultValue={datosCliente.apellido} required/>
                     </Form.Group>
                 </Col>
             </Row>
             <Row className="g-2">
                 <Col md>
                     <Form.Group className='mb-2' >
-                        <Form.Label className='padding-left'>Tipo Documento</Form.Label>
-                        <Form.Select id="tipo_documento" defaultValue={datosCliente.tipo_documento}>
+                        <Form.Label className='padding-left'>Tipo Documento<b class="fw-bold text-danger">*</b></Form.Label>
+                        <Form.Select id="tipo_documento" defaultValue={datosCliente.tipo_documento} required>
                             {listaTipoDocumento.map(valor => <option value={valor.value}>{valor.label} </option>)}
                         </Form.Select>
                     </Form.Group>
                 </Col>
                 <Col md>
                     <Form.Group className='mb-2'>
-                        <Form.Label>Nro. Documento</Form.Label>
-                        <Form.Control placeholder="Ingrese numero documento" id="documento" defaultValue={datosCliente.documento} />
+                        <Form.Label>Nro. Documento<b class="fw-bold text-danger">*</b></Form.Label>
+                        <Form.Control placeholder="Ingrese numero documento" id="documento" defaultValue={datosCliente.documento} required/>
                     </Form.Group>
                 </Col>
             </Row>
             <Row className="g-2">
                 <Col>
                     <Form.Group className='mb-2'>
-                        <Form.Label>Barrio</Form.Label>
+                        <Form.Label>Barrio<b class="fw-bold text-danger">*</b></Form.Label>
                         <Select
                             name="barrio"
                             id="barrio"
@@ -203,22 +203,23 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
                 </Col>
                 <Col>
                     <Form.Group className='mb-2'>
-                        <Form.Label>Correo</Form.Label>
-                        <Form.Control type="email" placeholder="correo@correo.com" id="correo" defaultValue={datosCliente.correo} />
+                        <Form.Label>Correo<b class="fw-bold text-danger">*</b></Form.Label>
+                        <Form.Control type="email" placeholder="correo@correo.com" id="correo" defaultValue={datosCliente.correo} required/>
                     </Form.Group>
                 </Col>
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Direccion</Form.Label>
-                    <Form.Control placeholder="Ingrese direccion" id="direccion" defaultValue={datosCliente.direccion} />
+                    <Form.Label>Direccion<b class="fw-bold text-danger">*</b></Form.Label>
+                    <Form.Control placeholder="Ingrese direccion" id="direccion" defaultValue={datosCliente.direccion} required />
                 </Form.Group>
             </Row>
             <Row className="g-2">
                 <Col md>
                     <Form.Group className='mb-2'>
-                        <Form.Label>Estado Civil</Form.Label>
+                        <Form.Label>Estado Civil<b class="fw-bold text-danger">*</b></Form.Label>
                         <Select
+                            required
                             name="estado_civil"
                             id="estado_civil"
                             defaultValue={listaCivil[0]}
@@ -233,8 +234,8 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
                 </Col>
                 <Col md>
                     <Form.Group className='mb-2'>
-                        <Form.Label>Sexo</Form.Label>
-                        <Form.Select defaultValue={datosCliente.sexo} id="sexo">
+                        <Form.Label>Sexo<b class="fw-bold text-danger">*</b></Form.Label>
+                        <Form.Select defaultValue={datosCliente.sexo} id="sexo" required>
                             <option>Femenino</option>
                             <option>Masculino</option>
                         </Form.Select>
@@ -242,16 +243,16 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
                 </Col>
                 <Col md>
                     <Form.Group className='mb-2'>
-                        <Form.Label>Fecha Nacimiento</Form.Label>
-                        <Form.Control type="date" id="f_nacimiento" defaultValue={datosCliente.f_nacimiento} />
+                        <Form.Label>Fecha Nacimiento<b class="fw-bold text-danger">*</b></Form.Label>
+                        <Form.Control type="date" id="f_nacimiento" defaultValue={datosCliente.f_nacimiento} required/>
                     </Form.Group>
                 </Col>
             </Row>
             <Row className="g-2">
                 <Col md>
                     <Form.Group className='mb-2'>
-                        <Form.Label>Telefono 1 </Form.Label>
-                        <Form.Control placeholder="Ingrese telefono 1" id="telefono1" defaultValue={(datosCliente?.telefono[0].telefono ?? "")} />
+                        <Form.Label>Telefono 1<b class="fw-bold text-danger">*</b> </Form.Label>
+                        <Form.Control placeholder="Ingrese telefono 1" id="telefono1" defaultValue={(datosCliente?.telefono[0].telefono ?? "")} required/>
                     </Form.Group>
                 </Col>
                 <Col md>

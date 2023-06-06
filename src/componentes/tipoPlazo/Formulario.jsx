@@ -91,26 +91,26 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
     <Form onSubmit={handleSubmit}>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Tipo Plazo</Form.Label>
-          <Form.Control type="text" id="tipo_plazo" defaultValue={datosPlazo.descripcion} />
+          <Form.Label>Tipo Plazo<b class="fw-bold text-danger">*</b></Form.Label>
+          <Form.Control type="text" id="tipo_plazo" defaultValue={datosPlazo.descripcion} required/>
         </Form.Group>
       </Row>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Factor divisor</Form.Label>
-          <Form.Control type="text" min="0" id="factor_divisor" defaultValue={datosPlazo.factor_divisor} />
+          <Form.Label>Factor divisor<b class="fw-bold text-danger">*</b></Form.Label>
+          <Form.Control type="text" min="0" id="factor_divisor" defaultValue={datosPlazo.factor_divisor} required/>
         </Form.Group>
       </Row>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Dias Vencimiento</Form.Label>
-          <Form.Control type="number" min="0" id="dias_vencimiento" defaultValue={datosPlazo.dias_vencimiento} />
+          <Form.Label>Dias Vencimiento<b class="fw-bold text-danger">*</b></Form.Label>
+          <Form.Control type="number" min="0" id="dias_vencimiento" defaultValue={datosPlazo.dias_vencimiento} required/>
         </Form.Group>
       </Row>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Intereses</Form.Label>
-          <Form.Control type="decimal" min="0" id="interes" defaultValue={datosPlazo.interes} />
+          <Form.Label>Intereses<b class="fw-bold text-danger">*</b></Form.Label>
+          <Form.Control type="decimal" min="0" id="interes" defaultValue={datosPlazo.interes} required/>
         </Form.Group>
       </Row>
       <Row>

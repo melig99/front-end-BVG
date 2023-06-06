@@ -49,7 +49,7 @@ export const Panel = () => {
             }else{
                 return (
                     <>
-                        <h3>Caja no Abierta</h3>
+                        <h3>Caja no abierta</h3>
                         <p>Favor abrir la caja para realizar operaciones</p>
                     </>
                 )

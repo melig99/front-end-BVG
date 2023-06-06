@@ -142,7 +142,7 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                         <Row className="g-2">
                             <Col md>
                                 <Form.Group className='mb-2'>
-                                    <Form.Label style={{ fontWeight: 'bold' }}>Cliente</Form.Label>
+                                    <Form.Label style={{ fontWeight: 'bold' }}>Cliente<b class="fw-bold text-danger">*</b></Form.Label>
                                     <Select
                                         name="cliente"
                                         id="cliente"

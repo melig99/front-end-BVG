@@ -96,8 +96,8 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
     <Form onSubmit={handleSubmit}>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Barrio</Form.Label>
-          <Form.Control type="text" id="nombre" defaultValue={datosBarrio.nombre} />
+          <Form.Label>Barrio<b class="fw-bold text-danger">*</b></Form.Label>
+          <Form.Control type="text" id="nombre" defaultValue={datosBarrio.nombre} required/>
         </Form.Group>
       </Row>
 

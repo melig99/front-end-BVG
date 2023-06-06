@@ -152,8 +152,8 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
           <Row className="g-2">
             <Col md>
               <Form.Group className='mb-2'>
-                <Form.Label>Nombre del perfil</Form.Label>
-                <Form.Control type="text" id="descripcion" defaultValue={datosPerfil.descripcion} disabled={!isEnabled} />
+                <Form.Label>Nombre del perfil<b class="fw-bold text-danger">*</b></Form.Label>
+                <Form.Control type="text" id="descripcion" defaultValue={datosPerfil.descripcion} disabled={!isEnabled} required={isEnabled}/>
               </Form.Group>
             </Col>
           </Row>

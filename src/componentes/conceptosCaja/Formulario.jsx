@@ -91,7 +91,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
     <Form onSubmit={handleSubmit}>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Tipo</Form.Label>
+          <Form.Label>Tipo<b class="fw-bold text-danger">*</b></Form.Label>
           <Form.Select id="tipo" defaultValue={datosConcepto.tipo}>
             <option>Seleccione Opcion...</option>
             <option value="ENTRADA" selected={(datosConcepto.tipo == "ENTRADA")}>ENTRADA</option>
@@ -102,8 +102,9 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
 
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Descripcion</Form.Label>
+          <Form.Label>Descripcion<b class="fw-bold text-danger">*</b></Form.Label>
           <Form.Control
+            required
             defaultValue={datosConcepto.descripcion}
             id="descripcion"
             as="textarea"
