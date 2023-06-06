@@ -135,41 +135,41 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
       <Row className="g-2">
         <Col md>
           <Form.Group className='mb-2'>
-            <Form.Label>Nombres </Form.Label>
-            <Form.Control type="text" placeholder="Ingrese sus nombres" id="nombre" defaultValue={datosPerfil.nombre} />
+            <Form.Label>Nombres<b class="fw-bold text-danger">*</b></Form.Label>
+            <Form.Control type="text" placeholder="Ingrese sus nombres" id="nombre" defaultValue={datosPerfil.nombre} required/>
           </Form.Group>
         </Col>
         <Col md>
           <Form.Group className='mb-2'>
-            <Form.Label>Apellidos </Form.Label>
-            <Form.Control type="text" placeholder="Ingrese sus apellidos" id="apellido" defaultValue={datosPerfil.apellido} />
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row className="g-2">
-        <Col md>
-          <Form.Group className='mb-2'>
-            <Form.Label>Cedula </Form.Label>
-            <Form.Control type="text" placeholder="Ingrese una cedula" id="cedula" defaultValue={datosPerfil.cedula} />
-          </Form.Group>
-        </Col>
-        <Col md>
-          <Form.Group className='mb-2'>
-            <Form.Label>Fecha de nacimiento </Form.Label>
-            <Form.Control type="date" id="fecha_nacimiento" defaultValue={datosPerfil.fecha_nacimiento} />
+            <Form.Label>Apellidos<b class="fw-bold text-danger">*</b></Form.Label>
+            <Form.Control type="text" placeholder="Ingrese sus apellidos" id="apellido" defaultValue={datosPerfil.apellido} required/>
           </Form.Group>
         </Col>
       </Row>
       <Row className="g-2">
         <Col md>
           <Form.Group className='mb-2'>
-            <Form.Label>Correo </Form.Label>
-            <Form.Control type="email" placeholder="correo@correo.com" id="email" defaultValue={datosPerfil.email} />
+            <Form.Label>Cedula<b class="fw-bold text-danger">*</b></Form.Label>
+            <Form.Control type="text" placeholder="Ingrese una cedula" id="cedula" defaultValue={datosPerfil.cedula} required/>
           </Form.Group>
         </Col>
         <Col md>
           <Form.Group className='mb-2'>
-            <Form.Label>Perfil </Form.Label>
+            <Form.Label>Fecha de nacimiento<b class="fw-bold text-danger">*</b></Form.Label>
+            <Form.Control type="date" id="fecha_nacimiento" defaultValue={datosPerfil.fecha_nacimiento} required/>
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row className="g-2">
+        <Col md>
+          <Form.Group className='mb-2'>
+            <Form.Label>Correo<b class="fw-bold text-danger">*</b></Form.Label>
+            <Form.Control type="email" placeholder="correo@correo.com" id="email" defaultValue={datosPerfil.email} required/>
+          </Form.Group>
+        </Col>
+        <Col md>
+          <Form.Group className='mb-2'>
+            <Form.Label>Perfil<b class="fw-bold text-danger">*</b></Form.Label>
             <Select
               name="perfil_id"
               id="perfil_id"
@@ -185,16 +185,17 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
       <Row className="g-2">
         <Col md>
           <Form.Group className='mb-2'>
-            <Form.Label>Nombre de usuario </Form.Label>
-            <Form.Control type="text" placeholder="Ingrese un nombre de usuario" id="nombre_usuario" defaultValue={datosPerfil.nombre_usuario} />
+            <Form.Label>Nombre de usuario<b class="fw-bold text-danger">*</b></Form.Label>
+            <Form.Control type="text" placeholder="Ingrese un nombre de usuario" id="nombre_usuario" defaultValue={datosPerfil.nombre_usuario} required/>
           </Form.Group>
         </Col>
         <Col md>
           <Form.Group className='mb-2'>
             {idSelec =="" &&
                 <>
-                    <Form.Label>Contraseña </Form.Label>
+                    <Form.Label>Contraseña<b class="fw-bold text-danger">*</b></Form.Label>
                     <Form.Control
+                      required
                       type={showPass ? "text" : "password"}
                       placeholder="Ingrese una contraseña"
                       id="pass"
@@ -207,8 +208,9 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
           <Form.Group className='mb-2'>
             {idSelec =="" &&
                 <>
-                    <Form.Label>Confirmar contraseña </Form.Label>
+                    <Form.Label>Confirmar contraseña<b class="fw-bold text-danger">*</b></Form.Label>
                     <Form.Control
+                      required
                       type={showPass ? "text" : "password"}
                       placeholder="Confirme su contraseña"
                       id="password_confirmation"

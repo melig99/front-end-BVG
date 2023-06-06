@@ -88,14 +88,14 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
         <Form onSubmit={handleSubmit}>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Descripcion</Form.Label>
-                    <Form.Control type="text" id="tipo_plazo" defaultValue={datosCaja.descripcion} />
+                    <Form.Label>Descripcion<b class="fw-bold text-danger">*</b></Form.Label>
+                    <Form.Control type="text" id="tipo_plazo" defaultValue={datosCaja.descripcion} required/>
                 </Form.Group>
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Pin</Form.Label>
-                    <Form.Control type="password" id="pin"  />
+                    <Form.Label>Pin<b class="fw-bold text-danger">*</b></Form.Label>
+                    <Form.Control type="password" id="pin" required/>
                 </Form.Group>
             </Row>
             <Row>

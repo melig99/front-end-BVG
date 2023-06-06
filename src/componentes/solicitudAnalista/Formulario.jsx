@@ -378,7 +378,7 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                         <Row className="g-2">
                             <Col md>
                                 <Form.Group className='mb-2'>
-                                    <Form.Label>Estado</Form.Label>
+                                    <Form.Label>Estado<b class="fw-bold text-danger">*</b></Form.Label>
                                     <Form.Select defaultValue="" id="estadoSolicitud">
                                         <option value={0}>Seleccione un estado nuevo</option>
                                         {estadosPosibles.map((opcion)=>{return (<option value={opcion.estado_posible[0].id}>{opcion.estado_posible[0].descripcion}</option>)})}
@@ -389,8 +389,8 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                         <Row className="g-2">
                             <Col md>
                                 <Form.Group className='mb-2'>
-                                    <Form.Label>Observacion de Cambio</Form.Label>
-                                    <Form.Control as="textarea" style={{ height: '100px' }} id="observacion"/>
+                                    <Form.Label>Observacion de Cambio<b class="fw-bold text-danger">*</b></Form.Label>
+                                    <Form.Control as="textarea" style={{ height: '100px' }} id="observacion" required/>
                                 </Form.Group>
                             </Col>
                         </Row>
