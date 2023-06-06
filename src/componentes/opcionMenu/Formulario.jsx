@@ -110,8 +110,8 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
         <Form onSubmit={handleSubmit}>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Descripcion</Form.Label>
-                    <Form.Control type="text" id="descripcion" name="descripcion" defaultValue={datosOpcionMenu.descripcion} />
+                    <Form.Label>Descripción</Form.Label>
+                    <Form.Control type="text" id="descripcion" name="descripcion" defaultValue={datosOpcionMenu.descripcion} disabled/>
                 </Form.Group>
             </Row>
 
@@ -133,7 +133,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
                         placeholder="Buscar Agrupador"
                         isClearable={true}
                         defaultValue={datosOpcionMenu.agrupador_id}
-                    />
+                    disabled/>
                 </Form.Group>
             </Row>
             <Row>

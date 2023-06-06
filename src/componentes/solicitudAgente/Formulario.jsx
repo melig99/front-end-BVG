@@ -179,13 +179,13 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
                             </Col>
                             <Col md>
                                 <Form.Group className='mb-2'>
-                                    <Form.Label>Interes<b class="fw-bold text-danger">*</b></Form.Label>
+                                    <Form.Label>Interés<b class="fw-bold text-danger">*</b></Form.Label>
                                     <Form.Control id="interes" name="interes" readOnly value={tipoPlazo.interes} required />
                                 </Form.Group>
                             </Col>
                             <Col md>
                                 <Form.Group className='mb-2'>
-                                    <Form.Label>Interes Moratorio<b class="fw-bold text-danger">*</b></Form.Label>
+                                    <Form.Label>Interés Moratorio<b class="fw-bold text-danger">*</b></Form.Label>
                                     <Form.Control placeholder="Ingrese interes moratorio" id="interes_moratorio" name="interes_moratorio" required />
                                 </Form.Group>
                             </Col>
@@ -193,7 +193,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
                         <Row>
                             <Col md>
                                 <Form.Group className='mb-2'>
-                                    <Form.Label>Monto Credito<b class="fw-bold text-danger">*</b></Form.Label>
+                                    <Form.Label>Monto Crédito<b class="fw-bold text-danger">*</b></Form.Label>
                                     <Form.Control placeholder="Ingrese monto del credito" id="monto_credito" onChange={handleCuotero} required />
                                 </Form.Group>
                             </Col>
@@ -239,7 +239,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
                             </Col>
                             <Col md={4}>
                                 <Form.Group className='mb-2'>
-                                    <Form.Label>Relacion (con el cliente)<b class="fw-bold text-danger">*</b></Form.Label>
+                                    <Form.Label>Relación (con el cliente)<b class="fw-bold text-danger">*</b></Form.Label>
                                     <Form.Control placeholder="Vecino,primo,pariente..." id="relacion" required />
                                 </Form.Group>
                             </Col>
@@ -257,7 +257,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
                             <thead className="table-dark">
                                 <tr >
                                     <th>Nombre</th>
-                                    <th>Relacion</th>
+                                    <th>Relación</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -348,10 +348,10 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
                                 <tr >
                                     <th>N</th>
                                     <th>Cuota</th>
-                                    <th>Interes</th>
+                                    <th>Interés</th>
                                     <th>Neto</th>
                                     <th>Capital</th>
-                                    <th>fecha</th>
+                                    <th>Fecha</th>
                                 </tr>
                             </thead>
                             <tbody>

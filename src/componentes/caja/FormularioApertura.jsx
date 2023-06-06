@@ -69,7 +69,7 @@ export const FormularioApertura = ({cambiarModalAlerta,idSelec}) => {
         <Form onSubmit={handleSubmit}>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Caja<b class="fw-bold text-danger">*</b></Form.Label>
+                    <Form.Label>Caja<b className="fw-bold text-danger">*</b></Form.Label>
                         <Form.Select  id="caja">
                           { listaCaja.map(valor => <option key={valor.value} value={valor.value}>{valor.label}</option> ) }
                         </Form.Select>
@@ -77,13 +77,13 @@ export const FormularioApertura = ({cambiarModalAlerta,idSelec}) => {
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Pin<b class="fw-bold text-danger">*</b></Form.Label>
+                    <Form.Label>Pin<b className="fw-bold text-danger">*</b></Form.Label>
                     <Form.Control type="text" id="pin" defaultValue={datosPlazo.descripcion} required/>
                 </Form.Group>
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Saldo<b class="fw-bold text-danger">*</b></Form.Label>
+                    <Form.Label>Saldo<b className="fw-bold text-danger">*</b></Form.Label>
                     <Form.Control type="number" min="0" id="saldo" defaultValue="0" required/>
                 </Form.Group>
             </Row>

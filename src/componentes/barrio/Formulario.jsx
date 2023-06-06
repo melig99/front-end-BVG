@@ -66,8 +66,6 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
     setDatosBarrio(vacio)
   }
 
-  console.log("idselec: ", idSelec)
-
   const [datosBarrio, setDatosBarrio] = useState({
     "id": 0,
     "nombre": "",
@@ -96,14 +94,14 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
     <Form onSubmit={handleSubmit}>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Barrio<b class="fw-bold text-danger">*</b></Form.Label>
+          <Form.Label>Barrio<b className="fw-bold text-danger">*</b></Form.Label>
           <Form.Control type="text" id="nombre" defaultValue={datosBarrio.nombre} required/>
         </Form.Group>
       </Row>
 
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Observacion</Form.Label>
+          <Form.Label>Observación</Form.Label>
           <Form.Control
             defaultValue={datosBarrio.observacion}
             id="observacion"

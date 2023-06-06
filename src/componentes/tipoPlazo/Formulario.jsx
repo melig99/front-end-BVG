@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Row, Button } from 'react-bootstrap';
+import { Form, Row, Button,OverlayTrigger,Tooltip  } from 'react-bootstrap';
+import {BiInfoCircle } from "react-icons/bi";
 import Peticiones from '../../helpers/peticiones';
 
 
@@ -91,25 +92,35 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
     <Form onSubmit={handleSubmit}>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Tipo Plazo<b class="fw-bold text-danger">*</b></Form.Label>
+          <Form.Label>Tipo Plazo<b className="fw-bold text-danger">*</b></Form.Label>
           <Form.Control type="text" id="tipo_plazo" defaultValue={datosPlazo.descripcion} required/>
         </Form.Group>
       </Row>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Factor divisor<b class="fw-bold text-danger">*</b></Form.Label>
+          <OverlayTrigger
+          placement="bottom"
+          overlay={<Tooltip id="button-tooltip-2">Factor utilizado para el cálculo de cuotas. Corresponde a la cantidad de días en el año dividido por el factor días de vencimiento </Tooltip>}
+          >
+            <Form.Label><BiInfoCircle/>Factor divisor<b className="fw-bold text-danger">*</b></Form.Label>
+          </OverlayTrigger>
           <Form.Control type="text" min="0" id="factor_divisor" defaultValue={datosPlazo.factor_divisor} required/>
         </Form.Group>
       </Row>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Dias Vencimiento<b class="fw-bold text-danger">*</b></Form.Label>
+            <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip id="button-tooltip-2">Cantidad de días entre el vencimiento de una cuota y otra.</Tooltip>}
+            >
+                <Form.Label><BiInfoCircle/>Días Vencimiento<b className="fw-bold text-danger">*</b></Form.Label>
+            </OverlayTrigger>
           <Form.Control type="number" min="0" id="dias_vencimiento" defaultValue={datosPlazo.dias_vencimiento} required/>
         </Form.Group>
       </Row>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Intereses<b class="fw-bold text-danger">*</b></Form.Label>
+          <Form.Label>Intereses<b className="fw-bold text-danger">*</b></Form.Label>
           <Form.Control type="decimal" min="0" id="interes" defaultValue={datosPlazo.interes} required/>
         </Form.Group>
       </Row>

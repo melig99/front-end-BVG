@@ -156,7 +156,7 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                     <Row>
                         <Col md>
                             <Form.Group className='mb-2'>
-                                <Form.Label>Monto Credito</Form.Label>
+                                <Form.Label>Monto Crédito</Form.Label>
                                 <Form.Control value={datosSolicitud.monto_credito} placeholder="Ingrese ingresos actuales" id="ingresos" disabled />
                             </Form.Group>
                         </Col>
@@ -176,13 +176,13 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                         </Col>
                         <Col md>
                             <Form.Group className='mb-2'>
-                                <Form.Label>Interes</Form.Label>
+                                <Form.Label>Interés</Form.Label>
                                 <Form.Control value={datosSolicitud.interes} placeholder="Ingrese ingresos actuales" id="ingresos" disabled />
                             </Form.Group>
                         </Col>
                         <Col md>
                             <Form.Group className='mb-2'>
-                                <Form.Label>Interes Moratorio</Form.Label>
+                                <Form.Label>Interés Moratorio</Form.Label>
                                 <Form.Control value={datosSolicitud.interes_moratorio} placeholder="Ingrese apellidos" id="apellido" disabled />
                             </Form.Group>
                         </Col>
@@ -193,7 +193,7 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                         <Table table table-striped table-hover style={{ backgroundColor: "#ffffff" }}>
                             <thead className="table-dark">
                                 <tr >
-                                    <th>Cedula</th>
+                                    <th>Cédula</th>
                                     <th>Nombre</th>
                                     <th>Apellido</th>
                                 </tr>
@@ -245,7 +245,7 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                     <Row>
                         <hr />
                         <h6>
-                            Calculos aproximados (3 meses)
+                            Cálculos aproximados (3 meses)
                         </h6>
                     </Row>
                     <Row>
@@ -271,7 +271,7 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                                 <tr >
                                     <th>N</th>
                                     <th>Cuota</th>
-                                    <th>Interes</th>
+                                    <th>Interés</th>
                                     <th>Neto</th>
                                     <th>Capital</th>
                                 </tr>
@@ -298,7 +298,7 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                         <Row className="g-2">
                             <Col md>
                                 <Form.Group className='mb-2'>
-                                    <Form.Label>Observacion de Cambio<b class="fw-bold text-danger">*</b></Form.Label>
+                                    <Form.Label>Observación de Cambio<b class="fw-bold text-danger">*</b></Form.Label>
                                     <Form.Control as="textarea" style={{ height: '100px' }} id="observacion" />
                                 </Form.Group>
                             </Col>
@@ -308,7 +308,7 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                                 <thead className="table-dark">
                                     <tr >
                                         <th>Estado</th>
-                                        <th>Observacion</th>
+                                        <th>Observación</th>
 
                                     </tr>
                                 </thead>
