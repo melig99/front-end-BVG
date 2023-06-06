@@ -97,7 +97,7 @@ export const Panel = () => {
                 <Modal.Title>Datos Caja</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSelec={selecionado}/>
+                    <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSelec={selecionado} estadoForm={(a) => { setEstadoForm(a) }}/>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={()=>{setEstadoForm(!estadoForm)}} >Cerrar</Button>
