@@ -8,7 +8,7 @@ import { useState } from 'react';
 const Tabla = ({ datos, ver }) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
-    const cabecera = ["Cliente", "Ingresos", "Monto Credito", "Interes", "Accion"];
+    const cabecera = ["Cliente", "Ingresos", "Monto Crédito", "Interés", "Acción"];
      console.log(datos)
     const [visible, setVisible] = useState(false)
 
@@ -23,7 +23,7 @@ const Tabla = ({ datos, ver }) => {
             setVisible(false)
         }
     }
-    
+
     return (
         <>
             <Table striped hover >

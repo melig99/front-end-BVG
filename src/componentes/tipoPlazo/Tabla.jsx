@@ -8,11 +8,11 @@ import { useState } from 'react';
 const Tabla = ({ datos, eliminar, ver }) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
-    const cabecera = ["Tipo Plazo", "Factor Divisor", "Dias Vencimiento", "Interes", "Acciones"];
+    const cabecera = ["Tipo Plazo", "Factor Divisor", "Días Vencimiento", "Interés", "Acciones"];
      console.log(datos)
     const [visible, setVisible] = useState(false)
 
-    
+
     const visibles = () => {
         if (datos?.datos.length < 1 || datos?.datos.length === 0) {
             setVisible(true)
@@ -20,11 +20,11 @@ const Tabla = ({ datos, eliminar, ver }) => {
             setVisible(false)
         }
     }
-    
+
     useEffect(() => {
         visibles()
     }, [datos]);
-       
+
     return (
         <>
             <Table striped hover >

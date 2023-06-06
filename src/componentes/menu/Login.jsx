@@ -19,7 +19,7 @@ const Login = () => {
         if (1) {
             let temp = await iniciarSesion(form);
             cambiarUsuarioValido(true)
-            
+
             if (temp.cod == "00") {
                 console.log(temp)
                 cambiarUsuarioValido(true)
@@ -45,7 +45,7 @@ const Login = () => {
                             className="d-inline-block align-top"
                         /> */}
                         <div className="text-center " style={{ fontFamily: "monospace" }}>
-                            <h2 >Inicio Sesion</h2>
+                            <h2 >Inicio Sesión</h2>
                         </div>
                         <Form method="post" onSubmit={loguear}>
                             <Form.Group >

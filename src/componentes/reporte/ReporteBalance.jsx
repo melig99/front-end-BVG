@@ -22,7 +22,7 @@ export const ReporteBalance= () => {
         >
         <Form onSubmit={llamarReporte}>
         <Modal.Dialog>
-            <Modal.Header closeButton>
+            <Modal.Header>
                 <Modal.Title>Reporte balance</Modal.Title>
             </Modal.Header>
 
@@ -38,7 +38,6 @@ export const ReporteBalance= () => {
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="secondary">Close</Button>
                 <Button variant="primary" type="submit">Save changes</Button>
             </Modal.Footer>
         </Modal.Dialog>

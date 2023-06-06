@@ -63,7 +63,7 @@ export const Panel = () => {
                     <Col>
                         <Container fluid={true} id="acciones">
                             <Row>
-                                <h1>Opcion Menu</h1>
+                                <h1>Opción Menu</h1>
                             </Row>
                             <Row>
                                 <Col sm={4}>
@@ -82,7 +82,7 @@ export const Panel = () => {
                     <Container fluid={true}>
                         <Row>
                             <br />
-                            <Tabla datos={datos} eliminar={(id) => { cambiarModalConfirmacion("¿Esta seguro de que desea eliminar ?", id) }} ver={(id) => { verFormulario(id) }} />
+                            <Tabla datos={datos} ver={(id) => { verFormulario(id) }} />
                         </Row>
 
                     </Container>
@@ -91,7 +91,7 @@ export const Panel = () => {
             </Container>
             <Modal show={estadoForm} size="lg" animation={false} onHide={() => setEstadoForm(!estadoForm)}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Datos Opcion</Modal.Title>
+                    <Modal.Title>Datos Opción</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Formulario cambiarModalAlerta={(a) => { cambiarModalAlerta(a) }} idSelec={selecionado} estadoForm={(a) => { setEstadoForm(a) }} />

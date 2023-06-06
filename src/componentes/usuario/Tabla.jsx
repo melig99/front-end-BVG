@@ -6,7 +6,7 @@ import Table from 'react-bootstrap/Table';
 const Tabla = ({ datos, eliminar, ver }) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
-    const cabecera = ["Nombre y Apellido", "CI", "Email", "Usuario", "Perfil", "Acciones"];
+    const cabecera = ["Nombre y Apellido", "Cédula", "Email", "Usuario", "Perfil", "Acciones"];
      console.log(datos, "usuario")
     const [visible, setVisible] = useState(false)
 
