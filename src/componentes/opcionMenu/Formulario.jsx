@@ -73,7 +73,10 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
         "id": 0,
         "descripcion": "",
         "icono": "",
-        "agrupador_id": ""
+        "agrupador_id": "",
+        "agrupador":{
+            "descripcion": "",
+        }
     })
 
     useEffect(() => {
@@ -111,33 +114,27 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
             <Row className="g-2">
                 <Form.Group className='mb-2'>
                     <Form.Label>Descripcion</Form.Label>
-                    <Form.Control type="text" id="descripcion" name="descripcion" defaultValue={datosOpcionMenu.descripcion} />
+                    <Form.Control type="text" id="descripcion" name="descripcion" defaultValue={datosOpcionMenu.descripcion} disabled/>
                 </Form.Group>
             </Row>
 
-            <Row className="g-2">
+            {/* <Row className="g-2">
                 <Form.Group className='mb-2'>
                     <Form.Label>icono</Form.Label>
-                    <Form.Control type="text" id="icono" name="icono" defaultValue={datosOpcionMenu.icono} />
+                    <Form.Control type="text" id="icono" name="icono" defaultValue={datosOpcionMenu.icono} disabled/>
                 </Form.Group>
-            </Row>
+            </Row> */}
 
             <Row className="g-2">
                 <Form.Group className='mb-2'>
                     <Form.Label>Agrupador</Form.Label>
-                    <Select
+                    <Form.Control
+                        disabled
                         name="agrupador"
                         id="agrupador"
-                        onChange={setSelectedOption}
-                        options={listaAgrupador}
-                        placeholder="Buscar Agrupador"
-                        isClearable={true}
-                        defaultValue={datosOpcionMenu.agrupador_id}
+                        value={datosOpcionMenu.agrupador.descripcion}
                     />
                 </Form.Group>
-            </Row>
-            <Row>
-                <Button type='submit' variant="success" >Guardar</Button>
             </Row>
         </Form>
     )
