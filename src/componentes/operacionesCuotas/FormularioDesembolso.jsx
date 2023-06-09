@@ -12,13 +12,13 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
     let idSeleccionado = "";
     const [listaCliente, setListaCliente] = useState([])
     const [selectedOption, setSelectedOption] = useState(null);
-    const [, guardarNuevoJson,obtenerUnicoRegistro , , endpointLibre] = Peticiones();
+    const [, guardarNuevoJson, obtenerUnicoRegistro, , endpointLibre] = Peticiones();
     const [estadoForm, setEstadoForm] = useState(false);
     const [solicitud, setSolicitud] = useState(false);
     const [usuario, setUsuario] = useState({ "nombre": "" })
     const { obtenerUsuario, obtenerCaja } = localBD();
-    const [caja, setCaja] = useState([{"descripcion":""}]);
-    const [saldoCaja,setSaldoCaja] = useState()
+    const [caja, setCaja] = useState([{ "descripcion": "" }]);
+    const [saldoCaja, setSaldoCaja] = useState()
     const [datosCliente, setDatosCliente] = useState({ "id": "", "documento": "", "nombre_completo": "", "direccion": "" });
     const [datosSolicitud, setDatosSolicitud] = useState(
         {
@@ -35,17 +35,17 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
         try {
             let cajaBD = obtenerCaja()
             setCaja(cajaBD)
-             console.log(cajaBD, "caja <-")
+            console.log(cajaBD, "caja <-")
             obtenerSaldoCaja(cajaBD.caja);
-             console.log("obt usuario")
+            console.log("obt usuario")
             let temp = obtenerUsuario()
-             console.log(temp);
+            console.log(temp);
             setUsuario(temp);
         } catch (e) {
             setCaja(null)
-             console.log(e)
+            console.log(e)
         }
-        
+
     }, [])
 
 
@@ -53,11 +53,11 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
         //Extrae Datos de la BD para CLIENTE
         let variable = []
         let options = await endpointLibre("api/cliente", "GET")
-         console.log(options)
+        console.log(options)
         for (let i of options.datos) {
             variable.push({ 'label': i.nombre, 'value': i.id, "documento": i.documento, "nombre_completo": i.nombre + " " + i.apellido, "direccion": i.direccion })
         }
-         console.log(variable)
+        console.log(variable)
         setListaCliente(variable)
     }
 
@@ -68,65 +68,67 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
         cargarSolicitud();
     }, [selectedOption]);
 
-    const cargarCliente = () => {
+    const cargarCliente = async () => {
         const idSeleccionado = (selectedOption != null ? selectedOption.value : "")
-         console.log("idCliente ", idSeleccionado)
-         console.log("lista ", listaCliente)
-         console.log("solicitud ", datosSolicitud)
-         console.log(idSeleccionado)
+        console.log("idCliente ", idSeleccionado)
+        console.log("lista ", listaCliente)
+        console.log("solicitud ", datosSolicitud)
+        console.log(idSeleccionado)
         const id = listaCliente.find(item => item.value === idSeleccionado)
-         console.log("holaaaaaaaa", id)
+        console.log("holaaaaaaaa", id)
+        let options = await endpointLibre(`api/cliente/u/${id.value}`, "GET")
+        console.log(options, 'optionss cargarCliente')
         if (id) {
-            setDatosCliente({ "documento": id.documento, "nombre_completo": id.nombre_completo, "direccion": id.direccion })
+            setDatosCliente({ "documento": id.documento, "nombre_completo": id.nombre_completo, "direccion": id.direccion, 'telef': options.datos[0].telefono[0].telefono })
         }
 
     }
 
     const cargarSolicitud = async () => {
-         console.log(idSeleccionado)
+        console.log(idSeleccionado)
         let options = await endpointLibre("api/solicitud/aprobado/cliente/" + selectedOption?.value, "GET")
-         console.log("options ", options)
+        console.log("options ", options)
         if (options.cod === "00") {
             for (let i of options.datos) {
                 setDatosSolicitud({ "id": i.id, "monto_credito": i.monto_credito, "interes": i.interes, "descripcion_plazo": i.descripcion_plazo, "cant_cuotas": i.cant_cuotas })
             }
             setSolicitud(false)
         } else {
-             console.log("else")
+            console.log("else")
             setSolicitud(true)
         }
     }
 
-    const obtenerSaldoCaja = async (idSelec) =>{
-       // const idSelec = caja.caja
-         console.log(idSelec)
+    const obtenerSaldoCaja = async (idSelec) => {
+        // const idSelec = caja.caja
+        console.log(idSelec)
         let datosCrudo = (await obtenerUnicoRegistro('api/caja/u', idSelec)).datos[0]
-         console.log(datosCrudo, "saldo caja")
+        console.log(datosCrudo, "saldo caja")
         setSaldoCaja(datosCrudo)
     }
 
-    const guardarForm = (e) =>{
+    const guardarForm = (e) => {
         e.preventDefault();
         const form = {
-            "caja": caja?.caja, 
+            "caja": caja?.caja,
             "monto": datosSolicitud?.monto_credito,
             "solicitud_id": datosSolicitud?.id,
         }
-         console.log(form)
-        guardarNuevoJson('api/operaciones/desembolsar',form).then(
-            (a)=>{
-                if(a.cod==0){
-                     console.log(a,"Guardado correctamente")
+        console.log(form)
+        guardarNuevoJson('api/operaciones/desembolsar', form).then(
+            (a) => {
+                if (a.cod == 0) {
+                    console.log(a, "Guardado correctamente")
                     cambiarModalAlerta("Guardado Correctamente");
                     e.target.reset();
-                }else{
-                     console.log(a)
+                } else {
+                    console.log(a)
                     cambiarModalAlerta(a.msg);
                 }
             }
         ).catch(
-            (e)=>{
-                 console.log(e)
+            (e) => {
+                console.log(e)
                 cambiarModalAlerta(e.msg);
             }
         )
@@ -178,7 +180,7 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                                     <Col md>
                                         <Form.Group className='mb-2'>
                                             <Form.Label>Telefono</Form.Label>
-                                            <Form.Control placeholder="Ingrese gastosAdministrativos" id="telefono" name="telefono" disabled />
+                                            <Form.Control value={datosCliente.telef} placeholder="Ingrese gastosAdministrativos" id="telefono" name="telefono" disabled />
                                         </Form.Group>
                                     </Col>
                                     <Col md>
@@ -221,8 +223,9 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                                 }
                                 {
                                     solicitud &&
-                                    <div>NO POSEE SOLICITUD
-                                        <h4>verique los datos</h4>
+                                    <div style={{ backgroundColor: '#f8f8f8', padding: '20px', border: '1px solid #ccc', borderRadius: '5px', textAlign: 'center' }}>
+                                        <h4 style={{ color: '#333', fontSize: '18px' }}>¡No se encontró ninguna solicitud!</h4>
+                                        <p style={{ color: '#666', fontSize: '14px', marginTop: '10px' }}>Por favor, verifique que la solicitud que busca este aprobada</p>
                                     </div>
                                 }
                             </>
