@@ -35,15 +35,13 @@ const Login = () => {
 
     return (
         <>
-            <Container className="d-flex align-items-center justify-content-center" style={{ height: "100vh", maxWidth: "100vw", padding: '0', backgroundColor: "#212529", margin: "0" }}>
+            <Container className="d-flex align-items-center justify-content-center" style={{ height: "100vh", maxWidth: "100vw", padding: '0', margin: "0", backgroundImage:"url('/fondo_login.jpg')" }}>
                 <Card>
                     <Card.Body >
-                        {/* <img
-                            src="/logo.png"
-                            width="120"
-                            height="80"
+                        <div
+                            style={{backgroundImage:"url('/B-VG_logo.png')",width: "350px",height: "190px",backgroundPositionY: "center",backgroundPositionX: "center"}}
                             className="d-inline-block align-top"
-                        /> */}
+                        />
                         <div className="text-center " style={{ fontFamily: "monospace" }}>
                             <h2 >Inicio Sesión</h2>
                         </div>

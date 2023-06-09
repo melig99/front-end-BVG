@@ -7,7 +7,6 @@ const  Fila = (prop) => {
     return (
         <tr key={`filaTP-${dato.id}`}>
             <td>{dato.descripcion}</td>
-            <td>{dato.factor_divisor}</td>
             <td>{dato.dias_vencimiento}</td>
             <td>{dato.interes}</td>
             { (prop.eliminar && <td>

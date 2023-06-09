@@ -31,7 +31,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
       guardarNuevoJson('api/perfil', form).then(
         (a) => {
           if (a.cod == 0) {
-            estadoForm(false)
+            //estadoForm(false)
             // console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
             e.target.reset();
@@ -51,7 +51,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
         (a) => {
           // console.log(a.cod, " a.cod")
           if (a.cod == 0) {
-            estadoForm(false)
+            //estadoForm(false)
             // console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
 
@@ -128,7 +128,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
     setListaOpcionMenu(ordenarTabla(options))
   }
 
-  // si es que la opcion que se recorre esta como true cagar 
+  // si es que la opcion que se recorre esta como true cagar
   const ordenarTabla = (optiones) => {
     const arrays = []
     let dscAg = 0
@@ -160,7 +160,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
           <Row className="g-2">
             <Col md>
               <Form.Group className='mb-2'>
-                <Form.Label>Observacion</Form.Label>
+                <Form.Label>Observación</Form.Label>
                 <Form.Control
                   id="observacion"
                   as="textarea"
@@ -176,7 +176,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
           <thead>
             <tr>
               <th>Agrupadores</th>
-              <th>Opcion de menu</th>
+              <th>Opción de menu</th>
               <th>Accesos</th>
             </tr>
           </thead>

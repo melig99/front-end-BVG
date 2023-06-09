@@ -41,7 +41,7 @@ const Tabla = ({ datos, eliminar, ver }) => {
                 <tbody>
                     {
                         !visible &&
-                        datos.datos.map((fila) => {
+                        datos?.datos.map((fila) => {
                             return <Fila key={"fila-" + fila.id + ""} dato={fila} ver={ver} />
                         })
                     }

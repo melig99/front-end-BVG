@@ -34,12 +34,15 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
             "dir_imagen": e.target.dir_imagen.files[0],
             "venc_cedula": e.target.fechaVenc.value
         }
+        if (form.observaciones == "") {
+            delete form.observaciones
+          }
         console.log(form)
         if (idSelec === "") {
             guardarNuevoArchivo('api/cliente', form).then(
                 (a) => {
                     if (a.cod == 0) {
-                        estadoForm(false)
+                        //estadoForm(false)
                         console.log(a, "Guardado correctamente")
                         cambiarModalAlerta("Guardado Correctamente");
                         e.target.reset();
@@ -59,7 +62,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
                 (a) => {
                     console.log(a.cod, " a.cod")
                     if (a.cod == 0) {
-                        estadoForm(false)
+                        //estadoForm(false)
                         console.log(a, "Guardado correctamente")
                         cambiarModalAlerta("Guardado Correctamente");
 
@@ -182,7 +185,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
                 <Col md>
                     <Form.Group className='mb-2'>
                         <Form.Label>Nro. Documento<b className="fw-bold text-danger">*</b></Form.Label>
-                        <Form.Control placeholder="Ingrese numero documento" id="documento" defaultValue={datosCliente.documento} required/>
+                        <Form.Control placeholder="Ingrese numero documento" id="documento" defaultValue={datosCliente.documento} required disabled={idSelec === ''? false : true}/>
                     </Form.Group>
                 </Col>
             </Row>
