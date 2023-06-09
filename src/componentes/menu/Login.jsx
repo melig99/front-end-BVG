@@ -5,8 +5,7 @@ import localBD from '../../helpers/localBD';
 import Alert from 'react-bootstrap/Alert';
 
 const Login = () => {
-    const [usuarioValido, cambiarUsuarioValido] = useState(false);
-    const [usuarioInvalido, cambiarUsuarioInvalido] = useState(false);
+    const [usuarioValido, cambiarUsuarioValido] = useState(null);
     const { iniciarSesion } = localBD()
 
     const loguear = async (e) => {
@@ -14,32 +13,27 @@ const Login = () => {
         const form = {
             'usuario': e.target.usuario.value,
             'password': e.target.pass.value,
+            'usuario': e.target.usuario.value,
+            'password': e.target.pass.value,
         }
         //condicionando mensajes
-        if (1) {
-            let temp = await iniciarSesion(form);
+        let temp = await iniciarSesion(form);
+        console.log(temp.cod, "codigo")
+        if (temp.cod == "00") {
             cambiarUsuarioValido(true)
-
-            if (temp.cod == "00") {
-                console.log(temp)
-                cambiarUsuarioValido(true)
-            } else if(temp.cod=="11"){
-                console.log(temp)
-
-                cambiarUsuarioInvalido(true)
-            }
         } else {
-            //error
+            cambiarUsuarioValido(false)
         }
+
     }
 
     return (
         <>
-            <Container className="d-flex align-items-center justify-content-center" style={{ height: "100vh", maxWidth: "100vw", padding: '0', margin: "0", backgroundImage:"url('/fondo_login.jpg')" }}>
+            <Container className="d-flex align-items-center justify-content-center" style={{ height: "100vh", maxWidth: "100vw", padding: '0', margin: "0", backgroundImage: "url('/fondo_login.jpg')" }}>
                 <Card>
                     <Card.Body >
                         <div
-                            style={{backgroundImage:"url('/B-VG_logo.png')",width: "350px",height: "190px",backgroundPositionY: "center",backgroundPositionX: "center"}}
+                            style={{ backgroundImage: "url('/B-VG_logo.png')", width: "350px", height: "190px", backgroundPositionY: "center", backgroundPositionX: "center" }}
                             className="d-inline-block align-top"
                         />
                         <div className="text-center " style={{ fontFamily: "monospace" }}>
@@ -56,7 +50,7 @@ const Login = () => {
                             </Form.Group>
                             <br />
                             <Form.Group className="d-flex" >
-                                {usuarioInvalido && (
+                                {usuarioValido === false && (
                                     <Alert variant={'danger'}>
                                         Usuario o contraseña invalida
                                     </Alert>

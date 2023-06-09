@@ -77,6 +77,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
       let test = { "opcion_id": e.target.value, "acceso": true }
       temp.push(test);
       setListaAccesos(temp)
+      cargarListas()
     } else {
       temp = temp.filter((fila) => fila.opcion_id != e.target.value);
       setListaAccesos(temp)
@@ -189,7 +190,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
                   </tr>
                   {fila.Opciones.map((filas) => {
                     return (
-                      <tr>
+                      <tr key={`col-${filas.id}`}>
                         <td>{filas.descripcion}</td>
                         <td>
                           <Form.Check
