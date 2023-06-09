@@ -6,7 +6,7 @@ import Select from 'react-select';
 
 
 
-export const FormularioCierre = ({cambiarModalAlerta,idSelec}) => {
+export const FormularioCierre = ({cambiarModalAlerta,idSelec,estadoForm }) => {
     const [,guardarNuevoJson,obtenerUnicoRegistro,,endpointLibre,modificarRegistroJson] = Peticiones();
     const [selectedOption, setSelectedOption] = useState(null);
     const [listaCaja,setListaCaja] = useState([])
@@ -26,7 +26,7 @@ export const FormularioCierre = ({cambiarModalAlerta,idSelec}) => {
          console.log(e.target.caja.value + " caja id")
         if(e.target.caja.value !== ""){
             cerrarCaja(guardarNuevoJson('api/cierre/caja/'+e.target.caja.value,form),cambiarModalAlerta)
-
+            estadoForm(false)
           }
     }
 
@@ -83,7 +83,7 @@ export const FormularioCierre = ({cambiarModalAlerta,idSelec}) => {
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Saldo Fisico</Form.Label>
+                    <Form.Label>Saldo Físico</Form.Label>
                     <Form.Control type="number" min="0" id="saldo" defaultValue="0" />
                 </Form.Group>
             </Row>

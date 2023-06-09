@@ -46,10 +46,17 @@ export const Panel = () => {
          console.log(modalConfirmacion)
     }
 
+
     const recargar =() =>{
         obtenerPanel("api/solicitud/pendiente",setDatos)
         setState(true)
     }
+    //VALIDACION PARA EVITAR CERRAR FORM SIN QUERER
+    const cerrarForm = ()=>{
+        setModalConfirmacion({"estado":!modalConfirmacion.estado,"msg":"¿Esta seguro que desea salir?","callback":()=>setEstadoForm(!estadoForm)})
+
+    }
+
     return (
         <>
             <Container>
@@ -90,7 +97,7 @@ export const Panel = () => {
                     <Formulario cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={()=>setEstadoForm(!estadoForm)} >Cerrar</Button>
+                    <Button variant="secondary" onClick={()=>cerrarForm()} >Cerrar</Button>
                 </Modal.Footer>
             </Modal>
             <ModalAlerta valores={modalAlerta} ></ModalAlerta>

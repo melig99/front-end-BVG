@@ -23,8 +23,9 @@ export const Formulario = ({cambiarModalAlerta,idSelec,estadoForm}) => {
               (a)=>{
                 if(a.cod==0){
                    console.log(a,"Guardado correctamente")
+                   e.target.reset();
                    estadoForm(false)
-                  cambiarModalAlerta("Guardado Correctamente");
+                   cambiarModalAlerta("Guardado Correctamente");
                 }else{
                    console.log(a)
                   cambiarModalAlerta(a.msg);
@@ -42,9 +43,9 @@ export const Formulario = ({cambiarModalAlerta,idSelec,estadoForm}) => {
                  console.log(a.cod," a.cod")
                 if(a.cod==0){
                    console.log(a,"Guardado correctamente")
+                   e.target.reset();
                    estadoForm(false)
-                  cambiarModalAlerta("Guardado Correctamente");
-
+                   cambiarModalAlerta("Guardado Correctamente");
                 }else{
                    console.log(a)
                   cambiarModalAlerta(a.msg);
@@ -57,7 +58,7 @@ export const Formulario = ({cambiarModalAlerta,idSelec,estadoForm}) => {
               }
             )
           }
-          e.target.reset();
+
           setDatosCaja(vacio)
     }
 

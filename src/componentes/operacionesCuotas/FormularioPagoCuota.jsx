@@ -202,70 +202,73 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
 
                     </Form>
                 </Tab>
-                <Tab eventKey="cuotasPendientes" title="Cuotas a Pagar">
-                    <Form id="formCuotas" onSubmit={guardarForm}>
-                        <Row>
-                            <Col md>
-                                <Form.Group className='mb-2'>
-                                    <Form.Label>Total</Form.Label>
-                                    <Form.Control placeholder="0" id="direccion" name="direccion" value={totalCuotas} disabled style={{textAlign:"right"}} />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
-                                <thead className="table-dark">
-                                    <tr >
-                                        <th>Cuota N.</th>
-                                        <th>Fecha Venc.</th>
-                                        <th>Amortizacion</th>
-                                        <th>Interes</th>
-                                        <th>Mora</th>
-                                        <th>Saldo</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {datosCuota.map((fila)=>{return ( <tr> <td>{fila.n_cuota}</td><td>{fila.fec_vencimiento}</td><td>{fila.amortizacion}</td><td>{fila.interes}</td><td>{fila.mora}</td><td>{fila.saldo}</td><td><Form.Check type="checkbox" id={`cuota-${fila.id}`} value={fila.id} onChange ={seleccionarCuota} /></td></tr>)})}
-                                </tbody>
-                            </Table>
-                        </Row>
-                        <Row>
-                            <Button type='submit' form="formGeneral" variant="success">Guardar</Button>
-                        </Row>
-                    </Form>
-                </Tab>
-                <Tab eventKey="refPersonal" title="Datos del Pago">
-                    <Form id="formGeneral" onSubmit={guardarForm}>
-                        <Row >
-                            <Col md={6}>
-                                <Form.Group className='mb-2'>
-                                    <Form.Label>Caja</Form.Label>
-                                    <Form.Control id="caja" value={caja.descripcion} disabled />
-                                </Form.Group>
-                            </Col>
-                            <Col md={6}>
-                                <Form.Label>Saldo en caja </Form.Label>
-                                <Form.Control id="saldo_caja" value={saldoCaja?.saldo_actual} disabled />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={6}>
-                                <Form.Label>Cajero </Form.Label>
-                                <Form.Control id="usuario" value={usuario.nombre} disabled />
-                            </Col >
-                            <Col md={6}>
-                                <Form.Group className='mb-2'>
-                                    <Form.Label>Monto Pago</Form.Label>
-                                    <Form.Control id="monto" value={totalCuotas} disabled />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Button type='submit' form="formGeneral" variant="success">Guardar</Button>
-                        </Row>
-                    </Form>
-                </Tab>
+                {
+                    selectedOption != null &&
+                    <Tab eventKey="cuotasPendientes" title="Cuotas a Pagar">
+                        <Form id="formCuotas" onSubmit={guardarForm}>
+                            <Row>
+                                <Col md>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Total</Form.Label>
+                                        <Form.Control placeholder="0" id="direccion" name="direccion" value={totalCuotas} disabled style={{textAlign:"right"}} />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Table table table-striped table-hover style={{backgroundColor:"#ffffff"}}>
+                                    <thead className="table-dark">
+                                        <tr >
+                                            <th>Cuota N.</th>
+                                            <th>Fecha Venc.</th>
+                                            <th>Amortizacion</th>
+                                            <th>Interes</th>
+                                            <th>Mora</th>
+                                            <th>Saldo</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {datosCuota.map((fila)=>{return ( <tr> <td>{fila.n_cuota}</td><td>{fila.fec_vencimiento}</td><td>{fila.amortizacion}</td><td>{fila.interes}</td><td>{fila.mora}</td><td>{fila.saldo}</td><td><Form.Check type="checkbox" id={`cuota-${fila.id}`} value={fila.id} onChange ={seleccionarCuota} /></td></tr>)})}
+                                    </tbody>
+                                </Table>
+                            </Row>
+                        </Form>
+                    </Tab>
+                }
+                {totalCuotas >0 &&
+                    <Tab eventKey="refPersonal" title="Datos del Pago">
+                        <Form id="formGeneral" onSubmit={guardarForm}>
+                            <Row >
+                                <Col md={6}>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Caja</Form.Label>
+                                        <Form.Control id="caja" value={caja.descripcion} disabled />
+                                    </Form.Group>
+                                </Col>
+                                <Col md={6}>
+                                    <Form.Label>Saldo en caja </Form.Label>
+                                    <Form.Control id="saldo_caja" value={saldoCaja?.saldo_actual} disabled />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md={6}>
+                                    <Form.Label>Cajero </Form.Label>
+                                    <Form.Control id="usuario" value={usuario.nombre} disabled />
+                                </Col >
+                                <Col md={6}>
+                                    <Form.Group className='mb-2'>
+                                        <Form.Label>Monto Pago</Form.Label>
+                                        <Form.Control id="monto" value={totalCuotas} disabled />
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Button type='submit' form="formGeneral" variant="success">Guardar</Button>
+                            </Row>
+                        </Form>
+                    </Tab>
+                }
+
 
             </Tabs>
         </>

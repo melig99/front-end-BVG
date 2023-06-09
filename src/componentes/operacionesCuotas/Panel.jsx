@@ -34,12 +34,35 @@ export const Panel = () => {
         temp[objeto.target.id]=objeto.target.value;
         setDatosForm(temp);
     }
+
+    const tituloSeleccionado =()=>{
+             console.log(formSeleccionado)
+            if(formSeleccionado== 'apertura'){
+                return (<>Apertura de Caja</>)
+            }else if(formSeleccionado== 'cierre'){
+                return (<>Cierre de Caja</>)
+            }else if(formSeleccionado== 'desembolso' && caja!=null){
+                return (<>Desembolso de Credito</>)
+            }else if(formSeleccionado== 'cuota' && caja!=null){
+                return (<>Pago de Cuotas</>)
+            }else if(formSeleccionado== 'generico' && caja!=null){
+                return (<>Movimiento</>)
+            }else{
+                return (
+                    <>
+                    Caja Cerrada
+                    </>
+                )
+            }
+
+    }
+
     const abrirForm =()=>{
              console.log(formSeleccionado)
             if(formSeleccionado== 'apertura'){
-                return (<FormularioApertura cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
+                return (<FormularioApertura cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""} estadoForm={(a)=>{setEstadoForm(a)}}/>)
             }else if(formSeleccionado== 'cierre'){
-                return (<FormularioCierre cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
+                return (<FormularioCierre cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""} estadoForm={(a)=>{setEstadoForm(a)}}/>)
             }else if(formSeleccionado== 'desembolso' && caja!=null){
                 return (<FormularioDesembolso cambiarModalAlerta={(a)=>{cambiarModalAlerta(a)}} idSeleccionado={""}/>)
             }else if(formSeleccionado== 'cuota' && caja!=null){
@@ -155,7 +178,7 @@ export const Panel = () => {
             </Container>
             <Modal show={estadoForm} size="lg" animation={false} scrollable={true} onHide={()=>setEstadoForm(!estadoForm)}>
                 <Modal.Header closeButton>
-                <Modal.Title>Datos Movimientos</Modal.Title>
+                <Modal.Title>{tituloSeleccionado()}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {abrirForm()}

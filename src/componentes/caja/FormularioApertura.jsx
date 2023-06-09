@@ -6,7 +6,7 @@ import Select from 'react-select';
 
 
 
-export const FormularioApertura = ({cambiarModalAlerta,idSelec}) => {
+export const FormularioApertura = ({cambiarModalAlerta,idSelec,estadoForm}) => {
     const [,guardarNuevoJson,obtenerUnicoRegistro,,endpointLibre,modificarRegistroJson] = Peticiones();
     const [selectedOption, setSelectedOption] = useState(null);
     const [listaCaja,setListaCaja] = useState([])
@@ -26,7 +26,7 @@ export const FormularioApertura = ({cambiarModalAlerta,idSelec}) => {
          console.log(e.target.caja.value + " caja id")
         if(e.target.caja.value !== ""){
             abrirCaja(guardarNuevoJson('api/apertura/caja/'+e.target.caja.value,form),cambiarModalAlerta)
-
+            estadoForm(false)
           }
     }
 

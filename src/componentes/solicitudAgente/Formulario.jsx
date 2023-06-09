@@ -5,22 +5,39 @@ import Peticiones from '../../helpers/peticiones';
 import { Formulario as FormularioCliente } from '../cliente/Formulario'
 import { ModalAlerta, ModalConfirmacion } from '../Utiles';
 
-export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
+export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
 
     const [listaCliente, setListaCliente] = useState([])
     const [datosCuotero, setDatosCuotero] = useState({ "tipo_plazo": "", "cant_cuotas": "", "monto_credito": "" })
     const [cuotero, setCuotero] = useState([])
+    const [ingresosMensuales,setIngresosMensuales] = useState(0)
+    const [numericos,setNumericos] = useState({"ingresos":"","monto_credito":"","gastos_administrativos":"","monto_cuota":""})
     const [selectedOption, setSelectedOption] = useState(null);
     const [listaTipoPlazo, setListaTipoPlazo] = useState([])
     const [, guardarNuevoJson, , , endpointLibre] = Peticiones();
     const [estadoForm, setEstadoForm] = useState(false);
     const [referenciasPersonales, setReferenciasPersonales] = useState([]);
     const [referenciasComerciales, setReferenciasComerciales] = useState([]);
+    const [tabActiva,setTabActiva] = useState("solicitud")
     const [tipoPlazo, setTipoPlazo] = useState({ "tipo_plazo": "", "interes": "0.0", "id_tipo_plazo": "" });
+    const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    const removeNonNumeric = num => num.toString().replace(/[^0-9]/g, "");
+    const handleChange = (event) =>{
+        if(event.target.id =="monto_credito"){
+            handleCuotero(event)
+        }
+        let temp ={...numericos} ;
+        temp[event.target.id] = addCommas(removeNonNumeric(event.target.value)) ;
+        console.log(event.target.id , event.target.value,temp);
+        setNumericos(temp);
+    }
+
+
 
     useEffect(() => {
         cargarListas();
     }, []);
+
 
     const cargarListas = async () => {
         //Extrae Datos de la BD para CLIENTE
@@ -60,11 +77,11 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
         let campos = e.target;
         console.log("Formulario Ref Comerciales")
 
-        console.log([e.target.entidad.value, e.target.estado.value, e.target.monto_cuota.value, e.target.cuotas_totales.value, e.target.cuotas_pendientes.value]);
+        console.log([e.target.entidad.value, e.target.estado.value, removeNonNumeric(e.target.monto_cuota.value), e.target.cuotas_totales.value, e.target.cuotas_pendientes.value]);
         setReferenciasComerciales(
             [
                 ...referenciasComerciales,
-                { "entidad": campos.entidad.value, "estado": campos.estado.value, "monto_cuota": campos.monto_cuota.value, "cuotas_totales": campos.cuotas_totales.value, "cuotas_pendientes": campos.cuotas_pendientes.value }
+                { "entidad": campos.entidad.value, "estado": campos.estado.value, "monto_cuota": removeNonNumeric(campos.monto_cuota.value), "cuotas_totales": campos.cuotas_totales.value, "cuotas_pendientes": campos.cuotas_pendientes.value }
             ])
     }
 
@@ -82,9 +99,9 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
         e.preventDefault();
         const form = {
             'cliente_id': e.target.cliente.value,
-            'ingresos_actuales': e.target.ingresos.value,
-            'monto_credito': e.target.monto_credito.value,
-            'gastos_administrativos': e.target.gastos_administrativos.value,
+            'ingresos_actuales': removeNonNumeric(e.target.ingresos.value),
+            'monto_credito': removeNonNumeric(e.target.monto_credito.value),
+            'gastos_administrativos': removeNonNumeric(e.target.gastos_administrativos.value),
             'interes': e.target.interes.value,
             'interes_moratorio': e.target.interes_moratorio.value,
             'tipo_plazo': e.target.tipo_plazo.value,
@@ -100,6 +117,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
                     console.log(a, "Guardado correctamente")
                     cambiarModalAlerta("Guardado Correctamente");
                     e.target.reset();
+                    setTabActiva("solicitud")
                 } else {
                     console.log(a)
                     cambiarModalAlerta(a.msg);
@@ -112,6 +130,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
             }
         )
     }
+
     const actualizarForm = (e) => {
         e.preventDefault();
         console.log("Formulario 2")
@@ -120,14 +139,16 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
 
     const handleCuotero = (e) => {
         let temp = datosCuotero;
-        temp[e.target.id] = e.target.value
+        temp[e.target.id] = removeNonNumeric(e.target.value)
 
         setDatosCuotero(temp);
     }
+
     const actualizarCuotero = async () => {
         // /api/solicitud/cuotero/interes/4/cuotas/12/monto/5000000
         if (datosCuotero.tipo_plazo == "" || datosCuotero.cant_cuotas == "" || datosCuotero.monto_credito == "") {
             cambiarModalAlerta("No se puede actualizar cuotero , falta cargar datos [Tipo plazo , Cantidad de cuotas o Monto del credito]");
+            return ""
         }
         let options = await endpointLibre(`api/solicitud/cuotero/interes/${datosCuotero.tipo_plazo}/cuotas/${datosCuotero.cant_cuotas}/monto/${datosCuotero.monto_credito}`, "GET")
         setCuotero(options.datos)
@@ -136,7 +157,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
 
     return (
         <>
-            <Tabs defaultActiveKey="solicitud" id="uncontrolled-tab-example" className="mb-3">
+            <Tabs defaultActiveKey="solicitud" id="uncontrolled-tab-example" onSelect={setTabActiva} activeKey={tabActiva} className="mb-3">
                 <Tab eventKey="solicitud" title="Solicitud">
                     <Form id="formGeneral" onSubmit={guardarForm}>
                         <Row className="g-2">
@@ -163,7 +184,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
                             <Col md>
                                 <Form.Group className='mb-2'>
                                     <Form.Label>Ingresos Actuales (Mensuales)<b class="fw-bold text-danger">*</b></Form.Label>
-                                    <Form.Control placeholder="Ingrese ingresos actuales" id="ingresos" name="ingresos" required />
+                                    <Form.Control placeholder="Ingrese ingresos actuales" id="ingresos" name="ingresos" onChange={handleChange} value={numericos.ingresos} required />
                                 </Form.Group>
                             </Col>
 
@@ -194,13 +215,13 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
                             <Col md>
                                 <Form.Group className='mb-2'>
                                     <Form.Label>Monto Crédito<b class="fw-bold text-danger">*</b></Form.Label>
-                                    <Form.Control placeholder="Ingrese monto del credito" id="monto_credito" onChange={handleCuotero} required />
+                                    <Form.Control placeholder="Ingrese monto del credito" id="monto_credito" onChange={handleChange} value={numericos.monto_credito} required />
                                 </Form.Group>
                             </Col>
                             <Col md>
                                 <Form.Group className='mb-2'>
                                     <Form.Label>Gastos Administrativos<b class="fw-bold text-danger">*</b></Form.Label>
-                                    <Form.Control placeholder="Ingrese gastos administrativos" id="gastos_administrativos" name="gastos_administrativos" required />
+                                    <Form.Control placeholder="Ingrese gastos administrativos" id="gastos_administrativos" name="gastos_administrativos" onChange={handleChange} value={numericos.gastos_administrativos} required />
                                 </Form.Group>
                             </Col>
                         </Row>
@@ -208,7 +229,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
                             <Col md>
                                 <Form.Group className='mb-2'>
                                     <Form.Label>Cantidad Cuotas<b class="fw-bold text-danger">*</b></Form.Label>
-                                    <Form.Control id="cant_cuotas" name="cant_cuotas" placeholder="Cantidad de cuotas del credito" onChange={handleCuotero} required />
+                                    <Form.Control id="cant_cuotas" name="cant_cuotas" placeholder="Cantidad de cuotas del credito" onChange={handleCuotero}  required />
                                 </Form.Group>
                             </Col>
                             <Col md>
@@ -338,7 +359,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado }) => {
                         </Col>
                         <Col md={2}>
                             <Form.Group className='mb-2'>
-                                <Button onClick={actualizarCuotero} variant="primary" style={{ width: "100%" }} >Actualizar</Button>
+                                 <Button onClick={actualizarCuotero} variant="primary" style={{ width: "100%" }} >Actualizar</Button>
                             </Form.Group>
                         </Col>
                     </Row>
