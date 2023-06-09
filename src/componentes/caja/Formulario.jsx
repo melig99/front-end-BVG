@@ -97,7 +97,7 @@ export const Formulario = ({cambiarModalAlerta,idSelec,estadoForm}) => {
             <Row className="g-2">
                 <Form.Group className='mb-2'>
                     <Form.Label>Pin<b className="fw-bold text-danger">*</b></Form.Label>
-                    <Form.Control type="password" id="pin" placeholder="Ingrese el nuevo pin" required/>
+                    <Form.Control type="password" id="pin" placeholder="Ingrese el nuevo pin" maxlength="4" required/>
                 </Form.Group>
             </Row>
             <Row>
