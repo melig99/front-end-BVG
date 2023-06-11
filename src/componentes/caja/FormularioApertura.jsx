@@ -6,7 +6,7 @@ import Select from 'react-select';
 
 
 
-export const FormularioApertura = ({cambiarModalAlerta,idSelec}) => {
+export const FormularioApertura = ({cambiarModalAlerta,idSelec,estadoForm}) => {
     const [,guardarNuevoJson,obtenerUnicoRegistro,,endpointLibre,modificarRegistroJson] = Peticiones();
     const [selectedOption, setSelectedOption] = useState(null);
     const [listaCaja,setListaCaja] = useState([])
@@ -26,7 +26,7 @@ export const FormularioApertura = ({cambiarModalAlerta,idSelec}) => {
          console.log(e.target.caja.value + " caja id")
         if(e.target.caja.value !== ""){
             abrirCaja(guardarNuevoJson('api/apertura/caja/'+e.target.caja.value,form),cambiarModalAlerta)
-
+            estadoForm(false)
           }
     }
 
@@ -69,7 +69,7 @@ export const FormularioApertura = ({cambiarModalAlerta,idSelec}) => {
         <Form onSubmit={handleSubmit}>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Caja</Form.Label>
+                    <Form.Label>Caja<b className="fw-bold text-danger">*</b></Form.Label>
                         <Form.Select  id="caja">
                           { listaCaja.map(valor => <option key={valor.value} value={valor.value}>{valor.label}</option> ) }
                         </Form.Select>
@@ -77,14 +77,14 @@ export const FormularioApertura = ({cambiarModalAlerta,idSelec}) => {
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Pin</Form.Label>
-                    <Form.Control type="text" id="pin" defaultValue={datosPlazo.descripcion} />
+                    <Form.Label>Pin<b className="fw-bold text-danger">*</b></Form.Label>
+                    <Form.Control type="text" id="pin" defaultValue={datosPlazo.descripcion} required/>
                 </Form.Group>
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Saldo</Form.Label>
-                    <Form.Control type="number" min="0" id="saldo" defaultValue="0" />
+                    <Form.Label>Saldo<b className="fw-bold text-danger">*</b></Form.Label>
+                    <Form.Control type="number" min="0" id="saldo" defaultValue="0" required/>
                 </Form.Group>
             </Row>
             <Row>

@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 const Tabla = ({ datos, eliminar, ver }) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
-    const cabecera = ["Descripcion", "Agrupador", "Acciones"];
+    const cabecera = ["Descripción", "Agrupador", "Acciones"];
      console.log(datos)
     const [visible, setVisible] = useState(false)
 
@@ -41,8 +41,8 @@ const Tabla = ({ datos, eliminar, ver }) => {
                 <tbody>
                     {
                         !visible &&
-                        datos.datos.map((fila) => {
-                            return <Fila key={"fila-" + fila.id + ""} dato={fila} eliminar={eliminar} ver={ver} />
+                        datos?.datos.map((fila) => {
+                            return <Fila key={"fila-" + fila.id + ""} dato={fila} ver={ver} />
                         })
                     }
                 </tbody>

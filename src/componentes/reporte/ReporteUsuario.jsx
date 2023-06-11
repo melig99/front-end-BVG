@@ -10,7 +10,7 @@ export const ReporteUsuario = () => {
     window.open(`${base}${URL_REPORTE}`)
   return (
       <>
-        <p>test</p>
+        <p>Reporte generado (Revise su carpeta de descargas)</p>
       </>
   )
 }

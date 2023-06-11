@@ -8,7 +8,7 @@ import { useState } from 'react';
 const Tabla = ({ datos, eliminar, ver }) => {
 
     //// <th>Nombre</th><th>Correo</th><th>Rol</th>
-    const cabecera = ["Tipo", "Descripcion", "Acciones"];
+    const cabecera = ["Tipo", "Descripción", "Acciones"];
      console.log(datos)
 
     const [visible, setVisible] = useState(false)

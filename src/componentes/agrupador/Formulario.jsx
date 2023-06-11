@@ -24,7 +24,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
       guardarNuevoJson('api/agrupador', form).then(
         (a) => {
           if (a.cod == 0) {
-            estadoForm(false)
+            //estadoForm(false)
             console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
             e.target.reset();
@@ -44,7 +44,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
         (a) => {
           console.log(a.cod, " a.cod")
           if (a.cod == 0) {
-            estadoForm(false)
+            //estadoForm(false)
             console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
 

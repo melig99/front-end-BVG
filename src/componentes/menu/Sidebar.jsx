@@ -28,7 +28,7 @@ const Sidebar = () => {
               {tempCliente.map((agrupador,i)=>{
                    console.log(`navLink -> /home/menu/${agrupador.id}`)
                   return (
-                      <NavLink to={`/home/menu/${agrupador.id}`}  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
+                      <NavLink key={`${agrupador.id}`} to={`/home/menu/${agrupador.id}`}  className={(navData) => (navData.isActive ? "activeClicked" : 'none')}>
                         <CDBSidebarMenuItem><CgFileDocument className='m-2 item'/>{agrupador.descripcion}</CDBSidebarMenuItem>
                       </NavLink>
                   )

@@ -26,6 +26,8 @@ import {ReporteUsuario} from './componentes/reporte/ReporteUsuario'
 import {ReporteCliente} from './componentes/reporte/ReporteCliente'
 import {ReporteEstadistica} from './componentes/reporte/ReporteEstadistica'
 import {ReporteBalance} from './componentes/reporte/ReporteBalance'
+import {Panel as PanelSolicitudVisualizar} from './componentes/solicitudVisualizar/Panel'
+
 
 
 
@@ -57,6 +59,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route  path='reporteCliente' element={<ReporteCliente/>} />
           <Route  path='reporteEstadistica' element={<ReporteEstadistica/>} />
           <Route  path='reporteBalance' element={<ReporteBalance/>} />
+          <Route  path='solicitudVisualizar' element={<PanelSolicitudVisualizar/>} />
         </Route>
       </Route>
     </Routes>

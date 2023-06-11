@@ -23,7 +23,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
       guardarNuevoJson('api/conceptoCaja', form).then(
         (a) => {
           if (a.cod == 0) {
-            estadoForm(false)
+            //estadoForm(false)
             console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
             e.target.reset();
@@ -43,7 +43,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
         (a) => {
           console.log(a.cod, " a.cod")
           if (a.cod == 0) {
-            estadoForm(false)
+            //estadoForm(false)
             console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
           } else {
@@ -91,9 +91,9 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
     <Form onSubmit={handleSubmit}>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Tipo</Form.Label>
+          <Form.Label>Tipo<b className="fw-bold text-danger">*</b></Form.Label>
           <Form.Select id="tipo" defaultValue={datosConcepto.tipo}>
-            <option>Seleccione Opcion...</option>
+            <option>Seleccione Opción...</option>
             <option value="ENTRADA" selected={(datosConcepto.tipo == "ENTRADA")}>ENTRADA</option>
             <option value="SALIDA" selected={(datosConcepto.tipo == "SALIDA")}>SALIDA</option>
           </Form.Select>
@@ -102,8 +102,9 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
 
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Descripcion</Form.Label>
+          <Form.Label>Descripción<b className="fw-bold text-danger">*</b></Form.Label>
           <Form.Control
+            required
             defaultValue={datosConcepto.descripcion}
             id="descripcion"
             as="textarea"

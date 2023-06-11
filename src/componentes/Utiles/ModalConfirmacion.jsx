@@ -23,8 +23,8 @@ const ModalConfirmacion  = ({valores}) => {
                 <p>{valores.msg}</p>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={()=>{cerrar()}} >Cerrar</Button>
-                <Button variant="success" onClick={()=>{valores.callback();cerrar()}} >Guardar</Button>
+                <Button variant="secondary" onClick={()=>{cerrar()}} >Cancelar</Button>
+                <Button variant="success" onClick={()=>{valores.callback();cerrar()}} >Aceptar</Button>
             </Modal.Footer>
         </Modal>
     )

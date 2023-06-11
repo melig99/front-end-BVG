@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Row, Button } from 'react-bootstrap';
+import { Form, Row, Button,OverlayTrigger,Tooltip  } from 'react-bootstrap';
+import {BiInfoCircle } from "react-icons/bi";
 import Peticiones from '../../helpers/peticiones';
 
 
@@ -8,8 +9,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
   const vacio = {
     "id": 0,
     "descripcion": "",
-    "factor_divisor": 0,
-    "dias_vencimiento": 0,
+    "dias_vencimiento": "",
     "interes": ""
   }
 
@@ -17,7 +17,6 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
     e.preventDefault();
     const form = {
       'descripcion': e.target.tipo_plazo.value,
-      'factor_divisor': e.target.factor_divisor.value,
       'dias_vencimiento': e.target.dias_vencimiento.value,
       'interes': e.target.interes.value,
     }
@@ -26,7 +25,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
       guardarNuevoJson('api/tipoPlazo', form).then(
         (a) => {
           if (a.cod == 0) {
-            estadoForm(false)
+            //estadoForm(false)
             console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
             e.target.reset();
@@ -46,7 +45,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
         (a) => {
           console.log(a.cod, " a.cod")
           if (a.cod == 0) {
-            estadoForm(false)
+            //estadoForm(false)
             console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
 
@@ -91,26 +90,25 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
     <Form onSubmit={handleSubmit}>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Tipo Plazo</Form.Label>
-          <Form.Control type="text" id="tipo_plazo" defaultValue={datosPlazo.descripcion} />
+          <Form.Label>Tipo Plazo<b className="fw-bold text-danger">*</b></Form.Label>
+          <Form.Control type="text" id="tipo_plazo" defaultValue={datosPlazo.descripcion}  placeholder="Ej: Trimestral,Bimestral ... " required/>
         </Form.Group>
       </Row>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Factor divisor</Form.Label>
-          <Form.Control type="text" min="0" id="factor_divisor" defaultValue={datosPlazo.factor_divisor} />
+            <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip id="button-tooltip-2">Cantidad de días entre el vencimiento de una cuota y otra.</Tooltip>}
+            >
+                <Form.Label><BiInfoCircle/>Días Vencimiento<b className="fw-bold text-danger">*</b></Form.Label>
+            </OverlayTrigger>
+          <Form.Control type="number" min="0" id="dias_vencimiento" defaultValue={datosPlazo.dias_vencimiento}  placeholder="Ej: 7,30,60,90" required/>
         </Form.Group>
       </Row>
       <Row className="g-2">
         <Form.Group className='mb-2'>
-          <Form.Label>Dias Vencimiento</Form.Label>
-          <Form.Control type="number" min="0" id="dias_vencimiento" defaultValue={datosPlazo.dias_vencimiento} />
-        </Form.Group>
-      </Row>
-      <Row className="g-2">
-        <Form.Group className='mb-2'>
-          <Form.Label>Intereses</Form.Label>
-          <Form.Control type="decimal" min="0" id="interes" defaultValue={datosPlazo.interes} />
+          <Form.Label>Intereses<b className="fw-bold text-danger">*</b></Form.Label>
+          <Form.Control type="decimal" min="0" id="interes" defaultValue={datosPlazo.interes} placeholder="Ej: 8.5 , 4.7, 2.3" required/>
         </Form.Group>
       </Row>
       <Row>

@@ -284,25 +284,6 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                 </Tab>
                 <Tab eventKey="Estado" title="Estado">
                     <Form id="formEstado" onSubmit={guardarForm}>
-                        <Row className="g-2">
-                            <Col md>
-                                <Form.Group className='mb-2'>
-                                    <Form.Label>Estado<b class="fw-bold text-danger">*</b></Form.Label>
-                                    <Form.Select defaultValue="" id="estadoSolicitud">
-                                        <option value={0}>Seleccione un estado nuevo</option>
-                                        {estadosPosibles.map((opcion) => { return (<option value={opcion.estado_posible[0].id}>{opcion.estado_posible[0].descripcion}</option>) })}
-                                    </Form.Select>
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                        <Row className="g-2">
-                            <Col md>
-                                <Form.Group className='mb-2'>
-                                    <Form.Label>Observación de Cambio<b class="fw-bold text-danger">*</b></Form.Label>
-                                    <Form.Control as="textarea" style={{ height: '100px' }} id="observacion" />
-                                </Form.Group>
-                            </Col>
-                        </Row>
                         <Row>
                             <Table table table-striped table-hover style={{ backgroundColor: "#ffffff" }}>
                                 <thead className="table-dark">
@@ -316,9 +297,6 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                                     {historialEstado.map((fila) => { return (<tr key={fila.id}> <td>{fila.estado_solicitud.descripcion}</td><td>{fila.observacion_cambio}</td></tr>) })}
                                 </tbody>
                             </Table>
-                        </Row>
-                        <Row>
-                            <Button type='submit' form="formEstado" variant="success" >Guardar</Button>
                         </Row>
                     </Form>
                 </Tab>

@@ -3,7 +3,7 @@ import {Form,Row,Button} from 'react-bootstrap';
 import Peticiones from '../../helpers/peticiones';
 
 
-export const Formulario = ({cambiarModalAlerta,idSelec}) => {
+export const Formulario = ({cambiarModalAlerta,idSelec,estadoForm}) => {
     const [,guardarNuevoJson,obtenerUnicoRegistro,,,modificarRegistroJson] = Peticiones();
     const vacio = {
 			"id": 0,
@@ -23,7 +23,9 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
               (a)=>{
                 if(a.cod==0){
                    console.log(a,"Guardado correctamente")
-                  cambiarModalAlerta("Guardado Correctamente");
+                   e.target.reset();
+                   estadoForm(false)
+                   cambiarModalAlerta("Guardado Correctamente");
                 }else{
                    console.log(a)
                   cambiarModalAlerta(a.msg);
@@ -41,8 +43,9 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
                  console.log(a.cod," a.cod")
                 if(a.cod==0){
                    console.log(a,"Guardado correctamente")
-                  cambiarModalAlerta("Guardado Correctamente");
-
+                   e.target.reset();
+                   estadoForm(false)
+                   cambiarModalAlerta("Guardado Correctamente");
                 }else{
                    console.log(a)
                   cambiarModalAlerta(a.msg);
@@ -55,7 +58,7 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
               }
             )
           }
-          e.target.reset();
+
           setDatosCaja(vacio)
     }
 
@@ -88,14 +91,14 @@ export const Formulario = ({cambiarModalAlerta,idSelec}) => {
         <Form onSubmit={handleSubmit}>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Descripcion</Form.Label>
-                    <Form.Control type="text" id="tipo_plazo" defaultValue={datosCaja.descripcion} />
+                    <Form.Label>Descripción<b className="fw-bold text-danger">*</b></Form.Label>
+                    <Form.Control type="text" id="tipo_plazo" defaultValue={datosCaja.descripcion} placeholder="Ingrese la descripcion de la caja" required/>
                 </Form.Group>
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
-                    <Form.Label>Pin</Form.Label>
-                    <Form.Control type="password" id="pin"  />
+                    <Form.Label>Pin<b className="fw-bold text-danger">*</b></Form.Label>
+                    <Form.Control type="password" id="pin" placeholder="Ingrese el nuevo pin" maxlength="4" required/>
                 </Form.Group>
             </Row>
             <Row>
