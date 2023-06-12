@@ -42,18 +42,29 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
             "interes": "0"
         },
     });
-
+    const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    const removeNonNumeric = num => num.toString().replace(/[^0-9]/g, "");
+    const handleChange = (event) =>{
+        if(event.target.id =="monto_credito"){
+            handleCuotero(event)
+        }
+        let temp ={...numericos} ;
+        temp[event.target.id] = addCommas(removeNonNumeric(event.target.value)) ;
+        console.log(event.target.id , event.target.value,temp);
+        setNumericos(temp);
+    }
 
     const actualizarReferenciasPersonales=(e)=>{
         e.preventDefault();
          console.log("Formulario Ref Personales")
 
-         console.log([e.target.cliente.value ,e.target.relacion.value]);
+        console.log([e.target.cliente.value ,e.target.relacion.value]);
         let temp = listaCliente.find((a)=>a.value==e.target.cliente.value);
-        let arrTemp = referenciasPersonales;
-        arrTemp.push({"cliente_id":temp.value,"nombre":temp.label,"relacion_cliente":e.target.relacion.value})
-        setReferenciasPersonales(arrTemp)
-         console.log(referenciasPersonales);
+        setReferenciasPersonales(
+            [
+                ...referenciasPersonales,
+                { "cliente_id": temp.value, "nombre": temp.label, "relacion_cliente": e.target.relacion.value }
+            ])
     }
 
     const actualizarReferenciasComerciales=(e)=>{
@@ -62,11 +73,11 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
          console.log("Formulario Ref Comerciales")
 
          console.log([e.target.entidad.value, e.target.estado.value, e.target.monto_cuota.value, e.target.cuotas_totales.value, e.target.cuotas_pendientes.value]);
-        let arrTemp = referenciasComerciales;
-        arrTemp.push({"entidad":campos.entidad.value,"estado":campos.estado.value,"monto_cuota":campos.monto_cuota.value,"cuotas_totales":campos.cuotas_totales.value,"cuotas_pendientes":campos.cuotas_pendientes.value})
-
-        setReferenciasComerciales(arrTemp)
-         console.log(referenciasComerciales);
+         setReferenciasComerciales(
+             [
+                 ...referenciasComerciales,
+                 { "entidad": campos.entidad.value, "estado": campos.estado.value, "monto_cuota": removeNonNumeric(campos.monto_cuota.value), "cuotas_totales": campos.cuotas_totales.value, "cuotas_pendientes": campos.cuotas_pendientes.value }
+             ])
     }
 
     useEffect(()=>{
@@ -85,6 +96,10 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
              console.log(ref.cliente.nombre)
             refPersonales.push({"cliente_id":`${ref.cliente_id}`,"nombre":`${ref.cliente.nombre} ${ref.cliente.apellido}`,"relacion_cliente":`${ref.relacion_cliente}`})
         }
+
+        ds.datos.solicitud.ingresos_actuales = addCommas(ds.datos.solicitud.ingresos_actuales);
+        ds.datos.solicitud.monto_credito = addCommas(ds.datos.solicitud.monto_credito);
+        ds.datos.solicitud.gastos_administrativos = addCommas(ds.datos.solicitud.gastos_administrativos);
         setDatosSolicitud (ds.datos.solicitud)
         setReferenciasPersonales(refPersonales)
         setReferenciasComerciales(ds.datos.solicitud.referencia_comercial)
@@ -99,6 +114,7 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
          console.log(estadosPosibles,"datos estados posibles")
 
     }
+
     const cargarListas = async()=>{
         //Extrae Datos de la BD para CLIENTE
         let variable = []
@@ -121,7 +137,8 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
             'observacion':OBSERVACION.value,
         }
          console.log(form)
-        modificarRegistroJson('api/solicitud',idSeleccionado,form).then(
+        modificarRegistroJson('api/solicitud',idSeleccionado,form)
+        .then(
             (a)=>{
                 if(a.cod==0){
                      console.log(a,"Guardado correctamente")
@@ -368,7 +385,7 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {cuotero.map((fila)=>{return ( <tr key={`cuo-${fila.n_cuota}`}> <td>{fila.n_cuota}</td><td>{fila.cuota}</td><td>{fila.interes}</td><td>{fila.neto}</td><td>{fila.capital}</td><td>{fila.vencimiento}</td></tr>)})}
+                                    {cuotero.map((fila)=>{return ( <tr key={`cuo-${fila.n_cuota}`}> <td>{fila.n_cuota}</td><td>{addCommas(fila.cuota)}</td><td>{addCommas(fila.interes)}</td><td>{addCommas(fila.neto)}</td><td>{addCommas(fila.capital)}</td><td>{fila.vencimiento}</td></tr>)})}
                                 </tbody>
                             </Table>
                         </Row>
@@ -399,7 +416,6 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                                     <tr >
                                         <th>Estado</th>
                                         <th>Observación</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -407,11 +423,11 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                                 </tbody>
                             </Table>
                         </Row>
+                        <Row>
+                            <Button type='submit' form="formGeneral" variant="success" >Guardar</Button>
+                        </Row>
                     </Tab>
                 </Tabs>
-                <Row>
-                    <Button type='submit' form="formGeneral" variant="success" >Guardar</Button>
-                </Row>
             </>
     )
 }

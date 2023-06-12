@@ -89,8 +89,8 @@ export const Panel = () => {
                 </Row>
 
             </Container>
-            <Modal show={estadoForm} size="lg" animation={false} onHide={()=>setEstadoForm(!estadoForm)}>
-                <Modal.Header closeButton>
+            <Modal show={estadoForm} size="lg" animation={false} onHide={()=>cerrarForm()}>
+                <Modal.Header>
                 <Modal.Title>Datos Solicitud</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

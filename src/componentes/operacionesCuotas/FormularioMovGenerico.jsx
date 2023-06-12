@@ -124,7 +124,7 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
                 <Row className="g-2">
                     <Col md>
                         <Form.Group className='mb-2'>
-                            <Form.Label style={{ fontWeight: 'bold' }}>Concepto<b class="fw-bold text-danger">*</b></Form.Label>
+                            <Form.Label>Concepto<b class="fw-bold text-danger">*</b></Form.Label>
                             <Select name="concepto" id="concepto"
                                 defaultValue={listaConcepto[0]} onChange={setSelectedOption}
                                 options={listaConcepto} isClearable={true}
