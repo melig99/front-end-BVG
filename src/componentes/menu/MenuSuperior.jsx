@@ -44,9 +44,9 @@ const MenuSuperior = () => {
               <Button variant="link" style={{ color: "white", textDecoration: "none" }}>{usuario.nombre}</Button>
               <Dropdown.Toggle split variant="link" id="dropdown-custom-2" style={{ color: "white", textDecoration: "none" }} />
               <Dropdown.Menu className="super-colors">
-                <Dropdown.Item style={{ color: "#154360", textDecoration: "none" }} href="/home"><CgProfile className='m-1 item' />Perfil</Dropdown.Item>
+                <Dropdown.Item style={{ color: "#154360", textDecoration: "none" }} href="/home/vistaPerfil"><CgProfile className='m-1 item' />Perfil</Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item style={{ color: "#154360", textDecoration: "none" }} href="/home"><CgKey className='m-1 item' />Configuracion</Dropdown.Item>
+                <Dropdown.Item style={{ color: "#154360", textDecoration: "none" }} href="/home/restablecerContrasenha"><CgKey className='m-1 item' />Cambiar Contraseña</Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item style={{ color: "#154360", textDecoration: "none" }} onClick={salir}><CgLogOff className='m-1 item' />Salir</Dropdown.Item>
               </Dropdown.Menu>

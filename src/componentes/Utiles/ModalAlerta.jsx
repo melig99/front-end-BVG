@@ -24,10 +24,6 @@ const ModalAlerta = ({valores}) => {
                 <Modal.Body>
                     <p>{valores.msg}</p>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="success" onClick={()=>{cerrar()}} >Cerrar</Button>
-                </Modal.Footer>
-
             </Container>
         </Modal>
     )

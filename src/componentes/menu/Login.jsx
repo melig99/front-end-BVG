@@ -13,8 +13,6 @@ const Login = () => {
         const form = {
             'usuario': e.target.usuario.value,
             'password': e.target.pass.value,
-            'usuario': e.target.usuario.value,
-            'password': e.target.pass.value,
         }
         //condicionando mensajes
         let temp = await iniciarSesion(form);
@@ -23,6 +21,7 @@ const Login = () => {
             cambiarUsuarioValido(true)
         } else {
             cambiarUsuarioValido(false)
+            setTimeout(()=> cambiarUsuarioValido(null), 5000); 
         }
 
     }
