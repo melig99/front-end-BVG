@@ -42,30 +42,16 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
             "interes": "0"
         },
     });
-
-    const actualizarReferenciasPersonales = (e) => {
-        e.preventDefault();
-        console.log("Formulario Ref Personales")
-
-        console.log([e.target.cliente.value, e.target.relacion.value]);
-        let temp = listaCliente.find((a) => a.value == e.target.cliente.value);
-        let arrTemp = referenciasPersonales;
-        arrTemp.push({ "cliente_id": temp.value, "nombre": "test", "relacion_cliente": e.target.relacion.value })
-        setReferenciasPersonales(arrTemp)
-        console.log(referenciasPersonales);
-    }
-
-    const actualizarReferenciasComerciales = (e) => {
-        e.preventDefault();
-        let campos = e.target;
-        console.log("Formulario Ref Comerciales")
-
-        console.log([e.target.entidad.value, e.target.estado.value, e.target.monto_cuota.value, e.target.cuotas_totales.value, e.target.cuotas_pendientes.value]);
-        let arrTemp = referenciasComerciales;
-        arrTemp.push({ "entidad": campos.entidad.value, "estado": campos.estado.value, "monto_cuota": campos.monto_cuota.value, "cuotas_totales": campos.cuotas_totales.value, "cuotas_pendientes": campos.cuotas_pendientes.value })
-
-        setReferenciasComerciales(arrTemp)
-        console.log(referenciasComerciales);
+    const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    const removeNonNumeric = num => num.toString().replace(/[^0-9]/g, "");
+    const handleChange = (event) =>{
+        if(event.target.id =="monto_credito"){
+            handleCuotero(event)
+        }
+        let temp ={...numericos} ;
+        temp[event.target.id] = addCommas(removeNonNumeric(event.target.value)) ;
+        console.log(event.target.id , event.target.value,temp);
+        setNumericos(temp);
     }
 
     useEffect(() => {
@@ -76,11 +62,17 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
     }, [idSeleccionado])
 
     const cargarForm = async () => {
-        console.log(idSeleccionado);
         let ds = (await endpointLibre(`api/solicitudUnico/${idSeleccionado}`, "GET"))
-        console.log(ds, "datos solicitud")
+        ds.datos.solicitud.ingresos_actuales = addCommas(ds.datos.solicitud.ingresos_actuales);
+        ds.datos.solicitud.monto_credito = addCommas(ds.datos.solicitud.monto_credito);
+        ds.datos.solicitud.gastos_administrativos = addCommas(ds.datos.solicitud.gastos_administrativos);
+        let refPersonales = [];
+        for (const ref of ds.datos.solicitud.referencia_personal) {
+             console.log(ref.cliente.nombre)
+            refPersonales.push({"cliente_id":`${ref.cliente_id}`,"nombre":`${ref.cliente.nombre} ${ref.cliente.apellido}`,"relacion_cliente":`${ref.relacion_cliente}`})
+        }
         setDatosSolicitud(ds.datos.solicitud)
-        setReferenciasPersonales(ds.datos.solicitud.referencia_personal)
+        setReferenciasPersonales(refPersonales)
         setReferenciasComerciales(ds.datos.solicitud.referencia_comercial)
         setHistorialEstado(ds.datos.solicitud.historial_estado)
         setCuotero(ds.datos.cuotero);
@@ -91,8 +83,6 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
         console.log(historialEstado, "datos historialEstado")
         console.log(analisis, "datos analisis")
         console.log(estadosPosibles, "datos estados posibles")
-
-
 
     }
     const cargarListas = async () => {
@@ -193,13 +183,12 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                         <Table table table-striped table-hover style={{ backgroundColor: "#ffffff" }}>
                             <thead className="table-dark">
                                 <tr >
-                                    <th>Cédula</th>
                                     <th>Nombre</th>
-                                    <th>Apellido</th>
+                                    <th>Relacion</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {referenciasPersonales.map((fila) => { return (<tr> <td>{fila.cliente_id}</td><td>{fila.relacion_cliente}</td></tr>) })}
+                                {referenciasPersonales.map((fila)=>{return ( <tr key={`rf-${fila.cliente_id}`}> <td>{fila.nombre}</td><td>{fila.relacion_cliente}</td></tr>)})}
                             </tbody>
                         </Table>
                     </Row>
@@ -216,7 +205,7 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {referenciasComerciales.map((fila) => { return (<tr> <td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota}</td><td>{fila.cuotas_pendientes + "/" + fila.cuotas_totales}</td></tr>) })}
+                                {referenciasComerciales.map((fila) => { return (<tr> <td>{fila.entidad}</td><td>{fila.estado}</td><td>{addCommas(fila.monto_cuota)}</td><td>{fila.cuotas_pendientes + "/" + fila.cuotas_totales}</td></tr>) })}
                             </tbody>
                         </Table>
                     </Row>
@@ -254,7 +243,7 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                                 analisis.map((dato) => {
                                     return (
                                         <div className="bg-light border">
-                                            <CartasAnalisis mes={dato.mes} ingresos={dato.ingresos} costos={dato.costos} restante={dato.restante} cuotaN={dato.cuotaN}></CartasAnalisis>
+                                            <CartasAnalisis mes={dato.mes} ingresos={addCommas(dato.ingresos)} costos={addCommas(dato.costos)} restante={addCommas(dato.restante)} cuotaN={dato.cuotaN}></CartasAnalisis>
                                         </div>
                                     )
 
@@ -277,7 +266,7 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {cuotero.map((fila) => { return (<tr key={`cuo-${fila.n_cuota}`}> <td>{fila.n_cuota}</td><td>{fila.cuota}</td><td>{fila.interes}</td><td>{fila.neto}</td><td>{fila.capital}</td></tr>) })}
+                                {cuotero.map((fila) => { return (<tr key={`cuo-${fila.n_cuota}`}> <td>{fila.n_cuota}</td><td>{addCommas(fila.cuota)}</td><td>{addCommas(fila.interes)}</td><td>{addCommas(fila.neto)}</td><td>{addCommas(fila.capital)}</td></tr>) })}
                             </tbody>
                         </Table>
                     </Row>

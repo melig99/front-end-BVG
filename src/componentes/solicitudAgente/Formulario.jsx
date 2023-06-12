@@ -32,8 +32,6 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
         setNumericos(temp);
     }
 
-
-
     useEffect(() => {
         cargarListas();
     }, []);
@@ -62,14 +60,14 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
 
     const actualizarReferenciasPersonales = (e) => {
         e.preventDefault();
-        console.log("Formulario Ref Personales")
 
         console.log([e.target.cliente.value, e.target.relacion.value]);
         let temp = listaCliente.find((a) => a.value == e.target.cliente.value);
-        let arrTemp = referenciasPersonales;
-        arrTemp.push({ "cliente_id": temp.value, "nombre": temp.label, "relacion_cliente": e.target.relacion.value })
-        setReferenciasPersonales(arrTemp)
-        console.log(referenciasPersonales);
+        setReferenciasPersonales(
+            [
+                ...referenciasPersonales,
+                { "cliente_id": temp.value, "nombre": temp.label, "relacion_cliente": e.target.relacion.value }
+            ])
     }
 
     const actualizarReferenciasComerciales = (e) => {
@@ -376,7 +374,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {cuotero.map((fila) => { return (<tr key={`cuo-${fila.n_cuota}`}> <td>{fila.n_cuota}</td><td>{fila.cuota}</td><td>{fila.interes}</td><td>{fila.neto}</td><td>{fila.capital}</td><td>{fila.vencimiento}</td></tr>) })}
+                                {cuotero.map((fila) => { return (<tr key={`cuo-${fila.n_cuota}`}> <td>{fila.n_cuota}</td><td>{addCommas(fila.cuota)}</td><td>{addCommas(fila.interes)}</td><td>{addCommas(fila.neto)}</td><td>{addCommas(fila.capital)}</td><td>{fila.vencimiento}</td></tr>) })}
                             </tbody>
                         </Table>
                         <Row>
@@ -390,7 +388,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
                     <Modal.Title>Datos Personales </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormularioCliente cambiarModalAlerta={(a) => { cambiarModalAlerta(a) }} />
+                    <FormularioCliente cambiarModalAlerta={(a) => { cambiarModalAlerta(a) }} idSelec="" estadoForm={(a)=>{setEstadoForm(a)}} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setEstadoForm(!estadoForm)} >Cerrar</Button>

@@ -16,7 +16,7 @@ const ModalConfirmacion  = ({valores}) => {
 
     return (
         <Modal show={estado} size="sm" animation={false} onHide={()=>{cerrar()}}>
-            <Modal.Header closeButton>
+            <Modal.Header >
                 <Modal.Title>Confirmar</Modal.Title>
             </Modal.Header>
             <Modal.Body>
