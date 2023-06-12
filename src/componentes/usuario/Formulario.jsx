@@ -65,6 +65,10 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
       form["password"] = e.target.pass.value,
         form["password_confirmation"] = e.target.password_confirmation.value
     }
+    if(form.password !== form.password_confirmation){
+			cambiarModalAlerta("Las contraseñas no coinciden");
+			return
+		}
     console.log(form)
     if (idSelec === "") {
       guardarNuevoJson('api/usuario', form).then(
@@ -201,6 +205,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
                       type={showPass ? "text" : "password"}
                       placeholder="Ingrese una contraseña"
                       id="pass"
+                      minlength="6"
                     />
                   </>
                 }
@@ -217,6 +222,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
                       placeholder="Confirme su contraseña"
                       id="password_confirmation"
                       name="password_confirmation"
+                      minlength="6"
                     />
                   </>
                 }
@@ -231,10 +237,10 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
       }
       {
         idSelec === 1 &&
-        <Row>
-          <h3>No se puede editar el usuario</h3>
-          <p>El usuario administrador es registro predeterminado del sistema</p>
-        </Row>
+        <div style={{ backgroundColor: '#f8f8f8', padding: '20px', border: '1px solid #ccc', borderRadius: '5px', textAlign: 'center' }}>
+          <h4 style={{ color: '#333', fontSize: '18px' }}>¡No se puede editar el usuario!</h4>
+          <p style={{ color: '#666', fontSize: '14px', marginTop: '10px' }}>El usuario administrador es registro predeterminado del sistema</p>
+        </div>
       }
     </Form>
   )
