@@ -40,9 +40,9 @@ const MenuSuperior = () => {
         <Container className="justify-content-end" >
           <Nav >
 
-            <Dropdown as={ButtonGroup}>
-              <Button variant="link" style={{ color: "white", textDecoration: "none" }}>{usuario.nombre}</Button>
+            <Dropdown as={ButtonGroup} drop="start">
               <Dropdown.Toggle split variant="link" id="dropdown-custom-2" style={{ color: "white", textDecoration: "none" }} />
+              <Button variant="link" style={{ color: "white", textDecoration: "none" }}>{usuario.nombre}</Button>
               <Dropdown.Menu className="super-colors">
                 <Dropdown.Item style={{ color: "#154360", textDecoration: "none" }} href="/home/vistaPerfil"><CgProfile className='m-1 item' />Perfil</Dropdown.Item>
                 <Dropdown.Divider />

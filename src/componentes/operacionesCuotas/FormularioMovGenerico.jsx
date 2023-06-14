@@ -26,7 +26,18 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
             "interes": "",
             "descripcion_plazo": "",
             "cant_cuotas": ""
-        });
+    });
+    const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    const removeNonNumeric = num => num.toString().replace(/[^0-9]/g, "");
+    const handleChange = (event) =>{
+        if(event.target.id =="monto_credito"){
+            handleCuotero(event)
+        }
+        let temp ={...numericos} ;
+        temp[event.target.id] = addCommas(removeNonNumeric(event.target.value)) ;
+        console.log(event.target.id , event.target.value,temp);
+        setNumericos(temp);
+    }
 
     useEffect(() => {
         cargarListas();
@@ -149,7 +160,7 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
                     </Col>
                     <Col md={6}>
                         <Form.Label>Saldo en caja </Form.Label>
-                        <Form.Control id="saldo_caja" value={saldoCaja?.saldo_actual} disabled />
+                        <Form.Control id="saldo_caja" value={addCommas((saldoCaja?.saldo_actual)?saldoCaja?.saldo_actual:0)} disabled />
                     </Col>
                 </Row>
                 <Row>

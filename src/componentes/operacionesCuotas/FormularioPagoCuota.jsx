@@ -22,9 +22,18 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
     const [caja, setCaja] = useState([{"descripcion":""}]);
     const [saldoCaja,setSaldoCaja] = useState()
     const [datosCliente, setDatosCliente] = useState({ "id": "", "documento": "", "nombre_completo": "", "direccion": "" });
-    const [datosCuota, setDatosCuota] = useState(
-        []);
-
+    const [datosCuota, setDatosCuota] = useState([]);
+    const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    const removeNonNumeric = num => num.toString().replace(/[^0-9]/g, "");
+    const handleChange = (event) =>{
+        if(event.target.id =="monto_credito"){
+            handleCuotero(event)
+        }
+        let temp ={...numericos} ;
+        temp[event.target.id] = addCommas(removeNonNumeric(event.target.value)) ;
+        console.log(event.target.id , event.target.value,temp);
+        setNumericos(temp);
+    }
     useEffect(() => {
         cargarListas();
     }, []);
@@ -107,7 +116,7 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
         for (let cuota of listaCuotasPagar) {
             form.cuotas.push({"id":cuota.id,"saldo":cuota.saldo,"id_solicitud":cuota.solicitud_id});
         }
-         console.log(form)
+        console.log(form)
 
         guardarNuevoJson('api/operaciones/pagarCuotas',form).then(
             (a)=>{
@@ -228,7 +237,7 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {datosCuota.map((fila)=>{return ( <tr> <td>{fila.n_cuota}</td><td>{fila.fec_vencimiento}</td><td>{fila.amortizacion}</td><td>{fila.interes}</td><td>{fila.mora}</td><td>{fila.saldo}</td><td><Form.Check type="checkbox" id={`cuota-${fila.id}`} value={fila.id} onChange ={seleccionarCuota} /></td></tr>)})}
+                                        {datosCuota.map((fila)=>{return ( <tr> <td>{fila.n_cuota}</td><td>{fila.fec_vencimiento}</td><td>{addCommas(fila.amortizacion)}</td><td>{addCommas(fila.interes)}</td><td>{addCommas(fila.mora)}</td><td>{addCommas(fila.saldo)}</td><td><Form.Check type="checkbox" id={`cuota-${fila.id}`} value={fila.id} onChange ={seleccionarCuota} /></td></tr>)})}
                                     </tbody>
                                 </Table>
                             </Row>
@@ -247,7 +256,7 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
                                 </Col>
                                 <Col md={6}>
                                     <Form.Label>Saldo en caja </Form.Label>
-                                    <Form.Control id="saldo_caja" value={saldoCaja?.saldo_actual} disabled />
+                                    <Form.Control id="saldo_caja" value={addCommas((saldoCaja?.saldo_actual)?saldoCaja?.saldo_actual:0)} disabled />
                                 </Col>
                             </Row>
                             <Row>
@@ -258,7 +267,7 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
                                 <Col md={6}>
                                     <Form.Group className='mb-2'>
                                         <Form.Label>Monto Pago</Form.Label>
-                                        <Form.Control id="monto" value={totalCuotas} disabled />
+                                        <Form.Control id="monto" value={addCommas(totalCuotas)} disabled />
                                     </Form.Group>
                                 </Col>
                             </Row>
