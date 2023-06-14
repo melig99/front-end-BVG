@@ -34,6 +34,14 @@ const MenuSuperior = () => {
       barco("/login")
     }
   }
+
+  const perfil = async () => {
+    barco("/home/vistaPerfil")
+  }
+
+  const constrasenha = async () => {
+    barco("/home/restablecerContrasenha")
+  }
   return (
     <div style={{ width: "100%", backgroundColor: "#154360" }}>
       <Navbar >
@@ -44,9 +52,9 @@ const MenuSuperior = () => {
               <Dropdown.Toggle split variant="link" id="dropdown-custom-2" style={{ color: "white", textDecoration: "none" }} />
               <Button variant="link" style={{ color: "white", textDecoration: "none" }}>{usuario.nombre}</Button>
               <Dropdown.Menu className="super-colors">
-                <Dropdown.Item style={{ color: "#154360", textDecoration: "none" }} href="/home/vistaPerfil"><CgProfile className='m-1 item' />Perfil</Dropdown.Item>
+                <Dropdown.Item style={{ color: "#154360", textDecoration: "none" }} onClick={perfil}><CgProfile className='m-1 item' />Perfil</Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item style={{ color: "#154360", textDecoration: "none" }} href="/home/restablecerContrasenha"><CgKey className='m-1 item' />Cambiar Contraseña</Dropdown.Item>
+                <Dropdown.Item style={{ color: "#154360", textDecoration: "none" }} onClick={constrasenha}><CgKey className='m-1 item' />Cambiar Contraseña</Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item style={{ color: "#154360", textDecoration: "none" }} onClick={salir}><CgLogOff className='m-1 item' />Salir</Dropdown.Item>
               </Dropdown.Menu>
