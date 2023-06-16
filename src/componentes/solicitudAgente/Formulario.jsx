@@ -9,7 +9,8 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
 
     const [listaCliente, setListaCliente] = useState([])
     const [datosCuotero, setDatosCuotero] = useState({ "tipo_plazo": "", "cant_cuotas": "", "monto_credito": "" })
-    const [cuotero, setCuotero] = useState([])
+    const [cuotero, setCuotero] = useState([]);
+    const [clienteSolicitud,setClienteSolicitud] = useState("");
     const [ingresosMensuales,setIngresosMensuales] = useState(0)
     const [numericos,setNumericos] = useState({"ingresos":"","monto_credito":"","gastos_administrativos":"","monto_cuota":""})
     const [selectedOption, setSelectedOption] = useState(null);
@@ -63,6 +64,11 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
 
         console.log([e.target.cliente.value, e.target.relacion.value]);
         let temp = listaCliente.find((a) => a.value == e.target.cliente.value);
+        console.log({"cliente":clienteSolicitud});
+        if(e.target.cliente.value == clienteSolicitud.value){
+            cambiarModalAlerta("No se puede cargar una referencia personal igual que cliente de solicitud");
+            return;
+        }
         setReferenciasPersonales(
             [
                 ...referenciasPersonales,
@@ -166,7 +172,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
                                         name="cliente"
                                         id="cliente"
                                         defaultValue={listaCliente[0]}
-                                        onChange={setSelectedOption}
+                                        onChange={setClienteSolicitud}
                                         options={listaCliente}
                                         isClearable={true}
                                         placeholder="Buscar cliente"

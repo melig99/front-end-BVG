@@ -60,6 +60,11 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
 
         console.log([e.target.cliente.value ,e.target.relacion.value]);
         let temp = listaCliente.find((a)=>a.value==e.target.cliente.value);
+        console.log({"cliente":clienteSolicitud});
+        if(e.target.cliente.value == datosSolicitud.cliente.id){
+            cambiarModalAlerta("No se puede cargar una referencia personal igual que cliente de solicitud");
+            return;
+        }
         setReferenciasPersonales(
             [
                 ...referenciasPersonales,

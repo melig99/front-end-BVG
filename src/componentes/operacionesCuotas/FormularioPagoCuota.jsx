@@ -7,7 +7,7 @@ import { Formulario as FormularioCliente } from '../cliente/Formulario'
 import { ModalAlerta, ModalConfirmacion } from '../Utiles';
 import { useAsyncError } from 'react-router-dom';
 
-export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
+export const FormularioPagoCuota = ({ cambiarModalAlerta ,estadoModal=(a)=>{}}) => {
 
     let idSeleccionado = "";
     const [listaCliente, setListaCliente] = useState([])
@@ -116,14 +116,16 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta }) => {
         for (let cuota of listaCuotasPagar) {
             form.cuotas.push({"id":cuota.id,"saldo":cuota.saldo,"id_solicitud":cuota.solicitud_id});
         }
-        console.log(form)
-
+        // se ordenan las cuotas para enviar al back
+        form.cuotas = form.cuotas.sort((a,b)=>{return ((a.id==b.id)?0:(a.id>b.id)?1:-1 )});
+        // console.log(form)
         guardarNuevoJson('api/operaciones/pagarCuotas',form).then(
             (a)=>{
                 if(a.cod==0){
                      console.log(a,"Guardado correctamente")
                     cambiarModalAlerta("Guardado Correctamente");
                     e.target.reset();
+
                 }else{
                      console.log(a)
                     cambiarModalAlerta(a.msg);
