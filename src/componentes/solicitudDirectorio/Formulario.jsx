@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Row, Col, Tab, Tabs, Table, Button, Stack } from 'react-bootstrap';
-import Select from 'react-select';
 import Peticiones from '../../helpers/peticiones';
 import CartasAnalisis from '../solicitudAnalista/CartasAnalisis'
 export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
@@ -68,8 +67,7 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
         ds.datos.solicitud.gastos_administrativos = addCommas(ds.datos.solicitud.gastos_administrativos);
         let refPersonales = [];
         for (const ref of ds.datos.solicitud.referencia_personal) {
-             console.log(ref.cliente.nombre)
-            refPersonales.push({"cliente_id":`${ref.cliente_id}`,"nombre":`${ref.cliente.nombre} ${ref.cliente.apellido}`,"relacion_cliente":`${ref.relacion_cliente}`})
+            refPersonales.push({ "nombres_apellido": `${ref.nombres_apellido}`,  "relacion_cliente": `${ref.relacion_cliente}` , "telefono": `${ref.telefono}` })
         }
         setDatosSolicitud(ds.datos.solicitud)
         setReferenciasPersonales(refPersonales)
@@ -180,15 +178,16 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                 </Tab>
                 <Tab eventKey="refPersonal" title="Referencia Personal">
                     <Row>
-                        <Table table table-striped table-hover style={{ backgroundColor: "#ffffff" }}>
+                    <Table table table-striped table-hover style={{ backgroundColor: "#ffffff" }}>
                             <thead className="table-dark">
                                 <tr >
                                     <th>Nombre</th>
-                                    <th>Relacion</th>
+                                    <th>Relación</th>
+                                    <th>Teléfono</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {referenciasPersonales.map((fila)=>{return ( <tr key={`rf-${fila.cliente_id}`}> <td>{fila.nombre}</td><td>{fila.relacion_cliente}</td></tr>)})}
+                                {referenciasPersonales.map((fila) => { return (<tr key={fila.telefono}> <td>{fila.nombres_apellido}</td><td>{fila.telefono}</td><td>{fila.relacion_cliente}</td></tr>) })}
                             </tbody>
                         </Table>
                     </Row>
