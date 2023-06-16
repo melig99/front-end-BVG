@@ -7,12 +7,15 @@ import { ModalAlerta, ModalConfirmacion } from '../Utiles';
 
 export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
 
+    const NUMERICOS_VACIOS = {"ingresos":"","monto_credito":"","gastos_administrativos":"","monto_cuota":"","monto_cuota_rc":""};
+
     const [listaCliente, setListaCliente] = useState([])
     const [datosCuotero, setDatosCuotero] = useState({ "tipo_plazo": "", "cant_cuotas": "", "monto_credito": "" })
     const [cuotero, setCuotero] = useState([]);
     const [clienteSolicitud,setClienteSolicitud] = useState("");
+    const [clienteRefPersonal,setClienteRefPersonal] = useState("");
     const [ingresosMensuales,setIngresosMensuales] = useState(0)
-    const [numericos,setNumericos] = useState({"ingresos":"","monto_credito":"","gastos_administrativos":"","monto_cuota":""})
+    const [numericos,setNumericos] = useState(NUMERICOS_VACIOS)
     const [selectedOption, setSelectedOption] = useState(null);
     const [listaTipoPlazo, setListaTipoPlazo] = useState([])
     const [, guardarNuevoJson, , , endpointLibre] = Peticiones();
@@ -36,7 +39,6 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
     useEffect(() => {
         cargarListas();
     }, []);
-
 
     const cargarListas = async () => {
         //Extrae Datos de la BD para CLIENTE
@@ -74,6 +76,8 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
                 ...referenciasPersonales,
                 { "cliente_id": temp.value, "nombre": temp.label, "relacion_cliente": e.target.relacion.value }
             ])
+        e.target.reset()
+        setClienteRefPersonal("");
     }
 
     const actualizarReferenciasComerciales = (e) => {
@@ -81,12 +85,16 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
         let campos = e.target;
         console.log("Formulario Ref Comerciales")
 
-        console.log([e.target.entidad.value, e.target.estado.value, removeNonNumeric(e.target.monto_cuota.value), e.target.cuotas_totales.value, e.target.cuotas_pendientes.value]);
+        console.log([e.target.entidad.value, e.target.estado.value, removeNonNumeric(e.target.monto_cuota_rc.value), e.target.cuotas_totales.value, e.target.cuotas_pendientes.value]);
         setReferenciasComerciales(
             [
                 ...referenciasComerciales,
-                { "entidad": campos.entidad.value, "estado": campos.estado.value, "monto_cuota": removeNonNumeric(campos.monto_cuota.value), "cuotas_totales": campos.cuotas_totales.value, "cuotas_pendientes": campos.cuotas_pendientes.value }
+                { "entidad": campos.entidad.value, "estado": campos.estado.value, "monto_cuota": removeNonNumeric(campos.monto_cuota_rc.value),"monto_cuota_v": addCommas(removeNonNumeric(campos.monto_cuota_rc.value)), "cuotas_totales": campos.cuotas_totales.value, "cuotas_pendientes": campos.cuotas_pendientes.value }
             ])
+        let temp = {...numericos};
+        temp.monto_cuota_rc = "";
+        setNumericos(temp);
+        e.target.reset();
     }
 
     const actualizarTipoPlazo = (e) => {
@@ -122,6 +130,9 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
                     cambiarModalAlerta("Guardado Correctamente");
                     e.target.reset();
                     setTabActiva("solicitud")
+                    setNumericos(NUMERICOS_VACIOS);
+                    setReferenciasPersonales([]);
+                    setReferenciasComerciales([]);
                 } else {
                     console.log(a)
                     cambiarModalAlerta(a.msg);
@@ -133,12 +144,6 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
                 cambiarModalAlerta(e.msg);
             }
         )
-    }
-
-    const actualizarForm = (e) => {
-        e.preventDefault();
-        console.log("Formulario 2")
-        console.log(e.target)
     }
 
     const handleCuotero = (e) => {
@@ -157,6 +162,11 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
         let options = await endpointLibre(`api/solicitud/cuotero/interes/${datosCuotero.tipo_plazo}/cuotas/${datosCuotero.cant_cuotas}/monto/${datosCuotero.monto_credito}`, "GET")
         setCuotero(options.datos)
 
+    }
+
+    const cerrarCliente = (estado)=>{
+        cargarListas();
+        setEstadoForm(estado);
     }
 
     return (
@@ -255,7 +265,8 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
                                         name="cliente"
                                         id="cliente"
                                         defaultValue={listaCliente[0]}
-                                        onChange={setSelectedOption}
+                                        onChange={setClienteRefPersonal}
+                                        value={clienteRefPersonal}
                                         options={listaCliente}
                                         isClearable={true}
                                         placeholder="Buscar referencia personal"
@@ -314,7 +325,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
                             <Col md={6}>
                                 <Form.Group className='mb-2'>
                                     <Form.Label>Monto cuota<b class="fw-bold text-danger">*</b></Form.Label>
-                                    <Form.Control placeholder="Ingrese monto de cuota deuda" id="monto_cuota" required />
+                                    <Form.Control placeholder="Ingrese monto de cuota deuda" id="monto_cuota_rc" value={numericos.monto_cuota_rc}  onChange={handleChange} required />
                                 </Form.Group>
                             </Col>
                             <Col md={2}>
@@ -351,7 +362,7 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
                             <tbody>
                                 {referenciasComerciales.map((fila, i) => {
                                     console.log(`rcS-${i}`)
-                                    return (<tr key={`${i}-s`}><td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota}</td><td>{fila.cuotas_pendientes + "/" + fila.cuotas_totales}</td></tr>)
+                                    return (<tr key={`${i}-s`}><td>{fila.entidad}</td><td>{fila.estado}</td><td>{fila.monto_cuota_v}</td><td>{fila.cuotas_pendientes + "/" + fila.cuotas_totales}</td></tr>)
                                 })}
                             </tbody>
                         </Table>
@@ -389,15 +400,15 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
                     </Row>
                 </Tab>
             </Tabs>
-            <Modal show={estadoForm} size="lg" animation={false} onHide={() => setEstadoForm(!estadoForm)}>
+            <Modal show={estadoForm} size="lg" animation={false} onHide={() => cerrarCliente(!estadoForm)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Datos Personales </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormularioCliente cambiarModalAlerta={(a) => { cambiarModalAlerta(a) }} idSelec="" estadoForm={(a)=>{setEstadoForm(a)}} />
+                    <FormularioCliente cambiarModalAlerta={(a) => { cambiarModalAlerta(a) }} idSelec="" estadoForm={(a)=>{cerrarCliente(a)}} />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setEstadoForm(!estadoForm)} >Cerrar</Button>
+                    <Button variant="secondary" onClick={() => cerrarCliente(!estadoForm)} >Cerrar</Button>
                 </Modal.Footer>
             </Modal>
         </>

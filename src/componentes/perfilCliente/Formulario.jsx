@@ -35,6 +35,7 @@ export const Formulario = ({idSeleccionado}) => {
 
 
 	useEffect(()=>{
+        console.log('id',idSeleccionado)
         cargarForm()
     },[idSeleccionado])
 
@@ -74,8 +75,6 @@ export const Formulario = ({idSeleccionado}) => {
 
         )
     }
-
-
 
 
   return(

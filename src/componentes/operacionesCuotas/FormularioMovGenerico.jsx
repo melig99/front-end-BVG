@@ -11,6 +11,7 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
 
     let idSeleccionado = "";
     const [listaConcepto, setListaConcepto] = useState([])
+    const [numericos,setNumericos] = useState({"monto":""})
     const [selectedOption, setSelectedOption] = useState(null);
     const [, guardarNuevoJson,obtenerUnicoRegistro , , endpointLibre] = Peticiones();
     const [estadoForm, setEstadoForm] = useState(false);
@@ -30,9 +31,6 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
     const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     const removeNonNumeric = num => num.toString().replace(/[^0-9]/g, "");
     const handleChange = (event) =>{
-        if(event.target.id =="monto_credito"){
-            handleCuotero(event)
-        }
         let temp ={...numericos} ;
         temp[event.target.id] = addCommas(removeNonNumeric(event.target.value)) ;
         console.log(event.target.id , event.target.value,temp);
@@ -104,7 +102,7 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
         e.preventDefault();
         const form = {
             "caja": caja?.caja,
-            "monto": e.target.monto.value,
+            "monto": removeNonNumeric(e.target.monto.value),
             "concepto":e.target.concepto.value,
         }
          console.log(form)
@@ -171,7 +169,7 @@ export const FormularioMovGenerico = ({ cambiarModalAlerta }) => {
                     <Col md={6}>
                         <Form.Group className='mb-2'>
                             <Form.Label>Monto Operacion<b class="fw-bold text-danger">*</b></Form.Label>
-                            <Form.Control id="monto" required />
+                            <Form.Control id="monto" value={numericos.monto} onChange={handleChange} required />
                         </Form.Group>
                     </Col>
                 </Row>

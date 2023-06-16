@@ -221,7 +221,7 @@ export const FormularioPagoCuota = ({ cambiarModalAlerta ,estadoModal=(a)=>{}}) 
                                 <Col md>
                                     <Form.Group className='mb-2'>
                                         <Form.Label>Total</Form.Label>
-                                        <Form.Control placeholder="0" id="direccion" name="direccion" value={totalCuotas} disabled style={{textAlign:"right"}} />
+                                        <Form.Control placeholder="0" id="direccion" name="direccion" value={addCommas(totalCuotas)} disabled style={{textAlign:"right"}} />
                                     </Form.Group>
                                 </Col>
                             </Row>

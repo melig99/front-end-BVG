@@ -1,16 +1,21 @@
 import React , { useState, useEffect }from 'react'
-import {Form,Row,Col,Tab,Tabs,Table,Button,Stack} from 'react-bootstrap';
+import {Form,Row,Col,Tab,Tabs,Table,Button,Stack,Modal} from 'react-bootstrap';
 import Select from 'react-select';
 import Peticiones from '../../helpers/peticiones';
 import CartasAnalisis from './CartasAnalisis'
+import { Formulario as FormularioPerfil } from '../perfilCliente/Formulario'
+
+
 
 export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
 
     const [listaCliente,setListaCliente] = useState([])
+    const [idCliente,setCliente] = useState([])
     const [selectedOption, setSelectedOption] = useState(null);
     const [,guardarNuevoJson,,,endpointLibre,modificarRegistroJson ] = Peticiones();
     const [referenciasPersonales,setReferenciasPersonales] = useState([]);
     const [referenciasComerciales,setReferenciasComerciales] = useState([]);
+    const [estadoForm, setEstadoForm] = useState(false);
     const [analisis,setAnalisis] = useState([]);
     const [cuotero,setCuotero] = useState([]);
     const [historialEstado,setHistorialEstado] = useState([]);
@@ -93,15 +98,16 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
     },[idSeleccionado])
 
     const cargarForm = async ()=>{
-         console.log(idSeleccionado);
+        console.log(idSeleccionado);
         let ds =  (await endpointLibre(`api/solicitudUnico/${idSeleccionado}`,"GET"))
-         console.log(ds,"datos solicitud")
+        console.log(ds,"datos solicitud")
         let refPersonales = [];
         for (const ref of ds.datos.solicitud.referencia_personal) {
              console.log(ref.cliente.nombre)
             refPersonales.push({"cliente_id":`${ref.cliente_id}`,"nombre":`${ref.cliente.nombre} ${ref.cliente.apellido}`,"relacion_cliente":`${ref.relacion_cliente}`})
         }
-
+        console.log("referencia",ds.datos.solicitud.cliente_id)
+        setCliente(ds.datos.solicitud.cliente_id)
         ds.datos.solicitud.ingresos_actuales = addCommas(ds.datos.solicitud.ingresos_actuales);
         ds.datos.solicitud.monto_credito = addCommas(ds.datos.solicitud.monto_credito);
         ds.datos.solicitud.gastos_administrativos = addCommas(ds.datos.solicitud.gastos_administrativos);
@@ -120,6 +126,9 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
 
     }
 
+    const obtenerIdCliente= ()=>{
+        return idCliente;
+    }
     const cargarListas = async()=>{
         //Extrae Datos de la BD para CLIENTE
         let variable = []
@@ -342,7 +351,7 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                                 </Form.Group>
                             </Col>
                             <Col>
-                                <Button> Ver Perfil Cliente</Button>
+                                <Button onClick={()=>{setEstadoForm(!estadoForm);console.log(obtenerIdCliente())}}> Ver Perfil Cliente</Button>
                             </Col>
                         </Row>
                         <Row className="g-2">
@@ -433,6 +442,17 @@ export const Formulario = ({idSeleccionado,cambiarModalAlerta}) => {
                         </Row>
                     </Tab>
                 </Tabs>
+                <Modal show={estadoForm} size="lg" animation={false} onHide={() => setEstadoForm(!estadoForm)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Datos Personales </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <FormularioPerfil cambiarModalAlerta={ (a) => { cambiarModalAlerta(a) } } idSeleccionado={estadoForm && obtenerIdCliente()} estadoForm={(a)=>{setEstadoForm(a)}} />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => setEstadoForm(!estadoForm)} >Cerrar</Button>
+                    </Modal.Footer>
+                </Modal>
             </>
     )
 }
