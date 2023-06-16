@@ -61,19 +61,13 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
 
     const actualizarReferenciasPersonales = (e) => {
         e.preventDefault();
-
-        console.log([e.target.cliente.value, e.target.relacion.value]);
-        let temp = listaCliente.find((a) => a.value == e.target.cliente.value);
-        console.log({"cliente":clienteSolicitud});
-        if(e.target.cliente.value == clienteSolicitud.value){
-            cambiarModalAlerta("No se puede cargar una referencia personal igual que cliente de solicitud");
-            return;
-        }
         setReferenciasPersonales(
             [
                 ...referenciasPersonales,
-                { "cliente_id": temp.value, "nombre": temp.label, "relacion_cliente": e.target.relacion.value }
-            ])
+                { "nombres_apellido": e.target.nombres_apellido.value, "relacion_cliente": e.target.relacion.value, "telefono": e.target.telefono.value }
+            ]
+        )
+        e.target.reset()
     }
 
     const actualizarReferenciasComerciales = (e) => {
@@ -250,22 +244,20 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
                         <Row className="g-2">
                             <Col md={6}>
                                 <Form.Group className='mb-2'>
-                                    <Form.Label>Cliente<b class="fw-bold text-danger">*</b></Form.Label>
-                                    <Select
-                                        name="cliente"
-                                        id="cliente"
-                                        defaultValue={listaCliente[0]}
-                                        onChange={setSelectedOption}
-                                        options={listaCliente}
-                                        isClearable={true}
-                                        placeholder="Buscar referencia personal"
-                                    />
+                                    <Form.Label>Nombres y apellidos (de su referencia personal)<b class="fw-bold text-danger">*</b></Form.Label>
+                                    <Form.Control placeholder="Nombres y apellidos de la referencia" id="nombres_apellido" required />
                                 </Form.Group>
                             </Col>
                             <Col md={4}>
                                 <Form.Group className='mb-2'>
                                     <Form.Label>Relación (con el cliente)<b class="fw-bold text-danger">*</b></Form.Label>
                                     <Form.Control placeholder="Vecino,primo,pariente..." id="relacion" required />
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group className='mb-2'>
+                                    <Form.Label>Teléfono<b class="fw-bold text-danger">*</b></Form.Label>
+                                    <Form.Control placeholder="Telefono de la referencia" id="telefono" required />
                                 </Form.Group>
                             </Col>
                             <Col md={2}>
@@ -283,10 +275,11 @@ export const Formulario = ({ cambiarModalAlerta, idSeleccionado  }) => {
                                 <tr >
                                     <th>Nombre</th>
                                     <th>Relación</th>
+                                    <th>Teléfono</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {referenciasPersonales.map((fila) => { return (<tr key={fila.cliente_id}> <td>{fila.nombre}</td><td>{fila.relacion_cliente}</td></tr>) })}
+                                {referenciasPersonales.map((fila) => { return (<tr key={fila.telefono}> <td>{fila.nombres_apellido}</td><td>{fila.telefono}</td><td>{fila.relacion_cliente}</td></tr>) })}
                             </tbody>
                         </Table>
                     </Row>
