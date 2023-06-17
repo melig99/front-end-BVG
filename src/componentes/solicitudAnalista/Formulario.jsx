@@ -321,8 +321,6 @@ export const Formulario = ({ idSeleccionado, cambiarModalAlerta }) => {
                                     <Form.Control value={(analisis.length ? analisis[0].total : "")}  id="analisis_ing_mensuales"  disabled/>
                                 </Form.Group>
                             </Col>
-
-                            </Col>
                             <Col md={2}>
                                 <Form.Group className='mb-2'>
                                     <Button type='submit' form="formRefCom" variant="success" >Guardar</Button>

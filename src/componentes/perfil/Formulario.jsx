@@ -7,6 +7,7 @@ import Table from 'react-bootstrap/Table';
 export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
   const [listaOpcionMenu, setListaOpcionMenu] = useState([])
   const [listaAccesos, setListaAccesos] = useState([])
+  const [tabActiva,setTabActiva] = useState("perfil")
   const [, guardarNuevoJson, obtenerUnicoRegistro, , endpointLibre, modificarRegistroJson] = Peticiones();
   const [isEnabled, setIsEnabled] = useState(true);
   const vacio = {
@@ -35,6 +36,8 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
             // console.log(a, "Guardado correctamente")
             cambiarModalAlerta("Guardado Correctamente");
             e.target.reset();
+            setTabActiva("perfil")
+            cargarListas();
           } else {
             // console.log(a)
             cambiarModalAlerta(a.msg);
@@ -84,8 +87,6 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
     }
     // console.log("listaAccesos ", listaAccesos);
   }
-
-  console.log("idselec: ", idSelec)
 
   const [datosPerfil, setDatosPerfil] = useState({
     "descripcion": "",
@@ -147,7 +148,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
 
 
   return (
-    <Tabs defaultActiveKey="perfil" id="uncontrolled-tab-example" className="mb-3">
+    <Tabs defaultActiveKey="perfil" onSelect={setTabActiva} activeKey={tabActiva} id="uncontrolled-tab-example" className="mb-3">
       <Tab eventKey="perfil" title="Perfil">
         <Form id="formGeneral" onSubmit={handleSubmit}>
           <Row className="g-2">

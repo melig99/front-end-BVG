@@ -32,7 +32,8 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
             'observaciones': e.target.observaciones.value,
             'barrio': e.target.barrio.value,
             "dir_imagen": e.target.dir_imagen.files[0],
-            "venc_cedula": e.target.fechaVenc.value
+            "venc_cedula": e.target.fechaVenc.value,
+            // "documentos"
         }
         if (form.observaciones == "") {
             delete form.observaciones
@@ -129,6 +130,10 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
         "f_nacimiento": "",
         "correo": "",
         "direccion": "",
+        "documentos":{
+            "nombre": "",
+            "fecha_vencimiento": ""
+        },
         "sexo": "",
         'telefono': [
             { "telefono": "" },
@@ -141,8 +146,8 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
 
     const cargarForm = async (lBarrio, lCivil) => {
         console.log(idSelec);
-        let datosCrudo = (await obtenerUnicoRegistro('api/cliente/u', idSelec)).datos[0]
-        console.log(datosCrudo, "datos solicitud")
+        let datosCrudo = (await obtenerUnicoRegistro('api/cliente/u', idSelec)).datos
+        console.log(datosCrudo, "datos curdo")
         let tempBarrio = lBarrio.find((elemento) => { return elemento.value == datosCrudo.barrio });
         let tempECivil = lCivil.find((elemento) => { return elemento.value == datosCrudo.estado_civil });
 
@@ -274,14 +279,14 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
             <Row className="g-2">
                 <Col>
                     <Form.Group className='mb-2'>
-                        <Form.Label>Cédula</Form.Label>
+                        <Form.Label>Cédula</Form.Label><span style={{fontSize:"8pt",fontWeight:'bold'}}>[{datosCliente.documentos.nombre}]</span>
                         <Form.Control type="file" id="dir_imagen" name="dir_imagen" defaultValue={datosCliente.dir_imagen} />
                     </Form.Group>
                 </Col>
                 <Col>
                     <Form.Group className='mb-2'>
                         <Form.Label>Vencimiento</Form.Label>
-                        <Form.Control type="date" id="fechaVenc" name="fechaVenc" defaultValue={datosCliente.venc} />
+                        <Form.Control type="date" id="fechaVenc" name="fechaVenc" defaultValue={datosCliente.documentos.venc}  value={datosCliente.documentos.fecha_vencimiento}/>
                     </Form.Group>
                 </Col>
             </Row>
