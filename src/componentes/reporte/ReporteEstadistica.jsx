@@ -9,8 +9,6 @@ export const ReporteEstadistica= () => {
     const [,,,,,,,base] = Peticiones();
 
   return (
-      <>
-        <iframe src={`${base}${URL_REPORTE}`}></iframe>
-      </>
+        <iframe src={`${base}${URL_REPORTE}`} style={{width:'100%',height:'80vh'}}></iframe>
   )
 }

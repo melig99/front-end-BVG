@@ -26,11 +26,23 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
             "interes": "",
             "descripcion_plazo": "",
             "cant_cuotas": ""
-        });
+    });
+    const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    const removeNonNumeric = num => num.toString().replace(/[^0-9]/g, "");
+    const handleChange = (event) =>{
+        if(event.target.id =="monto_credito"){
+            handleCuotero(event)
+        }
+        let temp ={...numericos} ;
+        temp[event.target.id] = addCommas(removeNonNumeric(event.target.value)) ;
+        console.log(event.target.id , event.target.value,temp);
+        setNumericos(temp);
+    }
 
     useEffect(() => {
         cargarListas();
     }, []);
+
     useEffect(() => {
         try {
             let cajaBD = obtenerCaja()
@@ -75,7 +87,6 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
         console.log("solicitud ", datosSolicitud)
         console.log(idSeleccionado)
         const id = listaCliente.find(item => item.value === idSeleccionado)
-        console.log("holaaaaaaaa", id)
         let options = await endpointLibre(`api/cliente/u/${id.value}`, "GET")
         console.log(options, 'optionss cargarCliente')
         if (id) {
@@ -198,13 +209,13 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                                         <Col md>
                                             <Form.Group className='mb-2'>
                                                 <Form.Label>Monto del credito</Form.Label>
-                                                <Form.Control value={datosSolicitud.monto_credito} placeholder="Ingrese gastosAdministrativos" id="monto_credito" name="monto_credito" disabled />
+                                                <Form.Control value={addCommas(datosSolicitud.monto_credito)} placeholder="Ingrese gastosAdministrativos" id="monto_credito" name="monto_credito" disabled />
                                             </Form.Group>
                                         </Col>
                                         <Col md>
                                             <Form.Group className='mb-2'>
                                                 <Form.Label>Intereses</Form.Label>
-                                                <Form.Control value={datosSolicitud.interes} placeholder="Ingrese apellidos" id="interes" name="interes" disabled />
+                                                <Form.Control value={addCommas(datosSolicitud.interes)} placeholder="Ingrese apellidos" id="interes" name="interes" disabled />
                                             </Form.Group>
                                         </Col>
                                         <Col md>
@@ -246,7 +257,7 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                                 </Col>
                                 <Col md={6}>
                                     <Form.Label>Saldo en caja </Form.Label>
-                                    <Form.Control id="saldo_caja" value={saldoCaja?.saldo_actual} disabled />
+                                    <Form.Control id="saldo_caja" value={addCommas(saldoCaja?.saldo_actual?saldoCaja?.saldo_actual:0)} disabled />
                                 </Col>
                             </Row>
                             <Row>
@@ -257,7 +268,7 @@ export const FormularioDesembolso = ({ cambiarModalAlerta }) => {
                                 <Col md={6}>
                                     <Form.Group className='mb-2'>
                                         <Form.Label>Monto Desembolso</Form.Label>
-                                        <Form.Control id="monto" value={datosSolicitud.monto_credito} disabled />
+                                        <Form.Control id="monto" value={addCommas(datosSolicitud.monto_credito)} disabled />
                                     </Form.Group>
                                 </Col>
                             </Row>

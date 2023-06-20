@@ -9,6 +9,7 @@ import Select from 'react-select';
 export const FormularioApertura = ({cambiarModalAlerta,idSelec,estadoForm}) => {
     const [,guardarNuevoJson,obtenerUnicoRegistro,,endpointLibre,modificarRegistroJson] = Peticiones();
     const [selectedOption, setSelectedOption] = useState(null);
+    const [numericos, setNumericos] = useState({"saldo":""});
     const [listaCaja,setListaCaja] = useState([])
     const {abrirCaja} = localBD()
     const vacio = {
@@ -16,12 +17,20 @@ export const FormularioApertura = ({cambiarModalAlerta,idSelec,estadoForm}) => {
 			"descripcion": "",
 			"saldo": 0,
     }
+    const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    const removeNonNumeric = num => num.toString().replace(/[^0-9]/g, "");
+    const handleChange = (event) =>{
+        let temp ={...numericos} ;
+        temp[event.target.id] = addCommas(removeNonNumeric(event.target.value)) ;
+        console.log(event.target.id , event.target.value,temp);
+        setNumericos(temp);
+    }
 
     const handleSubmit = (e)=> {
         e.preventDefault();
         const form = {
             'pin':e.target.pin.value,
-            'saldo':e.target.saldo.value,
+            'saldo':removeNonNumeric(e.target.saldo.value),
         }
          console.log(e.target.caja.value + " caja id")
         if(e.target.caja.value !== ""){
@@ -29,7 +38,6 @@ export const FormularioApertura = ({cambiarModalAlerta,idSelec,estadoForm}) => {
             estadoForm(false)
           }
     }
-
 
     const [datosPlazo,setDatosPlazo] = useState({
 			"id": 0,
@@ -78,13 +86,13 @@ export const FormularioApertura = ({cambiarModalAlerta,idSelec,estadoForm}) => {
             <Row className="g-2">
                 <Form.Group className='mb-2'>
                     <Form.Label>Pin<b className="fw-bold text-danger">*</b></Form.Label>
-                    <Form.Control type="text" id="pin" defaultValue={datosPlazo.descripcion} required/>
+                    <Form.Control type="password" id="pin" defaultValue={datosPlazo.descripcion} required/>
                 </Form.Group>
             </Row>
             <Row className="g-2">
                 <Form.Group className='mb-2'>
                     <Form.Label>Saldo<b className="fw-bold text-danger">*</b></Form.Label>
-                    <Form.Control type="number" min="0" id="saldo" defaultValue="0" required/>
+                    <Form.Control type="text" id="saldo" defaultValue="0" value={numericos.saldo} onChange={handleChange} required/>
                 </Form.Group>
             </Row>
             <Row>
