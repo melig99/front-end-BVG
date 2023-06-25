@@ -286,7 +286,7 @@ export const Formulario = ({ cambiarModalAlerta, idSelec, estadoForm }) => {
                 <Col>
                     <Form.Group className='mb-2'>
                         <Form.Label>Vencimiento</Form.Label>
-                        <Form.Control type="date" id="fechaVenc" name="fechaVenc" defaultValue={datosCliente.documentos.venc}  value={datosCliente.documentos.fecha_vencimiento}/>
+                        <Form.Control type="date" id="fechaVenc" name="fechaVenc" defaultValue={datosCliente.documentos.venc}  value={datosCliente.documentos.venc}/>
                     </Form.Group>
                 </Col>
             </Row>
